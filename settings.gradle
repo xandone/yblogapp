@@ -1,0 +1,4 @@
+rootProject.name = 'yblogapp'
+include ':app'
+include ':core'
+include ':baselib'

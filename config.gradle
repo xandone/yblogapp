@@ -1,0 +1,32 @@
+ext {
+
+    android = [
+            compileSdkVersion: 30,
+            buildToolsVersion: '29.0.3',
+            applicationId    : "com.app.xandone.yblogapp",
+            minSdkVersion    : 19,
+            targetSdkVersion : 30,
+            versionCode      : 1,
+            versionName      : "1.0.0"
+    ]
+
+
+    def dependVersion = [
+            butterknife  : "10.2.2",
+            logger       : "2.2.0",
+            multidex     : "1.0.3",
+            converterGson: "2.7.1",
+            glide        : "4.11.0",
+    ]
+
+    depends = [
+            glide              : "com.github.bumptech.glide:glide:$dependVersion.glide",
+            glideCompiler      : "com.github.bumptech.glide:compiler:$dependVersion.glide",
+            converterGson      : "com.squareup.retrofit2:converter-gson:$dependVersion.converterGson",
+            multidex           : "com.android.support:multidex:$dependVersion.logger",
+            logger             : "com.orhanobut:logger:$dependVersion.logger",
+
+            butterknife        : "com.jakewharton:butterknife:$dependVersion.butterknife",
+            butterknifeCompiler: "com.jakewharton:butterknife-compiler:$dependVersion.butterknife",
+    ]
+}
