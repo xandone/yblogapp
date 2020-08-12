@@ -11,7 +11,7 @@ import com.bumptech.glide.RequestManager;
  * created on: 2020/8/11 16:34
  * description:
  */
-public class GlideLoader extends AbstracImageLoader implements EngineInf<RequestManager> {
+public class GlideLoader extends AbstractImageLoader implements EngineInf<RequestManager> {
     @Override
     public void display(Context context, Object file, ImageView view) {
         Glide.with(context).load(file).into(view);

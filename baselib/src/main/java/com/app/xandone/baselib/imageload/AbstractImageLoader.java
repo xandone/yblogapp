@@ -7,5 +7,5 @@ import android.widget.ImageView;
  * created on: 2020/8/11 16:22
  * description:
  */
-public abstract class AbstracImageLoader implements ImageLoaderInf<ImageView> {
+public abstract class AbstractImageLoader implements ImageLoaderInf<ImageView> {
 }

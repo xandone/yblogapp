@@ -9,7 +9,7 @@ import android.widget.ImageView;
  * description:
  */
 public class ImageLoadHelper implements ImageLoaderInf<ImageView> {
-    private AbstracImageLoader imageLoader;
+    private AbstractImageLoader imageLoader;
 
     public static final int ENGINE_GLIDE = 1;
 

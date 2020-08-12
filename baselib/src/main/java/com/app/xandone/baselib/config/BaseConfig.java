@@ -12,14 +12,17 @@ import com.app.xandone.baselib.log.LogHelper;
  * description:
  */
 public class BaseConfig {
-    //app名称
+    /**
+     * app名称
+     */
     public static String appName;
 
     public static void init(Context context, String appName) {
         BaseConfig.appName = appName;
 
+        //初始化日志库
         LogHelper.init(LogHelper.ENGINE_LOGGER);
-
+        //初始化图片引擎
         ImageLoadHelper.getInstance().initEngine(ImageLoadHelper.ENGINE_GLIDE);
     }
 }

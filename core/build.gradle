@@ -25,4 +25,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //appcompat默认已经内置lifecycle-common组件,无需单独引用了。
+    implementation rootProject.ext.depends.appcompat
 }
