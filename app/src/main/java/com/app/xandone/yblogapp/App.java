@@ -15,7 +15,7 @@ import androidx.multidex.MultiDex;
  * description:
  */
 public class App extends Application {
-    public static Context sContext;
+    public static Application sContext;
 
     @Override
     public void onCreate() {

@@ -42,4 +42,10 @@ dependencies {
     annotationProcessor rootProject.ext.depends.butterknifeCompiler
     implementation rootProject.ext.depends.multidex
     implementation rootProject.ext.depends.converterGson
+
+    implementation "com.squareup.retrofit2:retrofit:2.7.1"
+    implementation "com.squareup.retrofit2:converter-gson:2.7.1"
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.1'
+    implementation "com.squareup.okhttp3:okhttp:4.7.2"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.12.1"
 }
