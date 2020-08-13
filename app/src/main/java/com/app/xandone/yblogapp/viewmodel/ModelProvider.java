@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 public class ModelProvider {
 
     public static <T extends BaseViewModel> T getModel(FragmentActivity activity, Class<T> viewModel, Application application) {
-        return new ViewModelProvider(activity, new ViewModelProvider.AndroidViewModelFactory(application)).get(viewModel);
+        return new ViewModelProvider(activity, new ViewModelProvider.AndroidViewModelFactory(application))
+                .get(viewModel)
+                .attachLifecycleOwner(activity);
     }
 }

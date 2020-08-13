@@ -4,6 +4,8 @@ import com.app.xandone.yblogapp.model.bean.ArticleBean;
 import com.app.xandone.yblogapp.model.repository.ArticleRepository;
 import com.app.xandone.yblogapp.viewmodel.BaseViewModel;
 
+import java.util.List;
+
 import androidx.lifecycle.MutableLiveData;
 
 /**
@@ -12,15 +14,16 @@ import androidx.lifecycle.MutableLiveData;
  * description:
  */
 public class ArticleModel extends BaseViewModel {
-    private MutableLiveData<ArticleBean> liveData;
+    private MutableLiveData<List<ArticleBean>> liveData;
     private ArticleRepository articleRepo;
 
-    public MutableLiveData<ArticleBean> getLiveData() {
+    public MutableLiveData<List<ArticleBean>> getLiveData() {
         return liveData;
     }
 
     @Override
     protected void onCreate() {
+        liveData = new MutableLiveData<>();
         articleRepo = ArticleRepository.getInstance();
         liveData = articleRepo.getArticleDatas(1, 10);
     }

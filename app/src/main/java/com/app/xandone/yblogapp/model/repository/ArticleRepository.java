@@ -1,15 +1,19 @@
 package com.app.xandone.yblogapp.model.repository;
 
+
 import android.util.Log;
 
+import com.app.xandone.baselib.log.LogHelper;
+import com.app.xandone.baselib.utils.JsonUtils;
 import com.app.xandone.yblogapp.api.ApiClient;
-import com.app.xandone.yblogapp.api.ApiService;
 import com.app.xandone.yblogapp.model.bean.ArticleBean;
+import com.app.xandone.yblogapp.rx.CommonSubscriber;
+import com.app.xandone.yblogapp.rx.RxHelper;
+import com.google.gson.Gson;
+
+import java.util.List;
 
 import androidx.lifecycle.MediatorLiveData;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * author: Admin
@@ -18,37 +22,34 @@ import retrofit2.Response;
  */
 public class ArticleRepository {
 
-    private MediatorLiveData<ArticleBean> mArtsLiveData = new MediatorLiveData<>();
+    private MediatorLiveData<List<ArticleBean>> mArtsLiveData = new MediatorLiveData<>();
 
     private ArticleRepository() {
     }
 
     public static ArticleRepository getInstance() {
-        return Builder.repository;
+        return Builder.INSTANCE;
     }
 
-    public MediatorLiveData<ArticleBean> getArticleDatas(int page, int row) {
-
-
+    public MediatorLiveData<List<ArticleBean>> getArticleDatas(int page, int row) {
         ApiClient.getInstance()
                 .getApiService()
-                .getArticleDatas(page, row).enqueue(new Callback<ArticleBean>() {
-            @Override
-            public void onResponse(Call<ArticleBean> call, Response<ArticleBean> response) {
-                mArtsLiveData.setValue(response.body());
-            }
+                .getArticleDatas(page, row)
+                .compose(RxHelper.handleIO())
+                .compose(RxHelper.handleRespose())
+                .subscribe(new CommonSubscriber<List<ArticleBean>>(null) {
+                    @Override
+                    public void onSuccess(List<ArticleBean> articleBeans) {
+                        mArtsLiveData.setValue(articleBeans);
+                    }
+                });
 
-            @Override
-            public void onFailure(Call<ArticleBean> call, Throwable t) {
-
-            }
-        });
 
         return mArtsLiveData;
 
     }
 
     static class Builder {
-        static final ArticleRepository repository = new ArticleRepository();
+        static final ArticleRepository INSTANCE = new ArticleRepository();
     }
 }

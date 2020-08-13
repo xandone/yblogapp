@@ -29,8 +29,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class ApiClient {
-
-    private static ApiClient mNetClient;
     private Retrofit retrofit;
 
     private ApiClient() {

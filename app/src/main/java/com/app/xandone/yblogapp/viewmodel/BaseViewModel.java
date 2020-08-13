@@ -1,5 +1,7 @@
 package com.app.xandone.yblogapp.viewmodel;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
@@ -18,7 +20,7 @@ public abstract class BaseViewModel extends ViewModel implements LifecycleOwner 
 
     <T extends BaseViewModel> T attachLifecycleOwner(LifecycleOwner lifecycleOwner) {
         T current = (T) this;
-        if (mLifecycleOwner == null) {
+        if (mLifecycleOwner != null) {
             return current;
         }
 

@@ -9,9 +9,13 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.app.xandone.baselib.imageload.ImageLoadHelper;
+import com.app.xandone.baselib.log.LogHelper;
+import com.app.xandone.baselib.utils.JsonUtils;
 import com.app.xandone.yblogapp.model.ArticleModel;
 import com.app.xandone.yblogapp.model.bean.ArticleBean;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,11 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         ArticleModel articleModel = ModelProvider.getModel(this, ArticleModel.class, App.sContext);
-
-        articleModel.getLiveData().observe(this, new Observer<ArticleBean>() {
+        articleModel.getLiveData().observe(this, new Observer<List<ArticleBean>>() {
             @Override
-            public void onChanged(ArticleBean articleBean) {
-
+            public void onChanged(List<ArticleBean> list) {
+                LogHelper.d(JsonUtils.obj2Json(list.get(0).getTitle()));
             }
         });
 

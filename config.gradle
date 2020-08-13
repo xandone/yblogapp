@@ -16,7 +16,7 @@ ext {
             butterknife  : "10.2.2",
             logger       : "2.2.0",
             multidex     : "1.0.3",
-            converterGson: "2.7.1",
+            converterGson: "2.8.1",
             glide        : "4.11.0",
     ]
 

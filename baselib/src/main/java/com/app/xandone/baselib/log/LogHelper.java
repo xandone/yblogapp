@@ -1,6 +1,5 @@
 package com.app.xandone.baselib.log;
 
-import com.app.xandone.baselib.BuildConfig;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -28,13 +27,13 @@ public class LogHelper {
         private static LogHelper logHelper = new LogHelper();
     }
 
-    public static void init(int engineType) {
+    public static void init(int engineType, final boolean isLoggable) {
         logEngine = engineType;
         if (logEngine == ENGINE_LOGGER) {
             Logger.addLogAdapter(new AndroidLogAdapter() {
                 @Override
                 public boolean isLoggable(int priority, @Nullable String tag) {
-                    return BuildConfig.DEBUG;
+                    return isLoggable;
                 }
             });
         }
