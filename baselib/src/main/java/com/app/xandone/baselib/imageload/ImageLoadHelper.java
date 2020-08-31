@@ -8,7 +8,7 @@ import android.widget.ImageView;
  * created on: 2020/8/11 16:35
  * description:
  */
-public class ImageLoadHelper implements ImageLoaderInf<ImageView> {
+public class ImageLoadHelper implements IImageLoader<ImageView> {
     private AbstractImageLoader imageLoader;
 
     public static final int ENGINE_GLIDE = 1;
@@ -37,6 +37,13 @@ public class ImageLoadHelper implements ImageLoaderInf<ImageView> {
     public void display(Context context, Object file, ImageView view) {
         if (imageLoader != null) {
             imageLoader.display(context, file, view);
+        }
+    }
+
+    @Override
+    public void loadSource(Context context, Object file, SourceCallback callback) {
+        if (imageLoader != null) {
+            imageLoader.loadSource(context, file, callback);
         }
     }
 

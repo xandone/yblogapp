@@ -7,4 +7,9 @@ package com.app.xandone.baselib.base;
  */
 public abstract class BaseFrament extends BaseSimpleFragment {
 
+    @Override
+    public void doBeforeSetContentView() {
+
+    }
+
 }

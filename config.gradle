@@ -18,18 +18,25 @@ ext {
             multidex     : "1.0.3",
             converterGson: "2.8.1",
             glide        : "4.11.0",
+            adapterHelper: "3.0.4",
+            bottombar    : "2.3.1",
     ]
 
     depends = [
-            appcompat          : "androidx.appcompat:appcompat:$dependVersion.appcompat",
+            appcompat                    : "androidx.appcompat:appcompat:$dependVersion.appcompat",
 
-            glide              : "com.github.bumptech.glide:glide:$dependVersion.glide",
-            glideCompiler      : "com.github.bumptech.glide:compiler:$dependVersion.glide",
-            converterGson      : "com.squareup.retrofit2:converter-gson:$dependVersion.converterGson",
-            multidex           : "com.android.support:multidex:$dependVersion.logger",
-            logger             : "com.orhanobut:logger:$dependVersion.logger",
+            glide                        : "com.github.bumptech.glide:glide:$dependVersion.glide",
+            glideCompiler                : "com.github.bumptech.glide:compiler:$dependVersion.glide",
+            converterGson                : "com.squareup.retrofit2:converter-gson:$dependVersion.converterGson",
+            multidex                     : "com.android.support:multidex:$dependVersion.logger",
+            logger                       : "com.orhanobut:logger:$dependVersion.logger",
 
-            butterknife        : "com.jakewharton:butterknife:$dependVersion.butterknife",
-            butterknifeCompiler: "com.jakewharton:butterknife-compiler:$dependVersion.butterknife",
+            butterknife                  : "com.jakewharton:butterknife:$dependVersion.butterknife",
+            butterknifeCompiler          : "com.jakewharton:butterknife-compiler:$dependVersion.butterknife",
+
+            butterknifeCompiler          : "com.jakewharton:butterknife-compiler:$dependVersion.butterknife",
+
+            BaseRecyclerViewAdapterHelper: "com.github.CymChad:BaseRecyclerViewAdapterHelper:$dependVersion.adapterHelper",
+            bottombar                    : "com.roughike:bottom-bar:$dependVersion.bottombar"
     ]
 }

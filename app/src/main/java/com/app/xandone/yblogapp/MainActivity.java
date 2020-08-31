@@ -2,13 +2,10 @@ package com.app.xandone.yblogapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import android.os.Bundle;
-import android.widget.ImageView;
 
-import com.app.xandone.baselib.imageload.ImageLoadHelper;
 import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.baselib.utils.JsonUtils;
 import com.app.xandone.yblogapp.model.ArticleModel;
@@ -19,8 +16,6 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-    @BindView(R.id.text)
-    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        ImageLoadHelper.getInstance().display(App.sContext, "http://www.xandone.pub/1596612465219", imageView);
         ATest a = new ATest();
         getLifecycle().addObserver(a);
 

@@ -7,6 +7,6 @@ import android.content.Context;
  * created on: 2020/8/11 16:55
  * description:
  */
-public interface EngineInf<T> {
+public interface IEngine<T> {
     T getEngine(Context context);
 }

@@ -28,11 +28,11 @@ dependencies {
 
     implementation rootProject.ext.depends.appcompat
 
-    implementation rootProject.ext.depends.logger
-    implementation rootProject.ext.depends.converterGson
-    implementation rootProject.ext.depends.glide
-    annotationProcessor rootProject.ext.depends.glideCompiler
+    implementation depends.logger
+    implementation depends.converterGson
+    implementation depends.glide
+    annotationProcessor depends.glideCompiler
 
-    implementation rootProject.ext.depends.butterknife
-    annotationProcessor rootProject.ext.depends.butterknifeCompiler
+    implementation depends.butterknife
+    annotationProcessor depends.butterknifeCompiler
 }
