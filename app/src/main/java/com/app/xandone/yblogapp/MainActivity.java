@@ -1,40 +1,75 @@
 package com.app.xandone.yblogapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import butterknife.ButterKnife;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import butterknife.BindView;
 
-import android.os.Bundle;
+import com.app.xandone.baselib.base.BaseActivity;
+import com.app.xandone.yblogapp.ui.code.CodeFragment;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 
-import com.app.xandone.baselib.log.LogHelper;
-import com.app.xandone.baselib.utils.JsonUtils;
-import com.app.xandone.yblogapp.model.ArticleModel;
-import com.app.xandone.yblogapp.model.bean.ArticleBean;
-import com.app.xandone.yblogapp.viewmodel.ModelProvider;
-
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
+    @BindView(R.id.bottom_bar)
+    BottomBar mBottomBar;
+
+    private List<Fragment> fragments;
+    private Fragment mCurrentFragment;
+    private int mCurrentIndex = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+    public int getLayout() {
+        return R.layout.activity_main;
+    }
 
+    @Override
+    public void init() {
         ATest a = new ATest();
         getLifecycle().addObserver(a);
 
+        fragments = new ArrayList<>();
+        fragments.add(new CodeFragment());
+        fragments.add(new CodeFragment());
+        fragments.add(new CodeFragment());
 
-        ArticleModel articleModel = ModelProvider.getModel(this, ArticleModel.class, App.sContext);
-        articleModel.getLiveData().observe(this, new Observer<List<ArticleBean>>() {
+        mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
-            public void onChanged(List<ArticleBean> list) {
-                LogHelper.d(JsonUtils.obj2Json(list.get(0).getTitle()));
+            public void onTabSelected(int tabId) {
+                switch (tabId) {
+                    case R.id.main_footer_code_rb:
+                        mCurrentIndex = 0;
+                        break;
+                    case R.id.main_footer_essay_rb:
+                        mCurrentIndex = 1;
+                        break;
+                    case R.id.main_footer_manager_rb:
+                        mCurrentIndex = 2;
+                        break;
+                    default:
+                        break;
+                }
+                turn2Fragment(mCurrentIndex);
             }
         });
-
     }
 
+
+    public void turn2Fragment(int index) {
+        Fragment toFragment = fragments.get(index);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (mCurrentFragment != null) {
+            ft.hide(mCurrentFragment);
+        }
+        if (toFragment.isAdded()) {
+            ft.show(toFragment);
+        } else {
+            ft.add(R.id.main_frame, toFragment);
+        }
+        ft.commitAllowingStateLoss();
+        mCurrentFragment = toFragment;
+    }
 }

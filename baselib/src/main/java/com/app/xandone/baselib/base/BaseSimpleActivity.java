@@ -1,5 +1,6 @@
 package com.app.xandone.baselib.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -11,7 +12,7 @@ import butterknife.ButterKnife;
  * created on: 2020/8/12 10:34
  * description:
  */
-public abstract class BaseSimpleActivity extends AppCompatActivity implements BaseInit {
+public abstract class BaseSimpleActivity extends AppCompatActivity implements IActivityInit {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -19,17 +20,22 @@ public abstract class BaseSimpleActivity extends AppCompatActivity implements Ba
 
         doBeforeSetContentView();
         setContentView(getLayout());
+        ButterKnife.bind(this);
         init();
         initDataObserver();
     }
 
     @Override
-    public void init() {
-        ButterKnife.bind(this);
+    public void doBeforeSetContentView() {
+
     }
 
     protected void initDataObserver() {
 
 
+    }
+
+    protected void startActivity(Class activity) {
+        startActivity(new Intent(this, activity));
     }
 }

@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import com.app.xandone.widgetlib.R;
 
+import androidx.core.content.ContextCompat;
+
+import static com.app.xandone.widgetlib.view.LoadingLayout.ILoadingStatus.SERVER_ERROR;
+
 /**
  * author: Admin
  * created on: 2020/8/13 16:29
@@ -18,7 +22,7 @@ import com.app.xandone.widgetlib.R;
  */
 public class LoadingLayout extends LinearLayout {
     private ImageView img_tip_logo;
-    private ProgressBar progress;
+    private ProgressBar progressBar;
     private TextView tv_tips;
     private TextView bt_operate;
 
@@ -26,11 +30,7 @@ public class LoadingLayout extends LinearLayout {
     private String errorMsg;
     private int nullPic;
 
-    public static final int netError = 1;
-    public static final int serverError = 2;
-    public static final int empty = 3;
-    public static final int loading = 4;
-    public static final int finish = 5;
+    private Context mContext;
 
     public LoadingLayout(Context context) {
         this(context, null);
@@ -42,15 +42,16 @@ public class LoadingLayout extends LinearLayout {
 
     public LoadingLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.mContext = context;
         initView(context);
     }
 
     public void initView(Context context) {
         View.inflate(context, R.layout.loading_tip_layout, this);
-        img_tip_logo = (ImageView) findViewById(R.id.img_tip_logo);
-        progress = (ProgressBar) findViewById(R.id.progress);
-        tv_tips = (TextView) findViewById(R.id.tv_tips);
-        bt_operate = (TextView) findViewById(R.id.bt_operate);
+        img_tip_logo = findViewById(R.id.img_tip_logo);
+        progressBar = findViewById(R.id.progress);
+        tv_tips = findViewById(R.id.tv_tips);
+        bt_operate = findViewById(R.id.bt_operate);
 
         setVisibility(GONE);
 
@@ -80,12 +81,12 @@ public class LoadingLayout extends LinearLayout {
         this.nullPic = nullPic;
     }
 
-    public void setLoadingTips(int loadStatus) {
+    public void setLoadingStatus(int loadStatus) {
         switch (loadStatus) {
-            case netError:
+            case ILoadingStatus.NET_ERROR:
                 setVisibility(VISIBLE);
                 img_tip_logo.setVisibility(VISIBLE);
-                progress.setVisibility(GONE);
+                stopProgress(mContext);
                 bt_operate.setVisibility(VISIBLE);
                 if (TextUtils.isEmpty(errorMsg)) {
                     tv_tips.setText("数据加载失败");
@@ -94,10 +95,10 @@ public class LoadingLayout extends LinearLayout {
                 }
                 img_tip_logo.setImageResource(R.mipmap.icon_net_error);
                 break;
-            case serverError:
+            case SERVER_ERROR:
                 setVisibility(View.VISIBLE);
                 img_tip_logo.setVisibility(VISIBLE);
-                progress.setVisibility(View.GONE);
+                stopProgress(mContext);
                 bt_operate.setVisibility(VISIBLE);
                 if (TextUtils.isEmpty(errorMsg)) {
                     tv_tips.setText("服务器异常");
@@ -106,10 +107,10 @@ public class LoadingLayout extends LinearLayout {
                 }
                 img_tip_logo.setImageResource(R.mipmap.icon_server_error);
                 break;
-            case empty:
+            case ILoadingStatus.EMPTY:
                 setVisibility(VISIBLE);
                 img_tip_logo.setVisibility(VISIBLE);
-                progress.setVisibility(GONE);
+                stopProgress(mContext);
                 bt_operate.setVisibility(VISIBLE);
                 tv_tips.setText("暂无数据");
                 if (nullPic <= 0) {
@@ -119,19 +120,33 @@ public class LoadingLayout extends LinearLayout {
                     img_tip_logo.setImageResource(nullPic);
                 }
                 break;
-            case loading:
+            case ILoadingStatus.LOADING:
                 setVisibility(VISIBLE);
                 img_tip_logo.setVisibility(GONE);
-                progress.setVisibility(VISIBLE);
+                startProgress(mContext);
                 bt_operate.setVisibility(GONE);
                 tv_tips.setText("加载..");
                 break;
-            case finish:
+            case ILoadingStatus.FINISH:
                 setVisibility(GONE);
                 break;
             default:
                 break;
         }
+    }
+
+    private void startProgress(Context context) {
+        progressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context,
+                R.drawable.loading_progressbar));
+        progressBar.setProgressDrawable(ContextCompat.getDrawable(context,
+                R.drawable.loading_progressbar));
+    }
+
+    private void stopProgress(Context context) {
+        progressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context,
+                R.mipmap.loading_progress));
+        progressBar.setProgressDrawable(ContextCompat.getDrawable(context,
+                R.mipmap.loading_progress));
     }
 
     public interface OnReloadListener {
@@ -140,6 +155,14 @@ public class LoadingLayout extends LinearLayout {
 
     public void setOnReloadListener(OnReloadListener onReloadListener) {
         this.onReloadListener = onReloadListener;
+    }
+
+    public interface ILoadingStatus {
+        int NET_ERROR = 1;
+        int SERVER_ERROR = 2;
+        int EMPTY = 3;
+        int LOADING = 4;
+        int FINISH = 5;
     }
 
 }

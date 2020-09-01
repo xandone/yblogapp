@@ -3,7 +3,6 @@ package com.app.xandone.yblogapp.config;
 import android.app.Application;
 
 import com.app.xandone.baselib.config.BaseConfig;
-import com.app.xandone.yblogapp.BuildConfig;
 
 /**
  * author: Admin
@@ -13,7 +12,7 @@ import com.app.xandone.yblogapp.BuildConfig;
 public class AppConfig {
     private static final String APP_NAME = "";
 
-    public static void init(Application application) {
-        BaseConfig.init(application, APP_NAME, BuildConfig.DEBUG);
+    public static void init(Application application, boolean isDebug) {
+        BaseConfig.init(application, APP_NAME, isDebug);
     }
 }

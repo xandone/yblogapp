@@ -1,14 +1,15 @@
 package com.app.xandone.baselib.base;
 
+import android.view.View;
+
 import androidx.annotation.LayoutRes;
 
 /**
  * author: Admin
- * created on: 2020/8/12 10:56
+ * created on: 2020/9/1 10:32
  * description:
  */
-public interface BaseInit {
-
+public interface IFragInit {
     /**
      * 加载布局前的一些操作
      */
@@ -17,5 +18,5 @@ public interface BaseInit {
     @LayoutRes
     int getLayout();
 
-    void init();
+    void init(View view);
 }

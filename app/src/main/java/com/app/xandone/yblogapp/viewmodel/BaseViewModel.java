@@ -1,6 +1,5 @@
 package com.app.xandone.yblogapp.viewmodel;
 
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;

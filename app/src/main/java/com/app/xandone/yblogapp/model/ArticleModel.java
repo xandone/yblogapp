@@ -1,5 +1,6 @@
 package com.app.xandone.yblogapp.model;
 
+import com.app.xandone.yblogapp.api.IFetchArticle;
 import com.app.xandone.yblogapp.model.bean.ArticleBean;
 import com.app.xandone.yblogapp.model.repository.ArticleRepository;
 import com.app.xandone.yblogapp.viewmodel.BaseViewModel;
@@ -15,7 +16,7 @@ import androidx.lifecycle.MutableLiveData;
  */
 public class ArticleModel extends BaseViewModel {
     private MutableLiveData<List<ArticleBean>> liveData;
-    private ArticleRepository articleRepo;
+    private IFetchArticle articleRepo;
 
     public MutableLiveData<List<ArticleBean>> getLiveData() {
         return liveData;
@@ -24,7 +25,11 @@ public class ArticleModel extends BaseViewModel {
     @Override
     protected void onCreate() {
         liveData = new MutableLiveData<>();
-        articleRepo = ArticleRepository.getInstance();
+        articleRepo = new ArticleRepository();
+    }
+
+    public ArticleModel getArticleDatas() {
         liveData = articleRepo.getArticleDatas(1, 10);
+        return this;
     }
 }

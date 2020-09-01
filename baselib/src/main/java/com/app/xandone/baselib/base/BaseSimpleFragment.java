@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
  * created on: 2020/8/12 11:05
  * description:
  */
-public abstract class BaseSimpleFragment extends Fragment implements BaseInit {
+public abstract class BaseSimpleFragment extends Fragment implements IFragInit {
     protected FragmentActivity mActivity;
 
     @Override
@@ -35,18 +35,26 @@ public abstract class BaseSimpleFragment extends Fragment implements BaseInit {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayout(), container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        return inflater.inflate(getLayout(), container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
+        initButterKnife(view);
+        init(view);
         initDataObserver();
     }
 
+    protected void initButterKnife(View view) {
+        ButterKnife.bind(this, view);
+    }
+
+
+    @Override
+    public void doBeforeSetContentView() {
+
+    }
 
     protected void initDataObserver() {
 

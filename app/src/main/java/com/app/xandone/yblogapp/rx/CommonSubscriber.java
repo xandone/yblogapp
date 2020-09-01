@@ -60,13 +60,13 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
         }
         if (isShowErrorState) {
             if (!TextUtils.isEmpty(mErrorMsg)) {
-                mView.showMsg(mErrorMsg, LoadingLayout.serverError);
+                mView.showMsg(mErrorMsg, LoadingLayout.ILoadingStatus.SERVER_ERROR);
             } else if (t instanceof ApiException) {
-                mView.showMsg(t.toString(), LoadingLayout.serverError);
+                mView.showMsg(t.toString(), LoadingLayout.ILoadingStatus.SERVER_ERROR);
             } else if (t instanceof HttpException) {
-                mView.showMsg("数据加载失败", LoadingLayout.netError);
+                mView.showMsg("数据加载失败", LoadingLayout.ILoadingStatus.NET_ERROR);
             } else {
-                mView.showMsg("未知错误", LoadingLayout.serverError);
+                mView.showMsg("未知错误", LoadingLayout.ILoadingStatus.SERVER_ERROR);
                 LogHelper.d(t.toString());
             }
 

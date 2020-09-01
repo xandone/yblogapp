@@ -101,10 +101,10 @@ public class ApiClient {
         return Builder.create(host, isCache);
     }
 
-    public ApiService getApiService() {
-        ApiService apiService = null;
+    public IApiService getApiService() {
+        IApiService apiService = null;
         if (retrofit != null) {
-            apiService = retrofit.create(ApiService.class);
+            apiService = retrofit.create(IApiService.class);
         }
         return apiService;
     }

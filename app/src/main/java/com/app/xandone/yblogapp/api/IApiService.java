@@ -15,7 +15,7 @@ import retrofit2.http.Query;
  * created on: 2020/8/12 16:56
  * description:
  */
-public interface ApiService {
+public interface IApiService {
 
     @GET("yblog/art/artlist")
     Flowable<BaseResponse<List<ArticleBean>>> getArticleDatas(@Query("page") int page, @Query("row") int row);

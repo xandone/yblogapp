@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tabs>
     <tab
-        icon="@mipmap/ic_launcher"
+        icon="@mipmap/bar_code"
         id="@+id/main_footer_code_rb"
         title="编程" />
     <tab
-        icon="@mipmap/ic_launcher"
+        icon="@mipmap/bar_essay"
         id="@+id/main_footer_essay_rb"
         title="杂文" />
     <tab
-        icon="@mipmap/ic_launcher"
+        icon="@mipmap/bar_manager"
         id="@+id/main_footer_manager_rb"
         title="后台" />
 </tabs>

@@ -1,15 +1,11 @@
 package com.app.xandone.yblogapp.model.repository;
 
 
-import android.util.Log;
-
-import com.app.xandone.baselib.log.LogHelper;
-import com.app.xandone.baselib.utils.JsonUtils;
 import com.app.xandone.yblogapp.api.ApiClient;
+import com.app.xandone.yblogapp.api.IFetchArticle;
 import com.app.xandone.yblogapp.model.bean.ArticleBean;
 import com.app.xandone.yblogapp.rx.CommonSubscriber;
 import com.app.xandone.yblogapp.rx.RxHelper;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -20,17 +16,14 @@ import androidx.lifecycle.MediatorLiveData;
  * created on: 2020/8/12 17:19
  * description:
  */
-public class ArticleRepository {
+public class ArticleRepository implements IFetchArticle {
 
     private MediatorLiveData<List<ArticleBean>> mArtsLiveData = new MediatorLiveData<>();
 
-    private ArticleRepository() {
+    public ArticleRepository() {
     }
 
-    public static ArticleRepository getInstance() {
-        return Builder.INSTANCE;
-    }
-
+    @Override
     public MediatorLiveData<List<ArticleBean>> getArticleDatas(int page, int row) {
         ApiClient.getInstance()
                 .getApiService()
@@ -44,12 +37,7 @@ public class ArticleRepository {
                     }
                 });
 
-
         return mArtsLiveData;
 
-    }
-
-    static class Builder {
-        static final ArticleRepository INSTANCE = new ArticleRepository();
     }
 }

@@ -1,8 +1,5 @@
 package com.app.xandone.baselib.base;
 
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
 
 /**
  * author: Admin
@@ -11,8 +8,4 @@ import androidx.annotation.Nullable;
  */
 public abstract class BaseActivity extends BaseSimpleActivity {
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 }

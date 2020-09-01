@@ -26,7 +26,7 @@ public class App extends Application {
     }
 
     private void init() {
-        AppConfig.init(this);
+        AppConfig.init(this, BuildConfig.DEBUG);
     }
 
     @Override
