@@ -1,7 +1,5 @@
 package com.app.xandone.yblogapp.ui.code;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 
 import com.app.xandone.baselib.log.LogHelper;
@@ -20,8 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 /**
@@ -31,7 +29,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
  */
 public class CodeListFragment extends BaseListFragment {
     private ArticleModel articleModel;
-    private MutableLiveData<List<CodeArticleBean>> liveData;
     private int mPage = 1;
     private static final int ROW = 10;
 
@@ -55,18 +52,8 @@ public class CodeListFragment extends BaseListFragment {
     @Override
     protected void initDataObserver() {
         articleModel = ModelProvider.getModel(mActivity, ArticleModel.class, App.sContext);
-        liveData = articleModel.getArticleDatas(mPage, ROW, false);
-        liveData.observe(this, new Observer<List<CodeArticleBean>>() {
-            @Override
-            public void onChanged(List<CodeArticleBean> articleBeans) {
-                datas.clear();
-                datas.addAll(articleBeans);
-                mAdapter.notifyDataSetChanged();
-                onLoadFinish();
-                finishRefresh();
-                finishLoadMore();
-            }
-        });
+
+        requestData();
     }
 
     @Override
@@ -75,7 +62,24 @@ public class CodeListFragment extends BaseListFragment {
     }
 
     private void getArticleDatas(boolean isLoadMore) {
-        articleModel.getArticleDatas(mPage, ROW, isLoadMore);
+        articleModel.getArticleDatas(mPage, ROW, isLoadMore, new IRequestCallback<List<CodeArticleBean>>() {
+            @Override
+            public void success(List<CodeArticleBean> beans) {
+                datas = beans;
+                mAdapter.setList(datas);
+                onLoadFinish();
+                if (!isLoadMore) {
+                    finishRefresh();
+                } else {
+                    finishLoadMore();
+                }
+            }
+
+            @Override
+            public void error(String message, int statusCode) {
+
+            }
+        });
     }
 
     @Override
@@ -86,7 +90,6 @@ public class CodeListFragment extends BaseListFragment {
 
     @Override
     public void getDataMore() {
-        LogHelper.d("more....");
         mPage++;
         getArticleDatas(true);
     }

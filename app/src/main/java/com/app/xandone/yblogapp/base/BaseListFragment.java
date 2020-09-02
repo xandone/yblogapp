@@ -41,14 +41,12 @@ public abstract class BaseListFragment extends BaseWallFragment implements IRefr
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshlayout) {
-                LogHelper.d("11111onRefresh.............1");
                 getData();
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshlayout) {
-                LogHelper.d("11111onLoadMore.............2");
                 getDataMore();
             }
         });

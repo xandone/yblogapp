@@ -1,13 +1,12 @@
 package com.app.xandone.yblogapp.model.repository;
 
 
-import android.util.Log;
-
 import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.yblogapp.api.ApiClient;
 import com.app.xandone.yblogapp.api.IFetchArticle;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.rx.BaseSubscriber;
+import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.rx.RxHelper;
 
 import java.util.List;
@@ -23,11 +22,16 @@ public class ArticleRepository implements IFetchArticle {
 
     private MediatorLiveData<List<CodeArticleBean>> mArtsLiveData = new MediatorLiveData<>();
 
+    @Override
+    public MediatorLiveData<List<CodeArticleBean>> getCodeArticleLiveData() {
+        return mArtsLiveData;
+    }
+
     public ArticleRepository() {
     }
 
     @Override
-    public MediatorLiveData<List<CodeArticleBean>> getArticleDatas(int page, int row, boolean isLoadMore) {
+    public void getArticleDatas(int page, int row, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback) {
         ApiClient.getInstance()
                 .getApiService()
                 .getArticleDatas(page, row)
@@ -46,17 +50,15 @@ public class ArticleRepository implements IFetchArticle {
                             List<CodeArticleBean> list = mArtsLiveData.getValue();
                             list.addAll(articleBeans);
                             mArtsLiveData.setValue(list);
-                            LogHelper.d(mArtsLiveData);
+                            LogHelper.d("mArtsLiveData.....");
                         }
-
                     }
 
                     @Override
                     public void onFail(String message, int code) {
                         super.onFail(message, code);
+                        callback.error(message, code);
                     }
                 });
-        return mArtsLiveData;
-
     }
 }

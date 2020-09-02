@@ -8,7 +8,11 @@ import com.app.xandone.yblogapp.viewmodel.BaseViewModel;
 
 import java.util.List;
 
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 /**
  * author: Admin
@@ -17,14 +21,22 @@ import androidx.lifecycle.MutableLiveData;
  */
 public class ArticleModel extends BaseViewModel {
     private IFetchArticle articleRepo;
-
+    IRequestCallback<List<CodeArticleBean>> callback;
 
     @Override
-    protected void onCreate() {
+    protected void onCreate(LifecycleOwner owner) {
         articleRepo = new ArticleRepository();
+
+        articleRepo.getCodeArticleLiveData().observe(owner, new Observer<List<CodeArticleBean>>() {
+            @Override
+            public void onChanged(List<CodeArticleBean> beans) {
+                callback.success(beans);
+            }
+        });
     }
 
-    public MutableLiveData<List<CodeArticleBean>> getArticleDatas(int page, int row, boolean isLoadMore) {
-        return articleRepo.getArticleDatas(page, row, isLoadMore);
+    public void getArticleDatas(int page, int row, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback) {
+        this.callback = callback;
+        articleRepo.getArticleDatas(page, row, isLoadMore, callback);
     }
 }

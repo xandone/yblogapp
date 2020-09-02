@@ -13,5 +13,7 @@ import androidx.lifecycle.MediatorLiveData;
  * description:
  */
 public interface IFetchArticle {
-    MediatorLiveData<List<CodeArticleBean>> getArticleDatas(int page, int row, boolean isLoadMore);
+    void getArticleDatas(int page, int row, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback);
+
+    MediatorLiveData<List<CodeArticleBean>> getCodeArticleLiveData();
 }

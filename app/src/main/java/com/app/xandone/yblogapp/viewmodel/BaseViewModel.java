@@ -15,7 +15,7 @@ public abstract class BaseViewModel extends ViewModel implements LifecycleOwner 
 
     private LifecycleOwner mLifecycleOwner;
 
-    protected abstract void onCreate();
+    protected abstract void onCreate(LifecycleOwner owner);
 
     <T extends BaseViewModel> T attachLifecycleOwner(LifecycleOwner lifecycleOwner) {
         T current = (T) this;
@@ -25,7 +25,7 @@ public abstract class BaseViewModel extends ViewModel implements LifecycleOwner 
 
         this.mLifecycleOwner = lifecycleOwner;
 
-        onCreate();
+        onCreate(lifecycleOwner);
 
         return current;
 
