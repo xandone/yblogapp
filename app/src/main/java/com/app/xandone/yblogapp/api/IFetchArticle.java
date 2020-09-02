@@ -1,6 +1,7 @@
 package com.app.xandone.yblogapp.api;
 
-import com.app.xandone.yblogapp.model.bean.ArticleBean;
+import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
+import com.app.xandone.yblogapp.rx.IRequestCallback;
 
 import java.util.List;
 
@@ -12,5 +13,5 @@ import androidx.lifecycle.MediatorLiveData;
  * description:
  */
 public interface IFetchArticle {
-    MediatorLiveData<List<ArticleBean>> getArticleDatas(int page, int row);
+    MediatorLiveData<List<CodeArticleBean>> getArticleDatas(int page, int row, boolean isLoadMore);
 }

@@ -6,13 +6,15 @@ package com.app.xandone.yblogapp.base;
  * description:
  */
 public interface ILoadingWall {
-    void loading();
+    void onLoading();
 
-    void loadEmpty();
+    void onLoadEmpty();
 
-    void loadSeverError();
+    void onLoadSeverError();
 
-    void loadNetError();
+    void onLoadNetError();
 
-    void loadFinish();
+    void onLoadFinish();
+
+    void onLoadStatus(int statusCode);
 }

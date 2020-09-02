@@ -19,28 +19,24 @@ import retrofit2.HttpException;
  * description:
  */
 
-public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
-    private IBaseView mView;
+public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
     private String mErrorMsg;
     private boolean isShowErrorState;
 
     //默认开启
-    public CommonSubscriber(IBaseView baseView) {
-        this(baseView, true);
+    public BaseSubscriber() {
+        this(true);
     }
 
-    protected CommonSubscriber(IBaseView view, String errorMsg) {
-        this.mView = view;
+    protected BaseSubscriber(String errorMsg) {
         this.mErrorMsg = errorMsg;
     }
 
-    protected CommonSubscriber(IBaseView view, boolean isShowErrorState) {
-        this.mView = view;
+    protected BaseSubscriber(boolean isShowErrorState) {
         this.isShowErrorState = isShowErrorState;
     }
 
-    protected CommonSubscriber(IBaseView view, String errorMsg, boolean isShowErrorState) {
-        this.mView = view;
+    protected BaseSubscriber(String errorMsg, boolean isShowErrorState) {
         this.mErrorMsg = errorMsg;
         this.isShowErrorState = isShowErrorState;
     }
@@ -55,22 +51,17 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
 
     @Override
     public void onError(Throwable t) {
-        if (mView == null) {
-            return;
-        }
         if (isShowErrorState) {
             if (!TextUtils.isEmpty(mErrorMsg)) {
-                mView.showMsg(mErrorMsg, LoadingLayout.ILoadingStatus.SERVER_ERROR);
+                onFail(mErrorMsg, LoadingLayout.ILoadingStatus.SERVER_ERROR);
             } else if (t instanceof ApiException) {
-                mView.showMsg(t.toString(), LoadingLayout.ILoadingStatus.SERVER_ERROR);
+                onFail(t.toString(), LoadingLayout.ILoadingStatus.SERVER_ERROR);
             } else if (t instanceof HttpException) {
-                mView.showMsg("数据加载失败", LoadingLayout.ILoadingStatus.NET_ERROR);
+                onFail("数据加载失败", LoadingLayout.ILoadingStatus.NET_ERROR);
             } else {
-                mView.showMsg("未知错误", LoadingLayout.ILoadingStatus.SERVER_ERROR);
+                onFail("未知错误", LoadingLayout.ILoadingStatus.SERVER_ERROR);
                 LogHelper.d(t.toString());
             }
-
-            mView.stateError();
         }
 
         ApiException ex = ApiException.handleException(t);
@@ -85,4 +76,8 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
     }
 
     public abstract void onSuccess(T t);
+
+    public void onFail(String message, int statusCode) {
+    }
+
 }

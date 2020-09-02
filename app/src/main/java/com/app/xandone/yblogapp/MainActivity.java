@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 
 import com.app.xandone.baselib.base.BaseActivity;
-import com.app.xandone.yblogapp.ui.code.CodeFragment;
+import com.app.xandone.yblogapp.ui.code.CodeListFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
@@ -32,9 +32,9 @@ public class MainActivity extends BaseActivity {
         getLifecycle().addObserver(a);
 
         fragments = new ArrayList<>();
-        fragments.add(new CodeFragment());
-        fragments.add(new CodeFragment());
-        fragments.add(new CodeFragment());
+        fragments.add(new CodeListFragment());
+        fragments.add(new CodeListFragment());
+        fragments.add(new CodeListFragment());
 
         mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override

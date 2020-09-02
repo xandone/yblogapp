@@ -13,7 +13,6 @@ import com.app.xandone.widgetlib.R;
 
 import androidx.core.content.ContextCompat;
 
-import static com.app.xandone.widgetlib.view.LoadingLayout.ILoadingStatus.SERVER_ERROR;
 
 /**
  * author: Admin
@@ -59,7 +58,7 @@ public class LoadingLayout extends LinearLayout {
             @Override
             public void onClick(View v) {
                 if (onReloadListener != null) {
-                    onReloadListener.reLoad();
+                    onReloadListener.reLoadData();
                 }
             }
         });
@@ -95,7 +94,7 @@ public class LoadingLayout extends LinearLayout {
                 }
                 img_tip_logo.setImageResource(R.mipmap.icon_net_error);
                 break;
-            case SERVER_ERROR:
+            case ILoadingStatus.SERVER_ERROR:
                 setVisibility(View.VISIBLE);
                 img_tip_logo.setVisibility(VISIBLE);
                 stopProgress(mContext);
@@ -136,21 +135,23 @@ public class LoadingLayout extends LinearLayout {
     }
 
     private void startProgress(Context context) {
-        progressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context,
-                R.drawable.loading_progressbar));
-        progressBar.setProgressDrawable(ContextCompat.getDrawable(context,
-                R.drawable.loading_progressbar));
+        progressBar.setVisibility(VISIBLE);
+//        progressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context,
+//                R.drawable.loading_progressbar));
+//        progressBar.setProgressDrawable(ContextCompat.getDrawable(context,
+//                R.drawable.loading_progressbar));
     }
 
     private void stopProgress(Context context) {
-        progressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context,
-                R.mipmap.loading_progress));
-        progressBar.setProgressDrawable(ContextCompat.getDrawable(context,
-                R.mipmap.loading_progress));
+        progressBar.setVisibility(GONE);
+//        progressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context,
+//                R.mipmap.loading_progress));
+//        progressBar.setProgressDrawable(ContextCompat.getDrawable(context,
+//                R.mipmap.loading_progress));
     }
 
     public interface OnReloadListener {
-        void reLoad();
+        void reLoadData();
     }
 
     public void setOnReloadListener(OnReloadListener onReloadListener) {

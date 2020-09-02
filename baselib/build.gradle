@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "29.0.3"
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 30
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -28,11 +28,11 @@ dependencies {
 
     implementation rootProject.ext.depends.appcompat
 
-    implementation depends.logger
-    implementation depends.converterGson
-    implementation depends.glide
-    annotationProcessor depends.glideCompiler
+    implementation 'com.orhanobut:logger:2.2.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
-    implementation depends.butterknife
-    annotationProcessor depends.butterknifeCompiler
+    implementation 'com.jakewharton:butterknife:10.2.2'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.2'
 }

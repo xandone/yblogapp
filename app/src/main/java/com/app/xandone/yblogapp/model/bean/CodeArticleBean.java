@@ -5,7 +5,7 @@ package com.app.xandone.yblogapp.model.bean;
  * created on: 2020/8/12 16:48
  * description:
  */
-public class ArticleBean {
+public class CodeArticleBean {
 
     private String artId;
     private String artUserId;

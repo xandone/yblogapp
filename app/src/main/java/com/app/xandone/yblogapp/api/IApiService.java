@@ -1,12 +1,11 @@
 package com.app.xandone.yblogapp.api;
 
 import com.app.xandone.yblogapp.model.base.BaseResponse;
-import com.app.xandone.yblogapp.model.bean.ArticleBean;
+import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -18,6 +17,6 @@ import retrofit2.http.Query;
 public interface IApiService {
 
     @GET("yblog/art/artlist")
-    Flowable<BaseResponse<List<ArticleBean>>> getArticleDatas(@Query("page") int page, @Query("row") int row);
+    Flowable<BaseResponse<List<CodeArticleBean>>> getArticleDatas(@Query("page") int page, @Query("row") int row);
 
 }

@@ -17,9 +17,10 @@ import butterknife.BindView;
 /**
  * author: Admin
  * created on: 2020/9/1 10:52
- * description:有加载状态页的基类Frament
+ * description:有加载状态页的基类Fragment
  */
-public abstract class BaseWallFragment extends BaseFrament implements ILoadingWall {
+public abstract class BaseWallFragment extends BaseFrament implements ILoadingWall,
+        LoadingLayout.OnReloadListener {
     @BindView(R.id.loadLayout)
     protected LoadingLayout loadLayout;
 
@@ -39,31 +40,52 @@ public abstract class BaseWallFragment extends BaseFrament implements ILoadingWa
     @Override
     protected void initButterKnife(View view) {
         super.initButterKnife(view);
-        loading();
+        loadLayout.setOnReloadListener(this);
+        onLoading();
     }
 
+
+    /**
+     * 重新加载按钮
+     */
     @Override
-    public void loading() {
+    public void reLoadData() {
+        onLoading();
+        requestData();
+    }
+
+    /**
+     * 加载数据，实现该方法
+     */
+    protected abstract void requestData();
+
+    @Override
+    public void onLoading() {
         loadLayout.setLoadingStatus(LoadingLayout.ILoadingStatus.LOADING);
     }
 
     @Override
-    public void loadEmpty() {
+    public void onLoadEmpty() {
         loadLayout.setLoadingStatus(LoadingLayout.ILoadingStatus.EMPTY);
     }
 
     @Override
-    public void loadSeverError() {
+    public void onLoadSeverError() {
         loadLayout.setLoadingStatus(LoadingLayout.ILoadingStatus.SERVER_ERROR);
     }
 
     @Override
-    public void loadNetError() {
+    public void onLoadNetError() {
         loadLayout.setLoadingStatus(LoadingLayout.ILoadingStatus.NET_ERROR);
     }
 
     @Override
-    public void loadFinish() {
+    public void onLoadFinish() {
         loadLayout.setLoadingStatus(LoadingLayout.ILoadingStatus.FINISH);
+    }
+
+    @Override
+    public void onLoadStatus(int statusCode) {
+        loadLayout.setLoadingStatus(statusCode);
     }
 }
