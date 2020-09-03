@@ -31,10 +31,10 @@ public class ArticleRepository implements IFetchArticle {
     }
 
     @Override
-    public void getArticleDatas(int page, int row, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback) {
+    public void getArticleDatas(int page, int row, int type, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback) {
         ApiClient.getInstance()
                 .getApiService()
-                .getArticleDatas(page, row)
+                .getArticleDatas(page, row, type)
                 .compose(RxHelper.handleIO())
                 .compose(RxHelper.handleRespose())
                 .subscribe(new BaseSubscriber<List<CodeArticleBean>>() {
@@ -50,7 +50,6 @@ public class ArticleRepository implements IFetchArticle {
                             List<CodeArticleBean> list = mArtsLiveData.getValue();
                             list.addAll(articleBeans);
                             mArtsLiveData.setValue(list);
-                            LogHelper.d("mArtsLiveData.....");
                         }
                     }
 

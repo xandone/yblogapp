@@ -2,9 +2,12 @@ package com.app.xandone.baselib.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.app.xandone.baselib.log.LogHelper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,7 +60,6 @@ public abstract class BaseSimpleFragment extends Fragment implements IFragInit {
     }
 
     protected void initDataObserver() {
-
 
     }
 

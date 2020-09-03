@@ -1,5 +1,6 @@
 package com.app.xandone.yblogapp.base;
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.app.xandone.baselib.log.LogHelper;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
@@ -30,6 +32,8 @@ public abstract class BaseListFragment extends BaseWallFragment implements IRefr
     protected SmartRefreshLayout refreshLayout;
     @BindView(R.id.recycler)
     protected RecyclerView recycler;
+
+    protected boolean mIsLoadedData;
 
     @Override
     public int getLayout() {
@@ -53,6 +57,11 @@ public abstract class BaseListFragment extends BaseWallFragment implements IRefr
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     protected void requestData() {
 
     }
@@ -66,4 +75,21 @@ public abstract class BaseListFragment extends BaseWallFragment implements IRefr
     public void finishLoadMore() {
         refreshLayout.finishLoadMore();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!mIsLoadedData) {
+            lazyLoadData();
+            mIsLoadedData = true;
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mIsLoadedData = false;
+    }
+
+    protected abstract void lazyLoadData();
 }

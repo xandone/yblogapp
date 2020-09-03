@@ -1,5 +1,8 @@
 package com.app.xandone.yblogapp.ui.code;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import com.app.xandone.baselib.log.LogHelper;
@@ -29,15 +32,28 @@ import androidx.recyclerview.widget.LinearLayoutManager;
  */
 public class CodeListFragment extends BaseListFragment {
     private ArticleModel articleModel;
-    private int mPage = 1;
-    private static final int ROW = 10;
 
     private BaseQuickAdapter<CodeArticleBean, BaseViewHolder> mAdapter;
     private List<CodeArticleBean> datas;
+    private int mType;
+    private int mPage = 1;
+
+    private static final int ROW = 10;
+    public static final String TYPE = "type";
+
+    public static CodeListFragment getInstance(int type) {
+        CodeListFragment fragment = new CodeListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(TYPE, type);
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
 
     @Override
     public void init(View view) {
         super.init(view);
+        mType = getArguments().getInt(TYPE);
         datas = new ArrayList<>();
         mAdapter = new BaseQuickAdapter<CodeArticleBean, BaseViewHolder>(R.layout.item_code_list, datas) {
             @Override
@@ -52,7 +68,11 @@ public class CodeListFragment extends BaseListFragment {
     @Override
     protected void initDataObserver() {
         articleModel = ModelProvider.getModel(mActivity, ArticleModel.class, App.sContext);
+        LogHelper.d(articleModel);
+    }
 
+    @Override
+    protected void lazyLoadData() {
         requestData();
     }
 
@@ -62,7 +82,7 @@ public class CodeListFragment extends BaseListFragment {
     }
 
     private void getArticleDatas(boolean isLoadMore) {
-        articleModel.getArticleDatas(mPage, ROW, isLoadMore, new IRequestCallback<List<CodeArticleBean>>() {
+        articleModel.getArticleDatas(mPage, ROW, mType, isLoadMore, new IRequestCallback<List<CodeArticleBean>>() {
             @Override
             public void success(List<CodeArticleBean> beans) {
                 datas = beans;
@@ -70,6 +90,9 @@ public class CodeListFragment extends BaseListFragment {
                 onLoadFinish();
                 if (!isLoadMore) {
                     finishRefresh();
+                    if (beans.size() <= 0) {
+                        onLoadEmpty();
+                    }
                 } else {
                     finishLoadMore();
                 }
@@ -77,7 +100,7 @@ public class CodeListFragment extends BaseListFragment {
 
             @Override
             public void error(String message, int statusCode) {
-
+                onLoadStatus(statusCode);
             }
         });
     }

@@ -17,6 +17,8 @@ import retrofit2.http.Query;
 public interface IApiService {
 
     @GET("yblog/art/artlist")
-    Flowable<BaseResponse<List<CodeArticleBean>>> getArticleDatas(@Query("page") int page, @Query("row") int row);
+    Flowable<BaseResponse<List<CodeArticleBean>>> getArticleDatas(@Query("page") int page,
+                                                                  @Query("row") int row,
+                                                                  @Query("type") int type);
 
 }

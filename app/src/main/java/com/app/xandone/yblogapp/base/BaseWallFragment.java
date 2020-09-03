@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.app.xandone.baselib.base.BaseFrament;
+import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.widgetlib.view.LoadingLayout;
 import com.app.xandone.yblogapp.R;
 

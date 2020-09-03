@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="code_type_list">
+        <item>全部</item>
+        <item>编程</item>
+        <item>Android</item>
+        <item>Java</item>
+        <item>前端</item>
+        <item>设计模式</item>
+        <item>算法</item>
+        <item>Python</item>
+        <item>Canvas</item>
+        <item>Game</item>
+    </string-array>
+</resources>

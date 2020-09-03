@@ -1,5 +1,6 @@
 package com.app.xandone.yblogapp.model;
 
+import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.yblogapp.api.IFetchArticle;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.model.repository.ArticleRepository;
@@ -9,9 +10,6 @@ import com.app.xandone.yblogapp.viewmodel.BaseViewModel;
 import java.util.List;
 
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 /**
@@ -21,7 +19,7 @@ import androidx.lifecycle.Observer;
  */
 public class ArticleModel extends BaseViewModel {
     private IFetchArticle articleRepo;
-    IRequestCallback<List<CodeArticleBean>> callback;
+    private IRequestCallback<List<CodeArticleBean>> callback;
 
     @Override
     protected void onCreate(LifecycleOwner owner) {
@@ -30,13 +28,15 @@ public class ArticleModel extends BaseViewModel {
         articleRepo.getCodeArticleLiveData().observe(owner, new Observer<List<CodeArticleBean>>() {
             @Override
             public void onChanged(List<CodeArticleBean> beans) {
-                callback.success(beans);
+                if (callback != null) {
+                    callback.success(beans);
+                }
             }
         });
     }
 
-    public void getArticleDatas(int page, int row, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback) {
+    public void getArticleDatas(int page, int row, int type, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback) {
         this.callback = callback;
-        articleRepo.getArticleDatas(page, row, isLoadMore, callback);
+        articleRepo.getArticleDatas(page, row, type, isLoadMore, callback);
     }
 }
