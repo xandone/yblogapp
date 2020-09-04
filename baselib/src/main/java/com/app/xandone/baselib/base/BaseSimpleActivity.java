@@ -19,10 +19,18 @@ public abstract class BaseSimpleActivity extends AppCompatActivity implements IA
         super.onCreate(savedInstanceState);
 
         doBeforeSetContentView();
-        setContentView(getLayout());
-        ButterKnife.bind(this);
+        initContentView();
+        initButterKnife();
         init();
         initDataObserver();
+    }
+
+    protected void initContentView() {
+        setContentView(getLayout());
+    }
+
+    protected void initButterKnife() {
+        ButterKnife.bind(this);
     }
 
     @Override

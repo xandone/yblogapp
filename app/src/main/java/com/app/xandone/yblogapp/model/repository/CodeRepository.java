@@ -1,10 +1,10 @@
 package com.app.xandone.yblogapp.model.repository;
 
 
-import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.yblogapp.api.ApiClient;
 import com.app.xandone.yblogapp.api.IFetchArticle;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
+import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
 import com.app.xandone.yblogapp.rx.BaseSubscriber;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.rx.RxHelper;
@@ -18,23 +18,30 @@ import androidx.lifecycle.MediatorLiveData;
  * created on: 2020/8/12 17:19
  * description:
  */
-public class ArticleRepository implements IFetchArticle {
+public class CodeRepository implements IFetchArticle {
 
     private MediatorLiveData<List<CodeArticleBean>> mArtsLiveData = new MediatorLiveData<>();
+
+    private MediatorLiveData<CodeDetailsBean> mCodeDetailsLiveData = new MediatorLiveData<>();
 
     @Override
     public MediatorLiveData<List<CodeArticleBean>> getCodeArticleLiveData() {
         return mArtsLiveData;
     }
 
-    public ArticleRepository() {
+    @Override
+    public MediatorLiveData<CodeDetailsBean> getCodeDetailsLiveData() {
+        return mCodeDetailsLiveData;
+    }
+
+    public CodeRepository() {
     }
 
     @Override
-    public void getArticleDatas(int page, int row, int type, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback) {
+    public void getCodeDatas(int page, int row, int type, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback) {
         ApiClient.getInstance()
                 .getApiService()
-                .getArticleDatas(page, row, type)
+                .getCodeDatas(page, row, type)
                 .compose(RxHelper.handleIO())
                 .compose(RxHelper.handleRespose())
                 .subscribe(new BaseSubscriber<List<CodeArticleBean>>() {
@@ -51,6 +58,27 @@ public class ArticleRepository implements IFetchArticle {
                             list.addAll(articleBeans);
                             mArtsLiveData.setValue(list);
                         }
+                    }
+
+                    @Override
+                    public void onFail(String message, int code) {
+                        super.onFail(message, code);
+                        callback.error(message, code);
+                    }
+                });
+    }
+
+    @Override
+    public void getCodeDetails(String id, IRequestCallback<CodeDetailsBean> callback) {
+        ApiClient.getInstance()
+                .getApiService()
+                .getCodeDetails(id)
+                .compose(RxHelper.handleIO())
+                .compose(RxHelper.handleRespose())
+                .subscribe(new BaseSubscriber<List<CodeDetailsBean>>() {
+                    @Override
+                    public void onSuccess(List<CodeDetailsBean> detailsBeans) {
+                        mCodeDetailsLiveData.setValue(detailsBeans.get(0));
                     }
 
                     @Override

@@ -1,19 +1,21 @@
 package com.app.xandone.yblogapp.ui.code;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 
-import com.app.xandone.baselib.log.LogHelper;
+import com.app.xandone.widgetlib.utils.SpacesItemDecoration;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseListFragment;
-import com.app.xandone.yblogapp.model.ArticleModel;
+import com.app.xandone.yblogapp.constant.IConstantKey;
+import com.app.xandone.yblogapp.model.CodeModel;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
+import com.app.xandone.yblogapp.ui.articledetails.ArticleDetailsActivity;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.NotNull;
@@ -21,8 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 /**
@@ -31,7 +32,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
  * description:
  */
 public class CodeListFragment extends BaseListFragment {
-    private ArticleModel articleModel;
+    private CodeModel codeModel;
 
     private BaseQuickAdapter<CodeArticleBean, BaseViewHolder> mAdapter;
     private List<CodeArticleBean> datas;
@@ -59,30 +60,42 @@ public class CodeListFragment extends BaseListFragment {
             @Override
             protected void convert(@NotNull BaseViewHolder baseViewHolder, CodeArticleBean codeArticleBean) {
                 baseViewHolder.setText(R.id.code_title_tv, codeArticleBean.getTitle());
+                baseViewHolder.setText(R.id.code_type_tv, codeArticleBean.getTypeName());
+                baseViewHolder.setText(R.id.code_content_tv, codeArticleBean.getContent());
+                baseViewHolder.setText(R.id.code_date_tv, codeArticleBean.getPostTime());
             }
         };
-        recycler.setAdapter(mAdapter);
         recycler.setLayoutManager(new LinearLayoutManager(mActivity));
+        recycler.addItemDecoration(new SpacesItemDecoration(App.sContext, 10, 10, 10));
+        recycler.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                startActivity(new Intent(mActivity, ArticleDetailsActivity.class)
+                        .putExtra(IConstantKey.ID, datas.get(position).getArtId()));
+            }
+        });
     }
 
     @Override
     protected void initDataObserver() {
-        articleModel = ModelProvider.getModel(mActivity, ArticleModel.class, App.sContext);
-        LogHelper.d(articleModel);
+        codeModel = ModelProvider.getModel(mActivity, CodeModel.class, App.sContext);
     }
 
     @Override
     protected void lazyLoadData() {
+        mPage = 1;
         requestData();
     }
 
     @Override
     protected void requestData() {
-        getArticleDatas(false);
+        getCodeDatas(false);
     }
 
-    private void getArticleDatas(boolean isLoadMore) {
-        articleModel.getArticleDatas(mPage, ROW, mType, isLoadMore, new IRequestCallback<List<CodeArticleBean>>() {
+    private void getCodeDatas(boolean isLoadMore) {
+        codeModel.getCodeDatas(mPage, ROW, mType, isLoadMore, new IRequestCallback<List<CodeArticleBean>>() {
             @Override
             public void success(List<CodeArticleBean> beans) {
                 datas = beans;
@@ -108,12 +121,12 @@ public class CodeListFragment extends BaseListFragment {
     @Override
     public void getData() {
         mPage = 1;
-        getArticleDatas(false);
+        getCodeDatas(false);
     }
 
     @Override
     public void getDataMore() {
         mPage++;
-        getArticleDatas(true);
+        getCodeDatas(true);
     }
 }

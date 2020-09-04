@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -73,7 +74,7 @@ public class CodeFragment extends BaseFrament {
             public IPagerTitleView getTitleView(Context context, final int index) {
                 ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
                 colorTransitionPagerTitleView.setNormalColor(Color.GRAY);
-                colorTransitionPagerTitleView.setSelectedColor(Color.BLACK);
+                colorTransitionPagerTitleView.setSelectedColor(ContextCompat.getColor(mActivity, R.color.colorPrimary));
                 colorTransitionPagerTitleView.setText(mTitleDataList.get(index));
                 colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -88,6 +89,7 @@ public class CodeFragment extends BaseFrament {
             public IPagerIndicator getIndicator(Context context) {
                 LinePagerIndicator indicator = new LinePagerIndicator(context);
                 indicator.setMode(LinePagerIndicator.MODE_WRAP_CONTENT);
+                indicator.setColors(ContextCompat.getColor(mActivity, R.color.colorPrimary));
                 return indicator;
             }
         });
