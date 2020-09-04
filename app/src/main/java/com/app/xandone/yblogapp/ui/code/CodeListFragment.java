@@ -2,8 +2,11 @@ package com.app.xandone.yblogapp.ui.code;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.app.xandone.baselib.imageload.ImageLoadHelper;
 import com.app.xandone.widgetlib.utils.SpacesItemDecoration;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
@@ -63,6 +66,13 @@ public class CodeListFragment extends BaseListFragment {
                 baseViewHolder.setText(R.id.code_type_tv, codeArticleBean.getTypeName());
                 baseViewHolder.setText(R.id.code_content_tv, codeArticleBean.getContent());
                 baseViewHolder.setText(R.id.code_date_tv, codeArticleBean.getPostTime());
+                ImageView codeCoverImg = baseViewHolder.getView(R.id.code_cover_img);
+                if (TextUtils.isEmpty(codeArticleBean.getCoverImg())) {
+                    codeCoverImg.setVisibility(View.GONE);
+                } else {
+                    codeCoverImg.setVisibility(View.VISIBLE);
+                    ImageLoadHelper.getInstance().display(App.sContext, codeArticleBean.getCoverImg(), codeCoverImg);
+                }
             }
         };
         recycler.setLayoutManager(new LinearLayoutManager(mActivity));

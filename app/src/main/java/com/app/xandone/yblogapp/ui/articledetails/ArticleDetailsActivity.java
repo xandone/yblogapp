@@ -6,6 +6,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.widgetlib.utils.SizeUtils;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
@@ -55,7 +56,9 @@ public class ArticleDetailsActivity extends BaseWallActivity {
         codeDetailsModel.getCodeDetails(mId, new IRequestCallback<CodeDetailsBean>() {
             @Override
             public void success(CodeDetailsBean codeDetailsBean) {
-                webView.loadDataWithBaseURL(null, codeDetailsBean.getContentHtml(), "text/html", "UTF-8", null);
+                String html = codeDetailsBean.getContentHtml().replace("<pre", "<pre style=\"overflow: auto;background-color: #F3F5F8;padding:10px;\"");
+                LogHelper.d(html);
+                webView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
                 onLoadFinish();
             }
 
@@ -69,18 +72,18 @@ public class ArticleDetailsActivity extends BaseWallActivity {
     @SuppressLint("SetJavaScriptEnabled")
     private void initWebView() {
         WebSettings ws = webView.getSettings();
-        // 网页内容的宽度是否可大于WebView控件的宽度
-        ws.setLoadWithOverviewMode(false);
-        // 是否应该支持使用其屏幕缩放控件和手势缩放
-        ws.setSupportZoom(true);
-        ws.setBuiltInZoomControls(true);
-        ws.setDisplayZoomControls(false);
-        // 设置此属性，可任意比例缩放。
-        ws.setUseWideViewPort(false);
-        //  页面加载好以后，再放开图片
-        ws.setBlockNetworkImage(false);
-        // 排版适应屏幕
-        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+//        // 网页内容的宽度是否可大于WebView控件的宽度
+//        ws.setLoadWithOverviewMode(false);
+//        // 是否应该支持使用其屏幕缩放控件和手势缩放
+//        ws.setSupportZoom(true);
+//        ws.setBuiltInZoomControls(true);
+//        ws.setDisplayZoomControls(false);
+//        // 设置此属性，可任意比例缩放。
+//        ws.setUseWideViewPort(false);
+//        //  页面加载好以后，再放开图片
+//        ws.setBlockNetworkImage(false);
+//        // 排版适应屏幕
+//        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         ws.setJavaScriptEnabled(true);
 
         // webview从5.0开始默认不允许混合模式,https中不能加载http资源,需要设置开启。
@@ -88,13 +91,16 @@ public class ArticleDetailsActivity extends BaseWallActivity {
             ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
+        //修改图片大小
+        int screenWidth = AppConfig.SCREEN_WIDTH;
+        String width = String.valueOf(SizeUtils.px2dp(App.sContext, screenWidth) - 20);
+//        int fonsSize = SizeUtils.sp2px(App.sContext, 14);
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                //修改图片大小
-                int screenWidth = AppConfig.SCREEN_WIDTH;
-                String width = String.valueOf(SizeUtils.px2dp(App.sContext, screenWidth) - 20);
+
 
                 String javascript = "javascript:function ResizeImages() {" +
                         "var myimg,oldwidth;" +
@@ -111,7 +117,8 @@ public class ArticleDetailsActivity extends BaseWallActivity {
                 view.loadUrl("javascript:ResizeImages();");
 
                 view.loadUrl("javascript:function modifyTextColor(){" +
-                        "document.getElementsByTagName('body')[0].style.webkitTextFillColor='#6A6868'" +
+                        "document.getElementsByTagName('body')[0].style.webkitTextFillColor='#333';" +
+                        "document.getElementsByTagName('body')[0].style.background='white';" +
                         "};modifyTextColor();");
 
             }
