@@ -1,10 +1,14 @@
 package com.app.xandone.yblogapp;
 
+import android.util.Log;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 
 import com.app.xandone.baselib.base.BaseActivity;
+import com.app.xandone.baselib.log.LogHelper;
+import com.app.xandone.baselib.utils.JsonUtils;
 import com.app.xandone.yblogapp.ui.code.CodeFragment;
 import com.app.xandone.yblogapp.ui.code.CodeListFragment;
 import com.app.xandone.yblogapp.ui.essay.Essayfragment;
@@ -35,8 +39,11 @@ public class MainActivity extends BaseActivity {
 
         fragments = new ArrayList<>();
         fragments.add(new CodeFragment());
+        fragments.add(Essayfragment.getInstance());
         fragments.add(new Essayfragment());
-        fragments.add(new Essayfragment());
+
+        List<String> list = JsonUtils.json2List(" [\"http://www.xandone.pub/FuGbIQJe3r-yAO0EjDBfA047NghH\",\"http://www.xandone.pub/FiPNEtA9s8aF2Nd8qM2DHGG1BpU6\",\"http://wwwxandone.pub/Fpxigj5CgGNVlh3JmIOmKSC0XFvO\"]");
+        LogHelper.d(list.get(0));
 
         mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override

@@ -1,6 +1,10 @@
 package com.app.xandone.baselib.utils;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * author: Admin
@@ -16,5 +20,15 @@ public class JsonUtils {
 
     public static String obj2Json(Object o) {
         return GSON.toJson(o);
+    }
+
+    public static <E> List<E> json2List(String json) {
+        try {
+            Type type = new TypeToken<List<E>>() {
+            }.getType();
+            return GSON.fromJson(json, type);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
