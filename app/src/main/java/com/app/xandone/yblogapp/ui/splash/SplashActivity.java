@@ -1,6 +1,7 @@
 package com.app.xandone.yblogapp.ui.splash;
 
 import com.app.xandone.baselib.base.BaseActivity;
+import com.app.xandone.baselib.base.BaseSimpleActivity;
 import com.app.xandone.yblogapp.MainActivity;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.rx.RxHelper;
@@ -16,7 +17,7 @@ import io.reactivex.functions.Consumer;
  * created on: 2020/9/1 14:05
  * description:
  */
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseSimpleActivity {
     private Disposable disposable;
 
     @Override

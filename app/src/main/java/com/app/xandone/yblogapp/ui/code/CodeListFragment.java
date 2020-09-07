@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.app.xandone.baselib.imageload.ImageLoadHelper;
+import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.widgetlib.utils.SpacesItemDecoration;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
@@ -41,6 +42,7 @@ public class CodeListFragment extends BaseListFragment {
     private List<CodeArticleBean> datas;
     private int mType;
     private int mPage = 1;
+    protected boolean mIsLoadedData;
 
     private static final int ROW = 10;
     public static final String TYPE = "type";
@@ -83,7 +85,9 @@ public class CodeListFragment extends BaseListFragment {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
                 startActivity(new Intent(mActivity, ArticleDetailsActivity.class)
-                        .putExtra(IConstantKey.ID, datas.get(position).getArtId()));
+                        .putExtra(IConstantKey.ID, datas.get(position).getArtId())
+                        .putExtra(IConstantKey.TYPE, ArticleDetailsActivity.TYPE_CODE)
+                );
             }
         });
     }
@@ -93,7 +97,6 @@ public class CodeListFragment extends BaseListFragment {
         codeModel = ModelProvider.getModel(mActivity, CodeModel.class, App.sContext);
     }
 
-    @Override
     protected void lazyLoadData() {
         mPage = 1;
         requestData();
@@ -138,5 +141,20 @@ public class CodeListFragment extends BaseListFragment {
     public void getDataMore() {
         mPage++;
         getCodeDatas(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!mIsLoadedData) {
+            lazyLoadData();
+            mIsLoadedData = true;
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mIsLoadedData = false;
     }
 }

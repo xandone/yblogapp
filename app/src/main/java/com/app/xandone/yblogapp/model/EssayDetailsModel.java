@@ -1,11 +1,10 @@
 package com.app.xandone.yblogapp.model;
 
 import com.app.xandone.yblogapp.api.IFetchArticle;
-import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
+import com.app.xandone.yblogapp.model.bean.EssayDetailsBean;
 import com.app.xandone.yblogapp.model.repository.CodeRepository;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.viewmodel.BaseViewModel;
-
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -15,17 +14,17 @@ import androidx.lifecycle.Observer;
  * created on: 2020/9/4 11:18
  * description:
  */
-public class CodeDetailsModel extends BaseViewModel implements IArtDetailsModel<CodeDetailsBean> {
+public class EssayDetailsModel extends BaseViewModel implements IArtDetailsModel<EssayDetailsBean> {
     private IFetchArticle articleRepo;
-    private IRequestCallback<CodeDetailsBean> callback;
+    private IRequestCallback<EssayDetailsBean> callback;
 
     @Override
     protected void onCreate(LifecycleOwner owner) {
         articleRepo = new CodeRepository();
 
-        articleRepo.getCodeDetailsLiveData().observe(owner, new Observer<CodeDetailsBean>() {
+        articleRepo.getEssayDetailsLiveData().observe(owner, new Observer<EssayDetailsBean>() {
                     @Override
-                    public void onChanged(CodeDetailsBean codeDetailsBean) {
+                    public void onChanged(EssayDetailsBean codeDetailsBean) {
                         if (callback != null) {
                             callback.success(codeDetailsBean);
                         }
@@ -35,8 +34,9 @@ public class CodeDetailsModel extends BaseViewModel implements IArtDetailsModel<
     }
 
     @Override
-    public void getDetails(String id, IRequestCallback<CodeDetailsBean> callback) {
+    public void getDetails(String id, IRequestCallback<EssayDetailsBean> callback) {
         this.callback = callback;
-        articleRepo.getCodeDetails(id, callback);
+        articleRepo.getEssayDetails(id, callback);
     }
+
 }

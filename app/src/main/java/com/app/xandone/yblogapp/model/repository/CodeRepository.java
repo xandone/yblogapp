@@ -6,6 +6,7 @@ import com.app.xandone.yblogapp.api.IFetchArticle;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
 import com.app.xandone.yblogapp.model.bean.EssayArticleBean;
+import com.app.xandone.yblogapp.model.bean.EssayDetailsBean;
 import com.app.xandone.yblogapp.rx.BaseSubscriber;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.rx.RxHelper;
@@ -25,7 +26,9 @@ public class CodeRepository implements IFetchArticle {
 
     private MediatorLiveData<CodeDetailsBean> mCodeDetailsLiveData = new MediatorLiveData<>();
 
-    private MediatorLiveData<List<EssayArticleBean>> mEssayDetailsLiveData = new MediatorLiveData<>();
+    private MediatorLiveData<List<EssayArticleBean>> mEssayLiveData = new MediatorLiveData<>();
+
+    private MediatorLiveData<EssayDetailsBean> mEssayDetailsLiveData = new MediatorLiveData<>();
 
     @Override
     public MediatorLiveData<List<CodeArticleBean>> getCodeArticleLiveData() {
@@ -39,6 +42,11 @@ public class CodeRepository implements IFetchArticle {
 
     @Override
     public MediatorLiveData<List<EssayArticleBean>> getEssayArticleLiveData() {
+        return mEssayLiveData;
+    }
+
+    @Override
+    public MediatorLiveData<EssayDetailsBean> getEssayDetailsLiveData() {
         return mEssayDetailsLiveData;
     }
 
@@ -108,17 +116,38 @@ public class CodeRepository implements IFetchArticle {
                 .subscribe(new BaseSubscriber<List<EssayArticleBean>>() {
                     @Override
                     public void onSuccess(List<EssayArticleBean> beans) {
-                        if (mEssayDetailsLiveData.getValue() == null) {
-                            mEssayDetailsLiveData.setValue(beans);
+                        if (mEssayLiveData.getValue() == null) {
+                            mEssayLiveData.setValue(beans);
                             return;
                         }
                         if (!isLoadMore) {
-                            mEssayDetailsLiveData.setValue(beans);
+                            mEssayLiveData.setValue(beans);
                         } else {
-                            List<EssayArticleBean> list = mEssayDetailsLiveData.getValue();
+                            List<EssayArticleBean> list = mEssayLiveData.getValue();
                             list.addAll(beans);
-                            mEssayDetailsLiveData.setValue(list);
+                            mEssayLiveData.setValue(list);
                         }
+                    }
+
+                    @Override
+                    public void onFail(String message, int code) {
+                        super.onFail(message, code);
+                        callback.error(message, code);
+                    }
+                });
+    }
+
+    @Override
+    public void getEssayDetails(String id, IRequestCallback<EssayDetailsBean> callback) {
+        ApiClient.getInstance()
+                .getApiService()
+                .getEssayDetails(id)
+                .compose(RxHelper.handleIO())
+                .compose(RxHelper.handleRespose())
+                .subscribe(new BaseSubscriber<List<EssayDetailsBean>>() {
+                    @Override
+                    public void onSuccess(List<EssayDetailsBean> detailsBeans) {
+                        mEssayDetailsLiveData.setValue(detailsBeans.get(0));
                     }
 
                     @Override

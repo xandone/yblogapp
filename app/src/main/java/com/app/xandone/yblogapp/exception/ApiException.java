@@ -37,6 +37,12 @@ public class ApiException extends Exception {
         this.message = throwable.getMessage();
     }
 
+    public ApiException(Throwable throwable) {
+        super(throwable);
+        this.code = Error.UNKNOWN;
+        this.message = throwable.getMessage();
+    }
+
     @Override
     public String getMessage() {
         return message;

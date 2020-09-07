@@ -14,7 +14,10 @@ import com.app.xandone.yblogapp.base.BaseWallActivity;
 import com.app.xandone.yblogapp.config.AppConfig;
 import com.app.xandone.yblogapp.constant.IConstantKey;
 import com.app.xandone.yblogapp.model.CodeDetailsModel;
+import com.app.xandone.yblogapp.model.EssayDetailsModel;
+import com.app.xandone.yblogapp.model.IArtDetailsModel;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
+import com.app.xandone.yblogapp.model.bean.EssayDetailsBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
 
@@ -28,9 +31,13 @@ import butterknife.BindView;
 public class ArticleDetailsActivity extends BaseWallActivity {
     @BindView(R.id.webView)
     WebView webView;
-    private CodeDetailsModel codeDetailsModel;
+    private IArtDetailsModel detailsModel;
 
     private String mId;
+    private int mType;
+
+    public static final int TYPE_CODE = 1;
+    public static final int TYPE_ESSAY = 2;
 
     @Override
     public int getLayout() {
@@ -41,32 +48,54 @@ public class ArticleDetailsActivity extends BaseWallActivity {
     public void init() {
         super.init();
         mId = getIntent().getStringExtra(IConstantKey.ID);
+        mType = getIntent().getIntExtra(IConstantKey.TYPE, TYPE_CODE);
         initWebView();
     }
 
     @Override
     protected void initDataObserver() {
-        codeDetailsModel = ModelProvider.getModel(this, CodeDetailsModel.class, App.sContext);
+        if (mType == TYPE_CODE) {
+            detailsModel = ModelProvider.getModel(this, CodeDetailsModel.class, App.sContext);
+        } else {
+            detailsModel = ModelProvider.getModel(this, EssayDetailsModel.class, App.sContext);
+        }
 
         requestData();
     }
 
     @Override
     protected void requestData() {
-        codeDetailsModel.getCodeDetails(mId, new IRequestCallback<CodeDetailsBean>() {
-            @Override
-            public void success(CodeDetailsBean codeDetailsBean) {
-                String html = codeDetailsBean.getContentHtml().replace("<pre", "<pre style=\"overflow: auto;background-color: #F3F5F8;padding:10px;\"");
-                LogHelper.d(html);
-                webView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
-                onLoadFinish();
-            }
+        if (mType == TYPE_CODE) {
+            detailsModel.getDetails(mId, new IRequestCallback<CodeDetailsBean>() {
+                @Override
+                public void success(CodeDetailsBean codeDetailsBean) {
+                    String html = codeDetailsBean.getContentHtml().replace("<pre", "<pre style=\"overflow: auto;background-color: #F3F5F8;padding:10px;\"");
+                    LogHelper.d(html);
+                    webView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
+                    onLoadFinish();
+                }
 
-            @Override
-            public void error(String message, int statusCode) {
-                onLoadStatus(statusCode);
-            }
-        });
+                @Override
+                public void error(String message, int statusCode) {
+                    onLoadStatus(statusCode);
+                }
+            });
+        } else {
+            detailsModel.getDetails(mId, new IRequestCallback<EssayDetailsBean>() {
+                @Override
+                public void success(EssayDetailsBean essayDetailsBean) {
+                    String html = essayDetailsBean.getContentHtml().replace("<pre", "<pre style=\"overflow: auto;background-color: #F3F5F8;padding:10px;\"");
+                    LogHelper.d(html);
+                    webView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
+                    onLoadFinish();
+                }
+
+                @Override
+                public void error(String message, int statusCode) {
+                    onLoadStatus(statusCode);
+                }
+            });
+        }
     }
 
     @SuppressLint("SetJavaScriptEnabled")

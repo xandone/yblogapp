@@ -1,7 +1,6 @@
 package com.app.xandone.yblogapp.ui.essay;
 
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -81,7 +80,6 @@ public class Essayfragment extends BaseListFragment {
                         }
                     };
                     imgRecycler.setAdapter(imgAdapter);
-                    imgRecycler.addItemDecoration(new SpacesItemDecoration(App.sContext, 6, 10));
                     imgRecycler.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
                 }
             }
@@ -94,22 +92,18 @@ public class Essayfragment extends BaseListFragment {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
                 startActivity(new Intent(mActivity, ArticleDetailsActivity.class)
-                        .putExtra(IConstantKey.ID, datas.get(position).getEssayId()));
+                        .putExtra(IConstantKey.ID, datas.get(position).getEssayId())
+                        .putExtra(IConstantKey.TYPE, ArticleDetailsActivity.TYPE_ESSAY)
+                );
             }
         });
-
-
     }
 
     @Override
     protected void initDataObserver() {
         essayModel = ModelProvider.getModel(mActivity, EssayModel.class, App.sContext);
-    }
 
-    @Override
-    protected void lazyLoadData() {
-        mPage = 1;
-        requestData();
+        getData();
     }
 
     @Override

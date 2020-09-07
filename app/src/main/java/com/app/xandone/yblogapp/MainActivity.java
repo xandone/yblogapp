@@ -1,16 +1,14 @@
 package com.app.xandone.yblogapp;
 
-import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 
-import com.app.xandone.baselib.base.BaseActivity;
+import com.app.xandone.baselib.base.BaseSimpleActivity;
 import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.baselib.utils.JsonUtils;
 import com.app.xandone.yblogapp.ui.code.CodeFragment;
-import com.app.xandone.yblogapp.ui.code.CodeListFragment;
 import com.app.xandone.yblogapp.ui.essay.Essayfragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseSimpleActivity {
     @BindView(R.id.bottom_bar)
     BottomBar mBottomBar;
 

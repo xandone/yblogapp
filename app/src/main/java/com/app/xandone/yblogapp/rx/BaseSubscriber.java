@@ -1,6 +1,7 @@
 package com.app.xandone.yblogapp.rx;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.app.xandone.baselib.base.IBaseView;
 import com.app.xandone.baselib.log.LogHelper;
@@ -72,7 +73,6 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
 
     @Override
     public void onComplete() {
-
     }
 
     public abstract void onSuccess(T t);

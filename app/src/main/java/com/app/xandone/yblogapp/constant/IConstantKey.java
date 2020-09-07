@@ -7,4 +7,6 @@ package com.app.xandone.yblogapp.constant;
  */
 public interface IConstantKey {
     String ID = "blog_id";
+
+    String TYPE = "blog_type";
 }

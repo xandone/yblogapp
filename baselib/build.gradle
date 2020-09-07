@@ -27,6 +27,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation rootProject.ext.depends.appcompat
+//    implementation 'com.google.android.material:material:1.2.1'
 
     implementation 'com.orhanobut:logger:2.2.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
