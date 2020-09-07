@@ -26,6 +26,9 @@ public class AppConfig {
     public static void getScreenSize(Context context) {
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
+        if (windowManager == null) {
+            return;
+        }
         Display display = windowManager.getDefaultDisplay();
         display.getMetrics(dm);
         SCREEN_WIDTH = dm.widthPixels;

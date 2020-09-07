@@ -28,7 +28,7 @@ public abstract class BaseWallFragment extends BaseFrament implements ILoadingWa
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.frag_base_wall, null);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.frag_base_wall, container, false);
         FrameLayout walFrame = rootView.findViewById(R.id.wall_frame);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT);

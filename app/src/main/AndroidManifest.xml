@@ -29,7 +29,9 @@
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.articledetails.ArticleDetailsActivity" />
+        <activity
+            android:name=".ui.articledetails.ArticleDetailsActivity"
+            android:label="文章详情" />
     </application>
 
 </manifest>

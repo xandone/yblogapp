@@ -94,6 +94,7 @@ public class Essayfragment extends BaseListFragment {
                 startActivity(new Intent(mActivity, ArticleDetailsActivity.class)
                         .putExtra(IConstantKey.ID, datas.get(position).getEssayId())
                         .putExtra(IConstantKey.TYPE, ArticleDetailsActivity.TYPE_ESSAY)
+                        .putExtra(IConstantKey.TITLE, datas.get(position).getTitle())
                 );
             }
         });

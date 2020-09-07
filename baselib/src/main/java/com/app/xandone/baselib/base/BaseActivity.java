@@ -28,4 +28,6 @@ public abstract class BaseActivity extends BaseSimpleActivity {
         content.addView(view);
         setContentView(rootView);
     }
+
+    protected abstract void initToolbar();
 }

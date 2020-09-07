@@ -28,6 +28,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * author: Admin
@@ -42,6 +43,7 @@ public class CodeFragment extends BaseFrament {
 
     private List<String> mTitleDataList;
     private List<Fragment> fragments;
+    private SheetTypeFragment mSheetTypeFragment;
 
     @Override
     public int getLayout() {
@@ -97,6 +99,16 @@ public class CodeFragment extends BaseFrament {
         ViewPagerHelper.bind(magicIndicator, mViewPager);
     }
 
+
+    public void showDialogFrag() {
+        mSheetTypeFragment = new SheetTypeFragment();
+        mSheetTypeFragment.show(getChildFragmentManager(), "demoBottom");
+    }
+
+    @OnClick({R.id.add_type_iv})
+    public void click(View view) {
+        showDialogFrag();
+    }
 
     class MyViewPagerAdapter extends FragmentStatePagerAdapter {
 

@@ -9,6 +9,9 @@ import com.app.xandone.baselib.base.BaseActivity;
 import com.app.xandone.widgetlib.view.LoadingLayout;
 import com.app.xandone.yblogapp.R;
 
+import java.util.Objects;
+
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 
 /**
@@ -20,11 +23,13 @@ public abstract class BaseWallActivity extends BaseActivity implements ILoadingW
         LoadingLayout.OnReloadListener {
     @BindView(R.id.loadLayout)
     protected LoadingLayout loadLayout;
+    @BindView(R.id.toolbar)
+    protected Toolbar toolbar;
 
     @Override
     protected void initContentView() {
         LayoutInflater inflater = LayoutInflater.from(this);
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.frag_base_wall, null);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.act_base_wall, null);
         FrameLayout walFrame = rootView.findViewById(R.id.wall_frame);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT);
@@ -38,6 +43,32 @@ public abstract class BaseWallActivity extends BaseActivity implements ILoadingW
     public void init() {
         loadLayout.setOnReloadListener(this);
         onLoading();
+
+        initToolbar();
+    }
+
+    @Override
+    protected void initToolbar() {
+        setToolBar(getTitle(), R.mipmap.back_ic);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    public void setToolBar(CharSequence title, int icon) {
+        setToolBar(title);
+        toolbar.setNavigationIcon(icon);
+    }
+
+    public void setToolBar(CharSequence title) {
+        toolbar.setTitle(title);
+        toolbar.setNavigationIcon(R.mipmap.back_ic);
     }
 
     /**

@@ -35,6 +35,7 @@ public class ArticleDetailsActivity extends BaseWallActivity {
 
     private String mId;
     private int mType;
+    private String mTitle;
 
     public static final int TYPE_CODE = 1;
     public static final int TYPE_ESSAY = 2;
@@ -49,6 +50,8 @@ public class ArticleDetailsActivity extends BaseWallActivity {
         super.init();
         mId = getIntent().getStringExtra(IConstantKey.ID);
         mType = getIntent().getIntExtra(IConstantKey.TYPE, TYPE_CODE);
+        mTitle = getIntent().getStringExtra(IConstantKey.TITLE);
+        setToolBar(mTitle);
         initWebView();
     }
 

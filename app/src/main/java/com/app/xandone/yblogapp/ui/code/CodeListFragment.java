@@ -87,6 +87,7 @@ public class CodeListFragment extends BaseListFragment {
                 startActivity(new Intent(mActivity, ArticleDetailsActivity.class)
                         .putExtra(IConstantKey.ID, datas.get(position).getArtId())
                         .putExtra(IConstantKey.TYPE, ArticleDetailsActivity.TYPE_CODE)
+                        .putExtra(IConstantKey.TITLE, datas.get(position).getTitle())
                 );
             }
         });

@@ -9,4 +9,6 @@ public interface IConstantKey {
     String ID = "blog_id";
 
     String TYPE = "blog_type";
+
+    String TITLE = "blog_title";
 }
