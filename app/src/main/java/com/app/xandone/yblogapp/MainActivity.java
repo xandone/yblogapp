@@ -10,6 +10,7 @@ import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.baselib.utils.JsonUtils;
 import com.app.xandone.yblogapp.ui.code.CodeFragment;
 import com.app.xandone.yblogapp.ui.essay.Essayfragment;
+import com.app.xandone.yblogapp.ui.manager.ManagerFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
@@ -38,10 +39,7 @@ public class MainActivity extends BaseSimpleActivity {
         fragments = new ArrayList<>();
         fragments.add(new CodeFragment());
         fragments.add(Essayfragment.getInstance());
-        fragments.add(new Essayfragment());
-
-        List<String> list = JsonUtils.json2List(" [\"http://www.xandone.pub/FuGbIQJe3r-yAO0EjDBfA047NghH\",\"http://www.xandone.pub/FiPNEtA9s8aF2Nd8qM2DHGG1BpU6\",\"http://wwwxandone.pub/Fpxigj5CgGNVlh3JmIOmKSC0XFvO\"]");
-        LogHelper.d(list.get(0));
+        fragments.add(new ManagerFragment());
 
         mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override

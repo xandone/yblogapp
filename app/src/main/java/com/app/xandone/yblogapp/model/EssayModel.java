@@ -1,6 +1,7 @@
 package com.app.xandone.yblogapp.model;
 
 import com.app.xandone.yblogapp.api.IFetchArticle;
+import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.model.bean.EssayArticleBean;
 import com.app.xandone.yblogapp.model.repository.CodeRepository;
@@ -20,6 +21,7 @@ import androidx.lifecycle.Observer;
 public class EssayModel extends BaseViewModel {
     private IFetchArticle articleRepo;
     private IRequestCallback<List<EssayArticleBean>> callback;
+    private IRequestCallback<List<BannerBean>> bannerCallback;
 
     @Override
     protected void onCreate(LifecycleOwner owner) {
@@ -33,10 +35,24 @@ public class EssayModel extends BaseViewModel {
                 }
             }
         });
+
+        articleRepo.getBannerLiveData().observe(owner, new Observer<List<BannerBean>>() {
+            @Override
+            public void onChanged(List<BannerBean> beans) {
+                if (bannerCallback != null) {
+                    bannerCallback.success(beans);
+                }
+            }
+        });
     }
 
     public void getEssayDatas(int page, int row, boolean isLoadMore, IRequestCallback<List<EssayArticleBean>> callback) {
         this.callback = callback;
         articleRepo.getEssayDatas(page, row, isLoadMore, callback);
+    }
+
+    public void getBannerDatas(IRequestCallback<List<BannerBean>> callback) {
+        this.bannerCallback = callback;
+        articleRepo.getBannerDatas(callback);
     }
 }

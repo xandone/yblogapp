@@ -1,6 +1,7 @@
 package com.app.xandone.yblogapp.api;
 
 import com.app.xandone.yblogapp.model.base.BaseResponse;
+import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
 import com.app.xandone.yblogapp.model.bean.EssayArticleBean;
@@ -34,5 +35,8 @@ public interface IApiService {
 
     @GET("yblog/essay/essayDetails")
     Flowable<BaseResponse<List<EssayDetailsBean>>> getEssayDetails(@Query("essayId") String essayId);
+
+    @GET("yblog/banner/list")
+    Flowable<BaseResponse<List<BannerBean>>> getBannerDatas();
 
 }

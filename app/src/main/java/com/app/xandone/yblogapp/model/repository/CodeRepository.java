@@ -3,6 +3,7 @@ package com.app.xandone.yblogapp.model.repository;
 
 import com.app.xandone.yblogapp.api.ApiClient;
 import com.app.xandone.yblogapp.api.IFetchArticle;
+import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
 import com.app.xandone.yblogapp.model.bean.EssayArticleBean;
@@ -30,6 +31,8 @@ public class CodeRepository implements IFetchArticle {
 
     private MediatorLiveData<EssayDetailsBean> mEssayDetailsLiveData = new MediatorLiveData<>();
 
+    private MediatorLiveData<List<BannerBean>> mBannerLiveData = new MediatorLiveData<>();
+
     @Override
     public MediatorLiveData<List<CodeArticleBean>> getCodeArticleLiveData() {
         return mArtsLiveData;
@@ -48,6 +51,12 @@ public class CodeRepository implements IFetchArticle {
     @Override
     public MediatorLiveData<EssayDetailsBean> getEssayDetailsLiveData() {
         return mEssayDetailsLiveData;
+    }
+
+
+    @Override
+    public MediatorLiveData<List<BannerBean>> getBannerLiveData() {
+        return mBannerLiveData;
     }
 
     public CodeRepository() {
@@ -148,6 +157,27 @@ public class CodeRepository implements IFetchArticle {
                     @Override
                     public void onSuccess(List<EssayDetailsBean> detailsBeans) {
                         mEssayDetailsLiveData.setValue(detailsBeans.get(0));
+                    }
+
+                    @Override
+                    public void onFail(String message, int code) {
+                        super.onFail(message, code);
+                        callback.error(message, code);
+                    }
+                });
+    }
+
+    @Override
+    public void getBannerDatas(IRequestCallback<List<BannerBean>> callback) {
+        ApiClient.getInstance()
+                .getApiService()
+                .getBannerDatas()
+                .compose(RxHelper.handleIO())
+                .compose(RxHelper.handleRespose())
+                .subscribe(new BaseSubscriber<List<BannerBean>>() {
+                    @Override
+                    public void onSuccess(List<BannerBean> beans) {
+                        mBannerLiveData.setValue(beans);
                     }
 
                     @Override

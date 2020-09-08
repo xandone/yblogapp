@@ -2,16 +2,19 @@ package com.app.xandone.yblogapp.ui.essay;
 
 import android.content.Intent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.app.xandone.baselib.imageload.ImageLoadHelper;
 import com.app.xandone.baselib.utils.JsonUtils;
+import com.app.xandone.widgetlib.utils.SizeUtils;
 import com.app.xandone.widgetlib.utils.SpacesItemDecoration;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseListFragment;
 import com.app.xandone.yblogapp.constant.IConstantKey;
 import com.app.xandone.yblogapp.model.EssayModel;
+import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.EssayArticleBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.ui.articledetails.ArticleDetailsActivity;
@@ -19,6 +22,10 @@ import com.app.xandone.yblogapp.viewmodel.ModelProvider;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.youth.banner.Banner;
+import com.youth.banner.adapter.BannerImageAdapter;
+import com.youth.banner.holder.BannerImageHolder;
+import com.youth.banner.indicator.CircleIndicator;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -40,6 +47,8 @@ public class Essayfragment extends BaseListFragment {
 
     private BaseQuickAdapter<EssayArticleBean, BaseViewHolder> mAdapter;
     private List<EssayArticleBean> datas;
+    private BannerImageAdapter<BannerBean> bannerAdapter;
+    private List<BannerBean> bannerList;
     private int mPage = 1;
 
     private static final int ROW = 10;
@@ -53,6 +62,7 @@ public class Essayfragment extends BaseListFragment {
     public void init(View view) {
         super.init(view);
         datas = new ArrayList<>();
+        bannerList = new ArrayList<>();
         mAdapter = new BaseQuickAdapter<EssayArticleBean, BaseViewHolder>(R.layout.item_essay_list, datas) {
             @Override
             protected void convert(@NotNull BaseViewHolder baseViewHolder, EssayArticleBean essayArticleBean) {
@@ -84,6 +94,7 @@ public class Essayfragment extends BaseListFragment {
                 }
             }
         };
+        initBanner();
         recycler.setLayoutManager(new LinearLayoutManager(mActivity));
         recycler.addItemDecoration(new SpacesItemDecoration(App.sContext, 10, 10, 10));
         recycler.setAdapter(mAdapter);
@@ -104,12 +115,46 @@ public class Essayfragment extends BaseListFragment {
     protected void initDataObserver() {
         essayModel = ModelProvider.getModel(mActivity, EssayModel.class, App.sContext);
 
-        getData();
+        requestData();
+    }
+
+    private void initBanner() {
+        Banner banner = new Banner(mActivity);
+        RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                SizeUtils.dp2px(App.sContext, 200));
+        banner.setLayoutParams(params);
+        bannerAdapter = new BannerImageAdapter<BannerBean>(bannerList) {
+
+            @Override
+            public void onBindView(BannerImageHolder holder, BannerBean data, int position, int size) {
+                ImageLoadHelper.getInstance().display(mActivity, bannerList.get(position).getImgUrl(), holder.imageView);
+            }
+        };
+        banner.setAdapter(bannerAdapter).addBannerLifecycleObserver(this).setIndicator(new CircleIndicator(mActivity));
+        mAdapter.addHeaderView(banner);
     }
 
     @Override
     protected void requestData() {
+        mPage = 1;
         getCodeDatas(false);
+        getBannerDatas();
+    }
+
+    private void getBannerDatas() {
+        essayModel.getBannerDatas(new IRequestCallback<List<BannerBean>>() {
+            @Override
+            public void success(List<BannerBean> bannerBeans) {
+                bannerList.clear();
+                bannerList.addAll(bannerBeans);
+                bannerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void error(String message, int statusCode) {
+
+            }
+        });
     }
 
     private void getCodeDatas(boolean isLoadMore) {
@@ -140,6 +185,7 @@ public class Essayfragment extends BaseListFragment {
     public void getData() {
         mPage = 1;
         getCodeDatas(false);
+        getBannerDatas();
     }
 
     @Override
