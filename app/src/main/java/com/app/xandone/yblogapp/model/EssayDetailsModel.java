@@ -36,7 +36,7 @@ public class EssayDetailsModel extends BaseViewModel implements IArtDetailsModel
     @Override
     public void getDetails(String id, IRequestCallback<EssayDetailsBean> callback) {
         this.callback = callback;
-        articleRepo.getEssayDetails(id, callback);
+        addSubscrible(articleRepo.getEssayDetails(id, callback));
     }
 
 }

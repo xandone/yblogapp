@@ -37,6 +37,6 @@ public class CodeDetailsModel extends BaseViewModel implements IArtDetailsModel<
     @Override
     public void getDetails(String id, IRequestCallback<CodeDetailsBean> callback) {
         this.callback = callback;
-        articleRepo.getCodeDetails(id, callback);
+        addSubscrible(articleRepo.getCodeDetails(id, callback));
     }
 }

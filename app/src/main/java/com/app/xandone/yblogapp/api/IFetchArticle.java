@@ -10,6 +10,7 @@ import com.app.xandone.yblogapp.rx.IRequestCallback;
 import java.util.List;
 
 import androidx.lifecycle.MediatorLiveData;
+import io.reactivex.disposables.Disposable;
 
 /**
  * author: Admin
@@ -17,23 +18,23 @@ import androidx.lifecycle.MediatorLiveData;
  * description:
  */
 public interface IFetchArticle {
-    void getCodeDatas(int page, int row, int type, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback);
+    Disposable getCodeDatas(int page, int row, int type, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback);
 
     MediatorLiveData<List<CodeArticleBean>> getCodeArticleLiveData();
 
-    void getCodeDetails(String id, IRequestCallback<CodeDetailsBean> callback);
+    Disposable getCodeDetails(String id, IRequestCallback<CodeDetailsBean> callback);
 
     MediatorLiveData<CodeDetailsBean> getCodeDetailsLiveData();
 
-    void getEssayDatas(int page, int row, boolean isLoadMore, IRequestCallback<List<EssayArticleBean>> callback);
+    Disposable getEssayDatas(int page, int row, boolean isLoadMore, IRequestCallback<List<EssayArticleBean>> callback);
 
     MediatorLiveData<List<EssayArticleBean>> getEssayArticleLiveData();
 
-    void getEssayDetails(String id, IRequestCallback<EssayDetailsBean> callback);
+    Disposable getEssayDetails(String id, IRequestCallback<EssayDetailsBean> callback);
 
     MediatorLiveData<EssayDetailsBean> getEssayDetailsLiveData();
 
-    void getBannerDatas(IRequestCallback<List<BannerBean>> callback);
+    Disposable getBannerDatas(IRequestCallback<List<BannerBean>> callback);
 
     MediatorLiveData<List<BannerBean>> getBannerLiveData();
 }

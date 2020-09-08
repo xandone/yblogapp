@@ -37,6 +37,6 @@ public class CodeModel extends BaseViewModel {
 
     public void getCodeDatas(int page, int row, int type, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback) {
         this.callback = callback;
-        articleRepo.getCodeDatas(page, row, type, isLoadMore, callback);
+        addSubscrible(articleRepo.getCodeDatas(page, row, type, isLoadMore, callback));
     }
 }

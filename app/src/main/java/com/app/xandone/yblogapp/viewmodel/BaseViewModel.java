@@ -1,19 +1,25 @@
 package com.app.xandone.yblogapp.viewmodel;
 
 
+
+import com.app.xandone.yblogapp.rx.IManagerDisposable;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModel;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * author: Admin
  * created on: 2020/8/12 11:39
  * description:
  */
-public abstract class BaseViewModel extends ViewModel implements LifecycleOwner {
+public abstract class BaseViewModel extends ViewModel implements LifecycleOwner, IManagerDisposable {
 
     private LifecycleOwner mLifecycleOwner;
+    private CompositeDisposable mCompositeDisposable;
 
     protected abstract void onCreate(LifecycleOwner owner);
 
@@ -22,6 +28,9 @@ public abstract class BaseViewModel extends ViewModel implements LifecycleOwner 
         if (mLifecycleOwner != null) {
             return current;
         }
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
 
         this.mLifecycleOwner = lifecycleOwner;
 
@@ -29,6 +38,25 @@ public abstract class BaseViewModel extends ViewModel implements LifecycleOwner 
 
         return current;
 
+    }
+
+    @Override
+    public void addSubscrible(Disposable disposable) {
+        if (disposable == null) {
+            return;
+        }
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void clearSubscrible() {
+        if (mCompositeDisposable == null) {
+            return;
+        }
+        mCompositeDisposable.clear();
     }
 
 
@@ -41,5 +69,6 @@ public abstract class BaseViewModel extends ViewModel implements LifecycleOwner 
     @Override
     protected void onCleared() {
         super.onCleared();
+        clearSubscrible();
     }
 }

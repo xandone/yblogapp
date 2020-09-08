@@ -15,6 +15,7 @@ import com.app.xandone.yblogapp.rx.RxHelper;
 import java.util.List;
 
 import androidx.lifecycle.MediatorLiveData;
+import io.reactivex.disposables.Disposable;
 
 /**
  * author: Admin
@@ -63,13 +64,13 @@ public class CodeRepository implements IFetchArticle {
     }
 
     @Override
-    public void getCodeDatas(int page, int row, int type, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback) {
-        ApiClient.getInstance()
+    public Disposable getCodeDatas(int page, int row, int type, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback) {
+        return ApiClient.getInstance()
                 .getApiService()
                 .getCodeDatas(page, row, type)
                 .compose(RxHelper.handleIO())
                 .compose(RxHelper.handleRespose())
-                .subscribe(new BaseSubscriber<List<CodeArticleBean>>() {
+                .subscribeWith(new BaseSubscriber<List<CodeArticleBean>>() {
                     @Override
                     public void onSuccess(List<CodeArticleBean> articleBeans) {
                         if (mArtsLiveData.getValue() == null) {
@@ -94,13 +95,11 @@ public class CodeRepository implements IFetchArticle {
     }
 
     @Override
-    public void getCodeDetails(String id, IRequestCallback<CodeDetailsBean> callback) {
-        ApiClient.getInstance()
+    public Disposable getCodeDetails(String id, IRequestCallback<CodeDetailsBean> callback) {
+        return ApiClient.getInstance()
                 .getApiService()
-                .getCodeDetails(id)
-                .compose(RxHelper.handleIO())
-                .compose(RxHelper.handleRespose())
-                .subscribe(new BaseSubscriber<List<CodeDetailsBean>>() {
+                .getCodeDetails(id).compose(RxHelper.handleIO())
+                .compose(RxHelper.handleRespose()).subscribeWith(new BaseSubscriber<List<CodeDetailsBean>>() {
                     @Override
                     public void onSuccess(List<CodeDetailsBean> detailsBeans) {
                         mCodeDetailsLiveData.setValue(detailsBeans.get(0));
@@ -116,13 +115,13 @@ public class CodeRepository implements IFetchArticle {
 
 
     @Override
-    public void getEssayDatas(int page, int row, boolean isLoadMore, IRequestCallback<List<EssayArticleBean>> callback) {
-        ApiClient.getInstance()
+    public Disposable getEssayDatas(int page, int row, boolean isLoadMore, IRequestCallback<List<EssayArticleBean>> callback) {
+        return ApiClient.getInstance()
                 .getApiService()
                 .getEssayDatas(page, row)
                 .compose(RxHelper.handleIO())
                 .compose(RxHelper.handleRespose())
-                .subscribe(new BaseSubscriber<List<EssayArticleBean>>() {
+                .subscribeWith(new BaseSubscriber<List<EssayArticleBean>>() {
                     @Override
                     public void onSuccess(List<EssayArticleBean> beans) {
                         if (mEssayLiveData.getValue() == null) {
@@ -147,13 +146,13 @@ public class CodeRepository implements IFetchArticle {
     }
 
     @Override
-    public void getEssayDetails(String id, IRequestCallback<EssayDetailsBean> callback) {
-        ApiClient.getInstance()
+    public Disposable getEssayDetails(String id, IRequestCallback<EssayDetailsBean> callback) {
+        return ApiClient.getInstance()
                 .getApiService()
                 .getEssayDetails(id)
                 .compose(RxHelper.handleIO())
                 .compose(RxHelper.handleRespose())
-                .subscribe(new BaseSubscriber<List<EssayDetailsBean>>() {
+                .subscribeWith(new BaseSubscriber<List<EssayDetailsBean>>() {
                     @Override
                     public void onSuccess(List<EssayDetailsBean> detailsBeans) {
                         mEssayDetailsLiveData.setValue(detailsBeans.get(0));
@@ -168,13 +167,13 @@ public class CodeRepository implements IFetchArticle {
     }
 
     @Override
-    public void getBannerDatas(IRequestCallback<List<BannerBean>> callback) {
-        ApiClient.getInstance()
+    public Disposable getBannerDatas(IRequestCallback<List<BannerBean>> callback) {
+        return ApiClient.getInstance()
                 .getApiService()
                 .getBannerDatas()
                 .compose(RxHelper.handleIO())
                 .compose(RxHelper.handleRespose())
-                .subscribe(new BaseSubscriber<List<BannerBean>>() {
+                .subscribeWith(new BaseSubscriber<List<BannerBean>>() {
                     @Override
                     public void onSuccess(List<BannerBean> beans) {
                         mBannerLiveData.setValue(beans);
