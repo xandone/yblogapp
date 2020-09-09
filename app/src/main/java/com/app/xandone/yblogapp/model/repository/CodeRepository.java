@@ -6,6 +6,7 @@ import com.app.xandone.yblogapp.api.IFetchArticle;
 import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
+import com.app.xandone.yblogapp.model.bean.CodeTypeBean;
 import com.app.xandone.yblogapp.model.bean.EssayArticleBean;
 import com.app.xandone.yblogapp.model.bean.EssayDetailsBean;
 import com.app.xandone.yblogapp.rx.BaseSubscriber;
@@ -34,6 +35,8 @@ public class CodeRepository implements IFetchArticle {
 
     private MediatorLiveData<List<BannerBean>> mBannerLiveData = new MediatorLiveData<>();
 
+    private MediatorLiveData<List<CodeTypeBean>> mCodeTypeLiveData = new MediatorLiveData<>();
+
     @Override
     public MediatorLiveData<List<CodeArticleBean>> getCodeArticleLiveData() {
         return mArtsLiveData;
@@ -58,6 +61,12 @@ public class CodeRepository implements IFetchArticle {
     @Override
     public MediatorLiveData<List<BannerBean>> getBannerLiveData() {
         return mBannerLiveData;
+    }
+
+
+    @Override
+    public MediatorLiveData<List<CodeTypeBean>> getCodeTypeLiveData() {
+        return mCodeTypeLiveData;
     }
 
     public CodeRepository() {
@@ -186,4 +195,26 @@ public class CodeRepository implements IFetchArticle {
                     }
                 });
     }
+
+    @Override
+    public Disposable getCodeTypeDatas(IRequestCallback<List<CodeTypeBean>> callback) {
+        return ApiClient.getInstance()
+                .getApiService()
+                .getCodeTypeDatas()
+                .compose(RxHelper.handleIO())
+                .compose(RxHelper.handleRespose())
+                .subscribeWith(new BaseSubscriber<List<CodeTypeBean>>() {
+                    @Override
+                    public void onSuccess(List<CodeTypeBean> beans) {
+                        mCodeTypeLiveData.setValue(beans);
+                    }
+
+                    @Override
+                    public void onFail(String message, int code) {
+                        super.onFail(message, code);
+                        callback.error(message, code);
+                    }
+                });
+    }
+
 }

@@ -3,6 +3,7 @@ package com.app.xandone.yblogapp.api;
 import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
+import com.app.xandone.yblogapp.model.bean.CodeTypeBean;
 import com.app.xandone.yblogapp.model.bean.EssayArticleBean;
 import com.app.xandone.yblogapp.model.bean.EssayDetailsBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
@@ -37,4 +38,8 @@ public interface IFetchArticle {
     Disposable getBannerDatas(IRequestCallback<List<BannerBean>> callback);
 
     MediatorLiveData<List<BannerBean>> getBannerLiveData();
+
+    Disposable getCodeTypeDatas(IRequestCallback<List<CodeTypeBean>> callback);
+
+    MediatorLiveData<List<CodeTypeBean>> getCodeTypeLiveData();
 }

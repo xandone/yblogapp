@@ -4,8 +4,13 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 
-import com.app.xandone.baselib.base.BaseFrament;
+import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
+import com.app.xandone.yblogapp.base.BaseWallFragment;
+import com.app.xandone.yblogapp.model.CodeTypeModel;
+import com.app.xandone.yblogapp.model.bean.CodeTypeBean;
+import com.app.xandone.yblogapp.rx.IRequestCallback;
+import com.app.xandone.yblogapp.viewmodel.ModelProvider;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -17,14 +22,12 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.Li
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
@@ -35,15 +38,16 @@ import butterknife.OnClick;
  * created on: 2020/9/3 09:56
  * description:
  */
-public class CodeFragment extends BaseFrament {
+public class CodeFragment extends BaseWallFragment {
     @BindView(R.id.magic_indicator)
     MagicIndicator magicIndicator;
     @BindView(R.id.viewPager)
     ViewPager mViewPager;
 
-    private List<String> mTitleDataList;
     private List<Fragment> fragments;
     private SheetTypeFragment mSheetTypeFragment;
+    private CodeTypeModel mCodeTypeModel;
+    private ArrayList<CodeTypeBean> codeTypeList;
 
     @Override
     public int getLayout() {
@@ -52,14 +56,43 @@ public class CodeFragment extends BaseFrament {
 
     @Override
     public void init(View view) {
-        mTitleDataList = Arrays.asList(getResources().getStringArray(R.array.code_type_list));
+        codeTypeList = new ArrayList<>();
+    }
+
+
+    @Override
+    protected void initDataObserver() {
+        mCodeTypeModel = ModelProvider.getModel(mActivity, CodeTypeModel.class, App.sContext);
+
+        requestData();
+    }
+
+    @Override
+    protected void requestData() {
+        mCodeTypeModel.getCodeTypeDatas(new IRequestCallback<List<CodeTypeBean>>() {
+            @Override
+            public void success(List<CodeTypeBean> codeTypeBeans) {
+                initType(codeTypeBeans);
+                onLoadFinish();
+            }
+
+            @Override
+            public void error(String message, int statusCode) {
+                onLoadStatus(statusCode);
+            }
+        });
+    }
+
+    public void initType(List<CodeTypeBean> codeTypeBeans) {
+        codeTypeList.addAll(codeTypeBeans);
         initTabLayout();
 
         fragments = new ArrayList<>();
-        for (int i = 0; i < mTitleDataList.size(); i++) {
+        for (int i = 0; i < codeTypeList.size(); i++) {
             fragments.add(CodeListFragment.getInstance(i - 1));
         }
-        MyViewPagerAdapter adapter = new MyViewPagerAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        MyViewPagerAdapter adapter = new MyViewPagerAdapter(getChildFragmentManager(),
+                FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mViewPager.setAdapter(adapter);
     }
 
@@ -69,7 +102,7 @@ public class CodeFragment extends BaseFrament {
 
             @Override
             public int getCount() {
-                return mTitleDataList == null ? 0 : mTitleDataList.size();
+                return codeTypeList == null ? 0 : codeTypeList.size();
             }
 
             @Override
@@ -77,7 +110,7 @@ public class CodeFragment extends BaseFrament {
                 ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
                 colorTransitionPagerTitleView.setNormalColor(Color.GRAY);
                 colorTransitionPagerTitleView.setSelectedColor(ContextCompat.getColor(mActivity, R.color.colorPrimary));
-                colorTransitionPagerTitleView.setText(mTitleDataList.get(index));
+                colorTransitionPagerTitleView.setText(codeTypeList.get(index).getTypeName());
                 colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -101,7 +134,7 @@ public class CodeFragment extends BaseFrament {
 
 
     public void showDialogFrag() {
-        mSheetTypeFragment = new SheetTypeFragment();
+        mSheetTypeFragment = SheetTypeFragment.getInstance(codeTypeList);
         mSheetTypeFragment.show(getChildFragmentManager(), "demoBottom");
     }
 
@@ -109,6 +142,7 @@ public class CodeFragment extends BaseFrament {
     public void click(View view) {
         showDialogFrag();
     }
+
 
     class MyViewPagerAdapter extends FragmentStatePagerAdapter {
 

@@ -24,7 +24,7 @@ public class BaseConfig {
 
         //初始化日志库
         LogHelper.init(LogHelper.ENGINE_LOGGER, isDebug);
-        //初始化图片引擎
+        //初始化图片加载引擎
         ImageLoadHelper.getInstance().initEngine(ImageLoadHelper.ENGINE_GLIDE);
         //初始化toast，主要是获取application
         ToastUtils.init(application);

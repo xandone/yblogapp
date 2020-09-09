@@ -26,6 +26,7 @@ import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
+import com.youth.banner.listener.OnBannerListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -132,6 +133,17 @@ public class Essayfragment extends BaseListFragment {
         };
         banner.setAdapter(bannerAdapter).addBannerLifecycleObserver(this).setIndicator(new CircleIndicator(mActivity));
         mAdapter.addHeaderView(banner);
+
+        bannerAdapter.setOnBannerListener(new OnBannerListener<BannerBean>() {
+            @Override
+            public void OnBannerClick(BannerBean bannerBean, int position) {
+                startActivity(new Intent(mActivity, ArticleDetailsActivity.class)
+                        .putExtra(IConstantKey.ID, bannerList.get(position).getArticelId())
+                        .putExtra(IConstantKey.TYPE, ArticleDetailsActivity.TYPE_ESSAY)
+                        .putExtra(IConstantKey.TITLE, bannerList.get(position).getTitle())
+                );
+            }
+        });
     }
 
     @Override

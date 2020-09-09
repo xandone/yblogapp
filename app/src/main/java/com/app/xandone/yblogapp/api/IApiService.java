@@ -4,6 +4,7 @@ import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
+import com.app.xandone.yblogapp.model.bean.CodeTypeBean;
 import com.app.xandone.yblogapp.model.bean.EssayArticleBean;
 import com.app.xandone.yblogapp.model.bean.EssayDetailsBean;
 
@@ -38,5 +39,8 @@ public interface IApiService {
 
     @GET("yblog/banner/list")
     Flowable<BaseResponse<List<BannerBean>>> getBannerDatas();
+
+    @GET("yblog/art/artTypeList")
+    Flowable<BaseResponse<List<CodeTypeBean>>> getCodeTypeDatas();
 
 }

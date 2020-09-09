@@ -11,4 +11,6 @@ public interface IConstantKey {
     String TYPE = "blog_type";
 
     String TITLE = "blog_title";
+
+    String DATA = "blog_data";
 }

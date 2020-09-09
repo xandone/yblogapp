@@ -5,14 +5,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.app.xandone.widgetlib.utils.SpacesItemDecoration;
+import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.config.AppConfig;
+import com.app.xandone.yblogapp.constant.IConstantKey;
+import com.app.xandone.yblogapp.model.bean.CodeTypeBean;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +29,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * author: Admin
@@ -32,9 +39,23 @@ import butterknife.ButterKnife;
 public class SheetTypeFragment extends BottomSheetDialogFragment {
     @BindView(R.id.type_recycler)
     RecyclerView recyclerView;
+    @BindView(R.id.edit_tv)
+    TextView editTv;
 
-    private BaseQuickAdapter<String, BaseViewHolder> mAdapter;
-    private List<String> types;
+    private BaseQuickAdapter<CodeTypeBean, BaseViewHolder> mAdapter;
+    private List<CodeTypeBean> types;
+    private ItemTouchHelper mItemHelper;
+
+    //是否为编辑状态
+    private boolean isEditState = false;
+
+    public static SheetTypeFragment getInstance(ArrayList<CodeTypeBean> codeTypeBeans) {
+        SheetTypeFragment fragment = new SheetTypeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(IConstantKey.DATA, codeTypeBeans);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -50,17 +71,25 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        types = Arrays.asList(getResources().getStringArray(R.array.code_type_list));
+        types = getArguments().getParcelableArrayList(IConstantKey.DATA);
         initItemTouchHelper();
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        mAdapter = new BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_code_type, types) {
+        recyclerView.addItemDecoration(new SpacesItemDecoration(App.sContext, 10, 10, 10));
+        mAdapter = new BaseQuickAdapter<CodeTypeBean, BaseViewHolder>(R.layout.item_code_type, types) {
             @Override
-            protected void convert(@NonNull BaseViewHolder baseViewHolder, String s) {
-                baseViewHolder.setText(R.id.type_tv, s);
+            protected void convert(@NonNull BaseViewHolder baseViewHolder, CodeTypeBean bean) {
+                baseViewHolder.setText(R.id.type_tv, bean.getTypeName());
+                ImageView typeDelIv = baseViewHolder.getView(R.id.type_del_iv);
+                typeDelIv.setVisibility(isEditState ? View.VISIBLE : View.GONE);
                 baseViewHolder.getView(R.id.type_tv).setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
                         mItemHelper.startDrag(baseViewHolder);
+                        if (!isEditState) {
+                            isEditState = true;
+                            editTv.setText("完成");
+                            mAdapter.notifyDataSetChanged();
+                        }
                         return false;
                     }
                 });
@@ -70,7 +99,20 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
         recyclerView.setAdapter(mAdapter);
     }
 
-    private ItemTouchHelper mItemHelper;
+
+    @OnClick({R.id.edit_tv})
+    public void click(View view) {
+        switch (view.getId()) {
+            case R.id.edit_tv:
+                isEditState = !isEditState;
+                editTv.setText(isEditState ? "完成" : "编辑");
+                mAdapter.notifyDataSetChanged();
+                break;
+            default:
+                break;
+        }
+    }
+
 
     private void initItemTouchHelper() {
         mItemHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
@@ -139,4 +181,5 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
 
         mItemHelper.attachToRecyclerView(recyclerView);
     }
+
 }
