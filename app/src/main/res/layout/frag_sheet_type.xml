@@ -35,4 +35,23 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/channel_tv" />
 
+    <TextView
+        android:id="@+id/channel_remove_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="移除的频道"
+        android:textColor="@color/normal_tv"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/type_recycler" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/type_remove_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/channel_remove_tv" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

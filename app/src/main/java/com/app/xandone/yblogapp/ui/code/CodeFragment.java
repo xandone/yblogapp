@@ -4,13 +4,18 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 
+import com.app.xandone.baselib.cache.SpHelper;
+import com.app.xandone.baselib.utils.JsonUtils;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallFragment;
+import com.app.xandone.yblogapp.constant.ISpKey;
 import com.app.xandone.yblogapp.model.CodeTypeModel;
 import com.app.xandone.yblogapp.model.bean.CodeTypeBean;
+import com.app.xandone.yblogapp.model.event.CodeTypeEvent;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
+import com.google.gson.reflect.TypeToken;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -20,6 +25,9 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerInd
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +56,10 @@ public class CodeFragment extends BaseWallFragment {
     private SheetTypeFragment mSheetTypeFragment;
     private CodeTypeModel mCodeTypeModel;
     private ArrayList<CodeTypeBean> codeTypeList;
+    private ArrayList<CodeTypeBean> apiTypeList;
+    private ArrayList<CodeTypeBean> removeTypes;
+    private CommonNavigatorAdapter mTabLayoutAdapter;
+    private MyViewPagerAdapter vpAdapter;
 
     @Override
     public int getLayout() {
@@ -56,7 +68,9 @@ public class CodeFragment extends BaseWallFragment {
 
     @Override
     public void init(View view) {
+        apiTypeList = new ArrayList<>();
         codeTypeList = new ArrayList<>();
+        removeTypes = new ArrayList<>();
     }
 
 
@@ -84,21 +98,23 @@ public class CodeFragment extends BaseWallFragment {
     }
 
     public void initType(List<CodeTypeBean> codeTypeBeans) {
-        codeTypeList.addAll(codeTypeBeans);
+        codeTypeList.add(new CodeTypeBean("全部", -1));
+        apiTypeList.addAll(codeTypeBeans);
+        dealCacheType();
         initTabLayout();
 
         fragments = new ArrayList<>();
         for (int i = 0; i < codeTypeList.size(); i++) {
-            fragments.add(CodeListFragment.getInstance(i - 1));
+            fragments.add(CodeListFragment.getInstance(codeTypeList.get(i).getType()));
         }
-        MyViewPagerAdapter adapter = new MyViewPagerAdapter(getChildFragmentManager(),
+        vpAdapter = new MyViewPagerAdapter(getChildFragmentManager(),
                 FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        mViewPager.setAdapter(adapter);
+        mViewPager.setAdapter(vpAdapter);
     }
 
     private void initTabLayout() {
         CommonNavigator commonNavigator = new CommonNavigator(mActivity);
-        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
+        mTabLayoutAdapter = new CommonNavigatorAdapter() {
 
             @Override
             public int getCount() {
@@ -127,20 +143,58 @@ public class CodeFragment extends BaseWallFragment {
                 indicator.setColors(ContextCompat.getColor(mActivity, R.color.colorPrimary));
                 return indicator;
             }
-        });
+        };
+        commonNavigator.setAdapter(mTabLayoutAdapter);
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator, mViewPager);
     }
 
 
     public void showDialogFrag() {
-        mSheetTypeFragment = SheetTypeFragment.getInstance(codeTypeList);
+        codeTypeList.remove(0);
+        mSheetTypeFragment = SheetTypeFragment.getInstance(codeTypeList, removeTypes);
         mSheetTypeFragment.show(getChildFragmentManager(), "demoBottom");
     }
 
     @OnClick({R.id.add_type_iv})
     public void click(View view) {
         showDialogFrag();
+    }
+
+    private void dealCacheType() {
+        if (apiTypeList == null) {
+            return;
+        }
+        String codeStr = SpHelper.getDefaultString(App.sContext, ISpKey.CODE_TYPE);
+        List<CodeTypeBean> cacheList = JsonUtils.json2List(codeStr,
+                new TypeToken<List<CodeTypeBean>>() {
+                }.getType());
+        if (cacheList == null || cacheList.size() == 0) {
+            codeTypeList.addAll(apiTypeList);
+            return;
+        }
+
+        for (CodeTypeBean bean : cacheList) {
+            for (CodeTypeBean bean2 : apiTypeList) {
+                if (bean.getType() == bean2.getType()) {
+                    codeTypeList.add(bean);
+                    break;
+                }
+            }
+        }
+        for (CodeTypeBean bean : apiTypeList) {
+            boolean hasId = false;
+            for (CodeTypeBean bean2 : codeTypeList) {
+                if (bean.getType() == bean2.getType()) {
+                    hasId = true;
+                    break;
+                }
+            }
+            if (!hasId) {
+                removeTypes.add(bean);
+            }
+        }
+        SpHelper.save2DefaultSp(App.sContext, ISpKey.CODE_TYPE, JsonUtils.obj2Json(codeTypeList));
     }
 
 
@@ -160,5 +214,22 @@ public class CodeFragment extends BaseWallFragment {
         public int getCount() {
             return fragments.size();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCodeTypeEvent(CodeTypeEvent event) {
+        if (event == null || event.getList() == null) {
+            return;
+        }
+        codeTypeList.clear();
+        codeTypeList.add(new CodeTypeBean("全部", -1));
+        codeTypeList.addAll(event.getList());
+        fragments.clear();
+        for (int i = 0; i < codeTypeList.size(); i++) {
+            fragments.add(CodeListFragment.getInstance(codeTypeList.get(i).getType()));
+        }
+        mTabLayoutAdapter.notifyDataSetChanged();
+        vpAdapter.notifyDataSetChanged();
+
     }
 }

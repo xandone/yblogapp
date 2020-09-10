@@ -3,6 +3,8 @@ package com.app.xandone.baselib.base;
 import android.content.Intent;
 import android.os.Bundle;
 
+import org.greenrobot.eventbus.EventBus;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.ButterKnife;
@@ -46,4 +48,5 @@ public abstract class BaseSimpleActivity extends AppCompatActivity implements IA
     protected void startActivity(Class activity) {
         startActivity(new Intent(this, activity));
     }
+
 }

@@ -22,6 +22,7 @@ import com.app.xandone.yblogapp.viewmodel.ModelProvider;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.google.gson.reflect.TypeToken;
 import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
@@ -72,7 +73,8 @@ public class Essayfragment extends BaseListFragment {
                 baseViewHolder.setText(R.id.essay_date_tv, essayArticleBean.getPostTime());
                 ImageView codeCoverImg = baseViewHolder.getView(R.id.essay_cover_img);
                 RecyclerView imgRecycler = baseViewHolder.getView(R.id.img_recycler);
-                List<String> coverData = JsonUtils.json2List(essayArticleBean.getCoverImg());
+                List<String> coverData = JsonUtils.json2List(essayArticleBean.getCoverImg(), new TypeToken<List<String>>() {
+                }.getType());
                 if (coverData == null || coverData.size() == 0) {
                     codeCoverImg.setVisibility(View.GONE);
                     imgRecycler.setVisibility(View.GONE);

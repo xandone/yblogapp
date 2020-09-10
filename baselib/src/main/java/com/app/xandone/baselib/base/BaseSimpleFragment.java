@@ -7,7 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.app.xandone.baselib.event.SimplEvent;
 import com.app.xandone.baselib.log.LogHelper;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +32,7 @@ public abstract class BaseSimpleFragment extends Fragment implements IFragInit {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         doBeforeSetContentView();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -63,4 +69,13 @@ public abstract class BaseSimpleFragment extends Fragment implements IFragInit {
 
     }
 
+    @Override
+    public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageReceived(SimplEvent event) {
+    }
 }

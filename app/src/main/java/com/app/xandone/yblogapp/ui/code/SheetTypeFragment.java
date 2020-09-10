@@ -5,18 +5,30 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
+import com.app.xandone.baselib.cache.SpHelper;
+import com.app.xandone.baselib.event.SimplEvent;
+import com.app.xandone.baselib.utils.JsonUtils;
 import com.app.xandone.widgetlib.utils.SpacesItemDecoration;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.config.AppConfig;
 import com.app.xandone.yblogapp.constant.IConstantKey;
+import com.app.xandone.yblogapp.constant.ISpKey;
 import com.app.xandone.yblogapp.model.bean.CodeTypeBean;
+import com.app.xandone.yblogapp.model.event.CodeTypeEvent;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,23 +50,35 @@ import butterknife.OnClick;
  */
 public class SheetTypeFragment extends BottomSheetDialogFragment {
     @BindView(R.id.type_recycler)
-    RecyclerView recyclerView;
+    RecyclerView recycler;
+    @BindView(R.id.type_remove_recycler)
+    RecyclerView typeRemovRecycler;
     @BindView(R.id.edit_tv)
     TextView editTv;
 
+
     private BaseQuickAdapter<CodeTypeBean, BaseViewHolder> mAdapter;
+    private BaseQuickAdapter<CodeTypeBean, BaseViewHolder> mRemoveAdapter;
     private List<CodeTypeBean> types;
+    private List<CodeTypeBean> removeTypes;
     private ItemTouchHelper mItemHelper;
 
     //是否为编辑状态
     private boolean isEditState = false;
 
-    public static SheetTypeFragment getInstance(ArrayList<CodeTypeBean> codeTypeBeans) {
+    public static SheetTypeFragment getInstance(ArrayList<CodeTypeBean> codeTypeBeans, ArrayList<CodeTypeBean> removeBeans) {
         SheetTypeFragment fragment = new SheetTypeFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(IConstantKey.DATA, codeTypeBeans);
+        bundle.putParcelableArrayList(IConstantKey.DATA2, removeBeans);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
     }
 
     @Nullable
@@ -71,16 +95,25 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        types = getArguments().getParcelableArrayList(IConstantKey.DATA);
+        if (getArguments() == null) {
+            return;
+        }
+        types = new ArrayList<>(getArguments().getParcelableArrayList(IConstantKey.DATA));
+        removeTypes = new ArrayList<>(getArguments().getParcelableArrayList(IConstantKey.DATA2));
         initItemTouchHelper();
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        recyclerView.addItemDecoration(new SpacesItemDecoration(App.sContext, 10, 10, 10));
+        recycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        recycler.addItemDecoration(new SpacesItemDecoration(App.sContext, 10, 10, 10));
         mAdapter = new BaseQuickAdapter<CodeTypeBean, BaseViewHolder>(R.layout.item_code_type, types) {
             @Override
             protected void convert(@NonNull BaseViewHolder baseViewHolder, CodeTypeBean bean) {
                 baseViewHolder.setText(R.id.type_tv, bean.getTypeName());
-                ImageView typeDelIv = baseViewHolder.getView(R.id.type_del_iv);
-                typeDelIv.setVisibility(isEditState ? View.VISIBLE : View.GONE);
+                baseViewHolder.setGone(R.id.type_del_iv, !isEditState);
+                if (isEditState) {
+                    loadShakeAnim(baseViewHolder.itemView);
+                } else {
+                    cancelShakeAnim(baseViewHolder.itemView);
+                }
+
                 baseViewHolder.getView(R.id.type_tv).setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
@@ -89,14 +122,64 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
                             isEditState = true;
                             editTv.setText("完成");
                             mAdapter.notifyDataSetChanged();
+                            mRemoveAdapter.notifyDataSetChanged();
                         }
-                        return false;
+                        return true;
                     }
                 });
             }
         };
 
-        recyclerView.setAdapter(mAdapter);
+        mAdapter.addChildClickViewIds(R.id.type_del_iv);
+        mAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                if (view.getId() == R.id.type_del_iv) {
+                    removeTypes.add(types.get(position));
+                    types.remove(position);
+                    mAdapter.notifyItemRemoved(position);
+                    mRemoveAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        recycler.setAdapter(mAdapter);
+
+        initRemoveRecycler();
+    }
+
+    private void initRemoveRecycler() {
+        typeRemovRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        typeRemovRecycler.addItemDecoration(new SpacesItemDecoration(App.sContext, 10, 10, 10));
+        mRemoveAdapter = new BaseQuickAdapter<CodeTypeBean, BaseViewHolder>(R.layout.item_remove_code_type, removeTypes) {
+            @Override
+            protected void convert(@NonNull BaseViewHolder baseViewHolder, CodeTypeBean bean) {
+                baseViewHolder.setText(R.id.type_tv, bean.getTypeName());
+                baseViewHolder.setGone(R.id.type_del_iv, !isEditState);
+            }
+        };
+
+        typeRemovRecycler.setAdapter(mRemoveAdapter);
+
+        mRemoveAdapter.addChildClickViewIds(R.id.type_del_iv);
+        mRemoveAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                if (view.getId() == R.id.type_del_iv) {
+                    types.add(removeTypes.get(position));
+                    removeTypes.remove(position);
+                    mRemoveAdapter.notifyItemRemoved(position);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    /**
+     * 缓存自定义的"我的频道"
+     */
+    private void save2Cache() {
+        SpHelper.save2DefaultSp(App.sContext, ISpKey.CODE_TYPE, JsonUtils.obj2Json(types));
     }
 
 
@@ -107,10 +190,27 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
                 isEditState = !isEditState;
                 editTv.setText(isEditState ? "完成" : "编辑");
                 mAdapter.notifyDataSetChanged();
+                mRemoveAdapter.notifyDataSetChanged();
+                if (!isEditState) {
+                    EventBus.getDefault().post(new CodeTypeEvent(types));
+                    save2Cache();
+                }
                 break;
             default:
                 break;
         }
+    }
+
+    private void loadShakeAnim(View view) {
+        Animation animation = AnimationUtils.loadAnimation(App.sContext, R.anim.shake_anim);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount(Animation.INFINITE);
+        animation.setRepeatMode(Animation.REVERSE);
+        view.startAnimation(animation);
+    }
+
+    private void cancelShakeAnim(View view) {
+        view.clearAnimation();
     }
 
 
@@ -179,7 +279,17 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
 
         });
 
-        mItemHelper.attachToRecyclerView(recyclerView);
+        mItemHelper.attachToRecyclerView(recycler);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageReceived(SimplEvent event) {
     }
 
 }

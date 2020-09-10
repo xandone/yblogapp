@@ -52,11 +52,11 @@ public class SpHelper {
      * @param key
      * @return
      */
-    public String getDefaultString(Context context, @NonNull final String key) {
+    public static String getDefaultString(Context context, @NonNull final String key) {
         return getDefaultString(context, key, "");
     }
 
-    public String getDefaultString(Context context, @NonNull final String key, @NonNull final String defaultValue) {
+    public static String getDefaultString(Context context, @NonNull final String key, @NonNull final String defaultValue) {
         return getDefaultSp(context).getString(key, defaultValue);
     }
 
@@ -68,11 +68,11 @@ public class SpHelper {
      * @param key
      * @return
      */
-    public String getStringByName(Context context, String spName, @NonNull final String key) {
+    public static String getStringByName(Context context, String spName, @NonNull final String key) {
         return getStringByName(context, spName, key, "");
     }
 
-    public String getStringByName(Context context, String spName, @NonNull final String key, @NonNull final String defaultValue) {
+    public static String getStringByName(Context context, String spName, @NonNull final String key, @NonNull final String defaultValue) {
         return getSpByName(context, spName).getString(key, defaultValue);
     }
 

@@ -36,4 +36,5 @@ dependencies {
 
     implementation 'com.jakewharton:butterknife:10.2.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.2'
+    api 'org.greenrobot:eventbus:3.2.0'
 }

@@ -1,6 +1,5 @@
 package com.app.xandone.yblogapp.ui.splash;
 
-import com.app.xandone.baselib.base.BaseActivity;
 import com.app.xandone.baselib.base.BaseSimpleActivity;
 import com.app.xandone.yblogapp.MainActivity;
 import com.app.xandone.yblogapp.R;

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,10 +23,8 @@ public class JsonUtils {
         return GSON.toJson(o);
     }
 
-    public static <E> List<E> json2List(String json) {
+    public static <E> List<E> json2List(String json, Type type) {
         try {
-            Type type = new TypeToken<List<E>>() {
-            }.getType();
             return GSON.fromJson(json, type);
         } catch (Exception e) {
             return null;

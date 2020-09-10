@@ -22,6 +22,11 @@ public class CodeTypeBean implements Parcelable, Serializable {
     private String typeName;
     private int type;
 
+    public CodeTypeBean(String typeName, int type) {
+        this.typeName = typeName;
+        this.type = type;
+    }
+
     protected CodeTypeBean(Parcel in) {
         count = in.readInt();
         typeName = in.readString();
@@ -63,7 +68,6 @@ public class CodeTypeBean implements Parcelable, Serializable {
     public void setType(int type) {
         this.type = type;
     }
-
 
     @Override
     public int describeContents() {
