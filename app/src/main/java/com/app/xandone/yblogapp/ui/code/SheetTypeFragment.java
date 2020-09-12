@@ -21,7 +21,9 @@ import com.app.xandone.yblogapp.constant.IConstantKey;
 import com.app.xandone.yblogapp.constant.ISpKey;
 import com.app.xandone.yblogapp.model.bean.CodeTypeBean;
 import com.app.xandone.yblogapp.model.event.CodeTypeEvent;
+import com.chad.library.adapter.base.BaseDelegateMultiAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.delegate.BaseMultiTypeDelegate;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -29,6 +31,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -103,32 +106,7 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
         initItemTouchHelper();
         recycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recycler.addItemDecoration(new SpacesItemDecoration(App.sContext, 10, 10, 10));
-        mAdapter = new BaseQuickAdapter<CodeTypeBean, BaseViewHolder>(R.layout.item_code_type, types) {
-            @Override
-            protected void convert(@NonNull BaseViewHolder baseViewHolder, CodeTypeBean bean) {
-                baseViewHolder.setText(R.id.type_tv, bean.getTypeName());
-                baseViewHolder.setGone(R.id.type_del_iv, !isEditState);
-                if (isEditState) {
-                    loadShakeAnim(baseViewHolder.itemView);
-                } else {
-                    cancelShakeAnim(baseViewHolder.itemView);
-                }
-
-                baseViewHolder.getView(R.id.type_tv).setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        mItemHelper.startDrag(baseViewHolder);
-                        if (!isEditState) {
-                            isEditState = true;
-                            editTv.setText("完成");
-                            mAdapter.notifyDataSetChanged();
-                            mRemoveAdapter.notifyDataSetChanged();
-                        }
-                        return true;
-                    }
-                });
-            }
-        };
+        mAdapter = new DelegateMultiAdapter(types);
 
         mAdapter.addChildClickViewIds(R.id.type_del_iv);
         mAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
@@ -292,4 +270,55 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
     public void onMessageReceived(SimplEvent event) {
     }
 
+
+    class DelegateMultiAdapter extends BaseDelegateMultiAdapter<CodeTypeBean, BaseViewHolder> {
+
+        DelegateMultiAdapter(List<CodeTypeBean> datas) {
+            super(datas);
+            setMultiTypeDelegate(new BaseMultiTypeDelegate<CodeTypeBean>() {
+                @Override
+                public int getItemType(@NotNull List<? extends CodeTypeBean> data, int position) {
+                    return position == 0 ? 0 : 1;
+                }
+            });
+            getMultiTypeDelegate()
+                    .addItemType(0, R.layout.item_code_enable_type)
+                    .addItemType(1, R.layout.item_code_type);
+        }
+
+        @Override
+        protected void convert(@NotNull BaseViewHolder helper, CodeTypeBean bean) {
+            switch (helper.getItemViewType()) {
+                case 0:
+                    helper.setText(R.id.type_tv, bean.getTypeName());
+                    break;
+                case 1:
+                    helper.setText(R.id.type_tv, bean.getTypeName());
+                    helper.setGone(R.id.type_del_iv, !isEditState);
+                    if (isEditState) {
+                        loadShakeAnim(helper.itemView);
+                    } else {
+                        cancelShakeAnim(helper.itemView);
+                    }
+
+                    helper.getView(R.id.type_tv).setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            mItemHelper.startDrag(helper);
+                            if (!isEditState) {
+                                isEditState = true;
+                                editTv.setText("完成");
+                                mAdapter.notifyDataSetChanged();
+                                mRemoveAdapter.notifyDataSetChanged();
+                            }
+                            return true;
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    }
 }

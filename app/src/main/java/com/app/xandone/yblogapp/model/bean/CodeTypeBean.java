@@ -4,6 +4,8 @@ package com.app.xandone.yblogapp.model.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.io.Serializable;
 
 /**
@@ -80,4 +82,5 @@ public class CodeTypeBean implements Parcelable, Serializable {
         dest.writeString(typeName);
         dest.writeInt(type);
     }
+
 }

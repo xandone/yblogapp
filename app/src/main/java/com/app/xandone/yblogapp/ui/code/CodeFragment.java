@@ -98,7 +98,6 @@ public class CodeFragment extends BaseWallFragment {
     }
 
     public void initType(List<CodeTypeBean> codeTypeBeans) {
-        codeTypeList.add(new CodeTypeBean("全部", -1));
         apiTypeList.addAll(codeTypeBeans);
         dealCacheType();
         initTabLayout();
@@ -151,7 +150,6 @@ public class CodeFragment extends BaseWallFragment {
 
 
     public void showDialogFrag() {
-        codeTypeList.remove(0);
         mSheetTypeFragment = SheetTypeFragment.getInstance(codeTypeList, removeTypes);
         mSheetTypeFragment.show(getChildFragmentManager(), "demoBottom");
     }
@@ -222,7 +220,6 @@ public class CodeFragment extends BaseWallFragment {
             return;
         }
         codeTypeList.clear();
-        codeTypeList.add(new CodeTypeBean("全部", -1));
         codeTypeList.addAll(event.getList());
         fragments.clear();
         for (int i = 0; i < codeTypeList.size(); i++) {

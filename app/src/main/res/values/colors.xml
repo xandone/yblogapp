@@ -9,4 +9,5 @@
     <color name="light_tv">#555</color>
     <color name="black_color">#000</color>
     <color name="white_color">#fff</color>
+    <color name="enable_click_bg_color">#aaa</color>
 </resources>
