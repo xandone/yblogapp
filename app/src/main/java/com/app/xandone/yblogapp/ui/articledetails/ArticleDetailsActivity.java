@@ -2,11 +2,15 @@ package com.app.xandone.yblogapp.ui.articledetails;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
+import android.os.Looper;
+import android.util.Log;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.app.xandone.baselib.log.LogHelper;
+import com.app.xandone.baselib.utils.ToastUtils;
 import com.app.xandone.widgetlib.utils.SizeUtils;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
@@ -20,8 +24,17 @@ import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
 import com.app.xandone.yblogapp.model.bean.EssayDetailsBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
+import com.hitomi.tilibrary.transfer.TransferConfig;
+import com.hitomi.tilibrary.transfer.Transferee;
+import com.vansz.universalimageloader.UniversalImageLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 
 /**
  * author: Admin
@@ -36,6 +49,8 @@ public class ArticleDetailsActivity extends BaseWallActivity {
     private String mId;
     private int mType;
     private String mTitle;
+    private Transferee transfer;
+    private List<String> urls;
 
     public static final int TYPE_CODE = 1;
     public static final int TYPE_ESSAY = 2;
@@ -52,6 +67,8 @@ public class ArticleDetailsActivity extends BaseWallActivity {
         mType = getIntent().getIntExtra(IConstantKey.TYPE, TYPE_CODE);
         mTitle = getIntent().getStringExtra(IConstantKey.TITLE);
         setToolBar(mTitle);
+        transfer = Transferee.getDefault(this);
+        urls = new ArrayList<>();
         initWebView();
     }
 
@@ -101,7 +118,7 @@ public class ArticleDetailsActivity extends BaseWallActivity {
         }
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
     private void initWebView() {
         WebSettings ws = webView.getSettings();
 //        // 网页内容的宽度是否可大于WebView控件的宽度
@@ -117,6 +134,7 @@ public class ArticleDetailsActivity extends BaseWallActivity {
 //        // 排版适应屏幕
 //        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         ws.setJavaScriptEnabled(true);
+        webView.addJavascriptInterface(this, "imgClick");
 
         // webview从5.0开始默认不允许混合模式,https中不能加载http资源,需要设置开启。
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -153,8 +171,38 @@ public class ArticleDetailsActivity extends BaseWallActivity {
                         "document.getElementsByTagName('body')[0].style.background='white';" +
                         "};modifyTextColor();");
 
+                view.loadUrl("javascript:function addImgClickEvent() {" +
+                        "        var objs = document.getElementsByTagName(\"img\");" +
+                        "        for (var i = 0; i < objs.length; i++) {" +
+                        "            objs[i].index = i;" +
+                        "            objs[i].onclick = function() {" +
+                        "              imgClick.showImg(this.src,this.index);" +
+                        "            }" +
+                        "        }" +
+                        "    }" +
+                        "    addImgClickEvent();");
+
             }
         });
+    }
+
+    @SuppressLint("CheckResult")
+    @JavascriptInterface
+    public void showImg(String url, int position) {
+        Observable.just(url)
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                urls.clear();
+                urls.add(s);
+                transfer.apply(TransferConfig.build()
+                        .setImageLoader(UniversalImageLoader.with(getApplicationContext()))
+                        .setSourceUrlList(urls)
+                        .create()
+                ).show();
+            }
+        });
+
     }
 
 }
