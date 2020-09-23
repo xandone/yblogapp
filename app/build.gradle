@@ -77,4 +77,6 @@ dependencies {
     implementation 'com.github.Hitomis:transferee:1.6.1'
     implementation 'com.github.Hitomis.transferee:GlideImageLoader:1.6.1'
 
+    implementation 'pub.devrel:easypermissions:3.0.0'
+
 }

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.app.xandone.baselib.cache.SpHelper;
+import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.baselib.utils.JsonUtils;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
@@ -172,6 +173,7 @@ public class CodeFragment extends BaseWallFragment {
             return;
         }
 
+        //找到缓存的类型和接口返回的类型相同的type部分
         for (CodeTypeBean bean : cacheList) {
             for (CodeTypeBean bean2 : apiTypeList) {
                 if (bean.getType() == bean2.getType()) {
@@ -180,6 +182,7 @@ public class CodeFragment extends BaseWallFragment {
                 }
             }
         }
+        //找到不存在当前tabLayout的type值，此为被移除的类型。
         for (CodeTypeBean bean : apiTypeList) {
             boolean hasId = false;
             for (CodeTypeBean bean2 : codeTypeList) {
@@ -221,6 +224,20 @@ public class CodeFragment extends BaseWallFragment {
         }
         codeTypeList.clear();
         codeTypeList.addAll(event.getList());
+        removeTypes.clear();
+        //找到不存在当前tabLayout的type值，此为被移除的类型。
+        for (CodeTypeBean bean : apiTypeList) {
+            boolean hasId = false;
+            for (CodeTypeBean bean2 : codeTypeList) {
+                if (bean.getType() == bean2.getType()) {
+                    hasId = true;
+                    break;
+                }
+            }
+            if (!hasId) {
+                removeTypes.add(bean);
+            }
+        }
         fragments.clear();
         for (int i = 0; i < codeTypeList.size(); i++) {
             fragments.add(CodeListFragment.getInstance(codeTypeList.get(i).getType()));
