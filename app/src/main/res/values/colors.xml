@@ -10,4 +10,6 @@
     <color name="black_color">#000</color>
     <color name="white_color">#fff</color>
     <color name="enable_click_bg_color">#aaa</color>
+    <color name="btn_color">#236ee1</color>
+    <color name="dividle_line_color">#e3e3e3</color>
 </resources>

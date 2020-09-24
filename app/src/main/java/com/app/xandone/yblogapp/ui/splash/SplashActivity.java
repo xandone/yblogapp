@@ -65,11 +65,6 @@ public class SplashActivity extends BaseSimpleActivity implements EasyPermission
                     IMyPermission.WRITE_AND_READ_PERMS)
                     .setRationale("需要以下权限")
                     .build());
-//            EasyPermissions.requestPermissions(
-//                    this,
-//                    "需要以下权限",
-//                    MyPermission.RC_WRITE_AND_READ_PERM_CODE,
-//                    MyPermission.WRITE_AND_READ_PERMS);
         }
     }
 

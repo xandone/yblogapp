@@ -2,7 +2,10 @@ package com.app.xandone.yblogapp;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
+import com.app.xandone.baselib.cache.CacheHelper;
+import com.app.xandone.baselib.cache.ImageCache;
 import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.yblogapp.config.AppConfig;
 import com.scwang.smart.refresh.footer.ClassicsFooter;

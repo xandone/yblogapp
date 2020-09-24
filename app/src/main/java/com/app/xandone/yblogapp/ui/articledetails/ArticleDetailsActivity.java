@@ -1,16 +1,24 @@
 package com.app.xandone.yblogapp.ui.articledetails;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.app.xandone.baselib.cache.ImageCache;
 import com.app.xandone.baselib.log.LogHelper;
+import com.app.xandone.baselib.utils.ImageUtils;
 import com.app.xandone.baselib.utils.ToastUtils;
+import com.app.xandone.widgetlib.dialog.bottom.BottomDialog;
 import com.app.xandone.widgetlib.utils.SizeUtils;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
@@ -26,12 +34,22 @@ import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
 import com.hitomi.tilibrary.transfer.TransferConfig;
 import com.hitomi.tilibrary.transfer.Transferee;
+import com.liulishuo.okdownload.DownloadListener;
+import com.liulishuo.okdownload.DownloadTask;
+import com.liulishuo.okdownload.core.breakpoint.BreakpointInfo;
+import com.liulishuo.okdownload.core.cause.EndCause;
+import com.liulishuo.okdownload.core.cause.ResumeFailedCause;
 import com.vansz.universalimageloader.UniversalImageLoader;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -52,6 +70,11 @@ public class ArticleDetailsActivity extends BaseWallActivity {
     private Transferee transfer;
     private List<String> urls;
 
+    private DownloadTask task;
+    private DownloadListener mDownloadListener;
+
+    private BottomDialog downloadDialog;
+
     public static final int TYPE_CODE = 1;
     public static final int TYPE_ESSAY = 2;
 
@@ -70,6 +93,7 @@ public class ArticleDetailsActivity extends BaseWallActivity {
         transfer = Transferee.getDefault(this);
         urls = new ArrayList<>();
         initWebView();
+        initDownloadListener();
     }
 
     @Override
@@ -90,7 +114,6 @@ public class ArticleDetailsActivity extends BaseWallActivity {
                 @Override
                 public void success(CodeDetailsBean codeDetailsBean) {
                     String html = codeDetailsBean.getContentHtml().replace("<pre", "<pre style=\"overflow: auto;background-color: #F3F5F8;padding:10px;\"");
-                    LogHelper.d(html);
                     webView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
                     onLoadFinish();
                 }
@@ -198,6 +221,12 @@ public class ArticleDetailsActivity extends BaseWallActivity {
                 transfer.apply(TransferConfig.build()
                         .setImageLoader(UniversalImageLoader.with(getApplicationContext()))
                         .setSourceUrlList(urls)
+                        .setOnLongClickListener(new Transferee.OnTransfereeLongClickListener() {
+                            @Override
+                            public void onLongClick(ImageView imageView, String imageUri, int pos) {
+                                showDownloadDialog(imageUri);
+                            }
+                        })
                         .create()
                 ).show();
             }
@@ -205,4 +234,106 @@ public class ArticleDetailsActivity extends BaseWallActivity {
 
     }
 
+
+    private void showDownloadDialog(String imageUri) {
+        downloadDialog = BottomDialog.create(getSupportFragmentManager())
+                .setViewListener(new BottomDialog.ViewListener() {
+                    @Override
+                    public void bindView(View v) {
+                        View.OnClickListener listener = new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                switch (v.getId()) {
+                                    case R.id.save_img_tv:
+                                        downloadImg(imageUri);
+                                        break;
+                                    default:
+                                }
+                                downloadDialog.dismiss();
+                            }
+                        };
+
+                        v.findViewById(R.id.save_img_tv).setOnClickListener(listener);
+                        v.findViewById(R.id.cache_img_tv).setOnClickListener(listener);
+                    }
+                })
+                .setLayoutRes(R.layout.dialog_download_img)
+                .setDimAmount(0.6f)
+                .setHeight(SizeUtils.dp2px(App.sContext, 200))
+                .setTag("BottomDialog");
+        downloadDialog.show();
+    }
+
+    private void downloadImg(String url) {
+        task = new DownloadTask.Builder(url, new File(ImageCache.getImageCache(App.sContext)))
+                .setFilename(System.currentTimeMillis() + ".jpg")
+                // the minimal interval millisecond for callback progress
+                .setMinIntervalMillisCallbackProcess(30)
+                // do re-download even if the task has already been completed in the past.
+                .setPassIfAlreadyCompleted(false)
+                .build();
+
+        task.enqueue(mDownloadListener);
+
+    }
+
+    private void initDownloadListener() {
+        mDownloadListener = new DownloadListener() {
+            @Override
+            public void taskStart(@NonNull DownloadTask task) {
+            }
+
+            @Override
+            public void connectTrialStart(@NonNull DownloadTask task, @NonNull Map<String, List<String>> requestHeaderFields) {
+            }
+
+            @Override
+            public void connectTrialEnd(@NonNull DownloadTask task, int responseCode, @NonNull Map<String, List<String>> responseHeaderFields) {
+            }
+
+            @Override
+            public void downloadFromBeginning(@NonNull DownloadTask task, @NonNull BreakpointInfo info, @NonNull ResumeFailedCause cause) {
+            }
+
+            @Override
+            public void downloadFromBreakpoint(@NonNull DownloadTask task, @NonNull BreakpointInfo info) {
+            }
+
+            @Override
+            public void connectStart(@NonNull DownloadTask task, int blockIndex, @NonNull Map<String, List<String>> requestHeaderFields) {
+            }
+
+            @Override
+            public void connectEnd(@NonNull DownloadTask task, int blockIndex, int responseCode, @NonNull Map<String, List<String>> responseHeaderFields) {
+            }
+
+            @Override
+            public void fetchStart(@NonNull DownloadTask task, int blockIndex, long contentLength) {
+            }
+
+            @Override
+            public void fetchProgress(@NonNull DownloadTask task, int blockIndex, long increaseBytes) {
+            }
+
+            @Override
+            public void fetchEnd(@NonNull DownloadTask task, int blockIndex, long contentLength) {
+            }
+
+            @Override
+            public void taskEnd(@NonNull DownloadTask task, @NonNull EndCause cause, @Nullable Exception realCause) {
+                ImageUtils.saveFile2SdCard(App.sContext, task.getFile(), "yblog");
+            }
+        };
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (transfer != null) {
+            transfer.destroy();
+        }
+        if (task != null) {
+            task.cancel();
+        }
+    }
 }

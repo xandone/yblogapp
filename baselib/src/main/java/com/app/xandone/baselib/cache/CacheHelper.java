@@ -20,6 +20,13 @@ public class CacheHelper {
     }
 
     /**
+     * 清除ExternalFilesDir文件夹
+     */
+    public static void clearExternalFilesDir(Context context) {
+        FileHelper.deleteDir(FileHelper.getExternalFilesDir(context));
+    }
+
+    /**
      * 清除所有缓存
      *
      * @param context

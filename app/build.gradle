@@ -79,4 +79,6 @@ dependencies {
 
     implementation 'pub.devrel:easypermissions:3.0.0'
 
+    implementation 'com.liulishuo.okdownload:okdownload:1.0.7'
+
 }
