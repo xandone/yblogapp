@@ -1,6 +1,7 @@
 package com.app.xandone.yblogapp.api;
 
 import com.app.xandone.yblogapp.model.base.BaseResponse;
+import com.app.xandone.yblogapp.model.bean.AdminBean;
 import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
@@ -11,7 +12,11 @@ import com.app.xandone.yblogapp.model.bean.EssayDetailsBean;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -21,26 +26,30 @@ import retrofit2.http.Query;
  */
 public interface IApiService {
 
-    @GET("yblog/art/artlist")
+    @GET("art/artlist")
     Flowable<BaseResponse<List<CodeArticleBean>>> getCodeDatas(@Query("page") int page,
                                                                @Query("row") int row,
                                                                @Query("type") int type);
 
-    @GET("yblog/art/artDetails")
+    @GET("art/artDetails")
     Flowable<BaseResponse<List<CodeDetailsBean>>> getCodeDetails(@Query("artId") String artId);
 
 
-    @GET("yblog/essay/essaylist")
+    @GET("essay/essaylist")
     Flowable<BaseResponse<List<EssayArticleBean>>> getEssayDatas(@Query("page") int page,
                                                                  @Query("row") int row);
 
-    @GET("yblog/essay/essayDetails")
+    @GET("essay/essayDetails")
     Flowable<BaseResponse<List<EssayDetailsBean>>> getEssayDetails(@Query("essayId") String essayId);
 
-    @GET("yblog/banner/list")
+    @GET("banner/list")
     Flowable<BaseResponse<List<BannerBean>>> getBannerDatas();
 
-    @GET("yblog/art/artTypeList")
+    @GET("art/artTypeList")
     Flowable<BaseResponse<List<CodeTypeBean>>> getCodeTypeDatas();
+
+    @FormUrlEncoded
+    @POST("admin/login")
+    Flowable<BaseResponse<List<AdminBean>>> login(@Field("name") String name, @Field("psw") String psw);
 
 }

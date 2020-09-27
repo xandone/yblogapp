@@ -128,7 +128,6 @@ public class ArticleDetailsActivity extends BaseWallActivity {
                 @Override
                 public void success(EssayDetailsBean essayDetailsBean) {
                     String html = essayDetailsBean.getContentHtml().replace("<pre", "<pre style=\"overflow: auto;background-color: #F3F5F8;padding:10px;\"");
-                    LogHelper.d(html);
                     webView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
                     onLoadFinish();
                 }
@@ -321,6 +320,7 @@ public class ArticleDetailsActivity extends BaseWallActivity {
 
             @Override
             public void taskEnd(@NonNull DownloadTask task, @NonNull EndCause cause, @Nullable Exception realCause) {
+                LogHelper.d("image download taskEnd fileName=" + task.getFilename());
                 ImageUtils.saveFile2SdCard(App.sContext, task.getFile(), "yblog");
             }
         };

@@ -41,7 +41,6 @@ public class ImageUtils {
         String mimeType = getMimeType(sourceFile);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             String fileName = sourceFile.getName();
-            Log.d("yandone", sourceFile.getName());
             ContentValues values = new ContentValues();
             values.put(MediaStore.Images.Media.DESCRIPTION, "This is an image");
             values.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
