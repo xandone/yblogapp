@@ -98,7 +98,17 @@ public class SpHelper {
     }
 
     /**
-     * 清除指定的sp下的某个key值
+     * 清除默认的sp下的某个key值
+     *
+     * @param context
+     */
+    public static void clearDefaultSp(Context context, String key) {
+        getDefaultSp(context).edit().remove(key).apply();
+    }
+
+
+    /**
+     * 清除指定的sp下的所有值
      *
      * @param context
      * @param names

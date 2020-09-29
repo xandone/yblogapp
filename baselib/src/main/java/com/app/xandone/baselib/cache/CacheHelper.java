@@ -9,6 +9,18 @@ import android.content.Context;
  */
 public class CacheHelper {
 
+
+    /**
+     * 清除默认的sp下的某个key值
+     *
+     * @param context
+     * @param key
+     */
+    public static void clearDefaultSp(Context context, String key) {
+        SpHelper.clearDefaultSp(context, key);
+    }
+
+
     /**
      * 清除所有sp缓存
      *
@@ -34,5 +46,10 @@ public class CacheHelper {
      */
     public static void clearAllCache(Context context, String... names) {
         clearSpCache(context, names);
+    }
+
+    public String getAllCacheSize() {
+
+        return null;
     }
 }

@@ -157,7 +157,7 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
      * 缓存自定义的"我的频道"
      */
     private void save2Cache() {
-        SpHelper.save2DefaultSp(App.sContext, ISpKey.CODE_TYPE, JsonUtils.obj2Json(types));
+        SpHelper.save2DefaultSp(App.sContext, ISpKey.CODE_TYPE_KEY, JsonUtils.obj2Json(types));
     }
 
 

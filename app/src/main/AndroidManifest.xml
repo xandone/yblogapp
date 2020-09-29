@@ -34,6 +34,9 @@
         <activity
             android:name=".ui.articledetails.ArticleDetailsActivity"
             android:label="文章详情" />
+        <activity
+            android:name=".ui.manager.setting.SettingActivity"
+            android:label="设置" />
     </application>
 
 </manifest>

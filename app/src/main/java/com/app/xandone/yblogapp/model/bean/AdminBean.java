@@ -1,12 +1,14 @@
 package com.app.xandone.yblogapp.model.bean;
 
 
+import java.io.Serializable;
+
 /**
  * author: Admin
  * created on: 2020/9/27 13:58
  * description:
  */
-public class AdminBean {
+public class AdminBean implements Serializable {
     /**
      * name : admin
      * password : 0ac8d0d345095205711dacf42de37436

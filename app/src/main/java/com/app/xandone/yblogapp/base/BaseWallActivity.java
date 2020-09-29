@@ -45,6 +45,8 @@ public abstract class BaseWallActivity extends BaseActivity implements ILoadingW
         onLoading();
 
         initToolbar();
+
+        wallInit();
     }
 
     @Override
@@ -79,6 +81,11 @@ public abstract class BaseWallActivity extends BaseActivity implements ILoadingW
         onLoading();
         requestData();
     }
+
+    /**
+     * 初始化，实现该方法
+     */
+    protected abstract void wallInit();
 
     /**
      * 加载数据，实现该方法

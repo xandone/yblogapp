@@ -13,7 +13,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBar" />
 
-
     <com.app.xandone.widgetlib.view.LoadingLayout
         android:id="@+id/loadLayout"
         android:layout_width="match_parent"

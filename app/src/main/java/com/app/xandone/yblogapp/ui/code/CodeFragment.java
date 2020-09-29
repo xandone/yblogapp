@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.app.xandone.baselib.cache.SpHelper;
-import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.baselib.utils.JsonUtils;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
@@ -164,7 +163,7 @@ public class CodeFragment extends BaseWallFragment {
         if (apiTypeList == null) {
             return;
         }
-        String codeStr = SpHelper.getDefaultString(App.sContext, ISpKey.CODE_TYPE);
+        String codeStr = SpHelper.getDefaultString(App.sContext, ISpKey.CODE_TYPE_KEY);
         List<CodeTypeBean> cacheList = JsonUtils.json2List(codeStr,
                 new TypeToken<List<CodeTypeBean>>() {
                 }.getType());
@@ -195,7 +194,7 @@ public class CodeFragment extends BaseWallFragment {
                 removeTypes.add(bean);
             }
         }
-        SpHelper.save2DefaultSp(App.sContext, ISpKey.CODE_TYPE, JsonUtils.obj2Json(codeTypeList));
+        SpHelper.save2DefaultSp(App.sContext, ISpKey.CODE_TYPE_KEY, JsonUtils.obj2Json(codeTypeList));
     }
 
 
