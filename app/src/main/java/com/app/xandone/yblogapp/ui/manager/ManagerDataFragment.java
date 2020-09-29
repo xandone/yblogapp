@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.view.View;
 
 import com.app.xandone.baselib.cache.CacheHelper;
+import com.app.xandone.widgetlib.dialog.MDialogOnclickListener;
+import com.app.xandone.widgetlib.dialog.MDialogUtils;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallFragment;
@@ -61,7 +63,13 @@ public class ManagerDataFragment extends BaseWallFragment {
     }
 
     private void exit() {
-        EventBus.getDefault().post(new SwitchEvent(SwitchEvent.MANAGER_LOGIN_RAG));
-        CacheHelper.clearDefaultSp(App.sContext, ISpKey.ADMIN_INFO_KEY);
+        MDialogUtils.showSimpleDialog(mActivity, "是否退出登录？", new MDialogOnclickListener() {
+            @Override
+            public void onConfirm() {
+                EventBus.getDefault().post(new SwitchEvent(SwitchEvent.MANAGER_LOGIN_RAG));
+                CacheHelper.clearDefaultSp(App.sContext, ISpKey.ADMIN_INFO_KEY);
+            }
+        });
+
     }
 }

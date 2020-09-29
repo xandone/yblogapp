@@ -2,6 +2,7 @@ package com.app.xandone.baselib.cache;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.app.xandone.baselib.config.BaseConfig;
 
@@ -127,6 +128,8 @@ public class SpHelper {
      */
     public static void clearAllSp(Context context, String... names) {
         clearDefaultSp(context);
-        clearSp(context, names);
+        if (names != null && names.length > 0) {
+            clearSp(context, names);
+        }
     }
 }

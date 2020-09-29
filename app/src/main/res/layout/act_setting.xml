@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -53,14 +54,26 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/clear_cache_ic"
             android:drawablePadding="5dp"
-            android:text="清除所有缓存"
+            android:text="清除缓存文件"
             android:textColor="@color/normal_tv"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/all_cache_size_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/thin_tv"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/clear_all_cache_iv"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="30Mb" />
+
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/clear_all_cache_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/go_arrow"

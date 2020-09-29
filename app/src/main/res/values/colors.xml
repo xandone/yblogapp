@@ -7,6 +7,7 @@
     <color name="app_bg_color">#F3F5F8</color>
     <color name="normal_tv">#333</color>
     <color name="light_tv">#555</color>
+    <color name="thin_tv">#999</color>
     <color name="black_color">#000</color>
     <color name="white_color">#fff</color>
     <color name="enable_click_bg_color">#aaa</color>

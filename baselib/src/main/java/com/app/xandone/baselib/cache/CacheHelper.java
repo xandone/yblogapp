@@ -1,6 +1,7 @@
 package com.app.xandone.baselib.cache;
 
 import android.content.Context;
+import android.os.Environment;
 
 /**
  * author: Admin
@@ -39,17 +40,25 @@ public class CacheHelper {
     }
 
     /**
-     * 清除所有缓存
+     * 清除所有缓存,包括sp缓存
      *
      * @param context
      * @param names
      */
     public static void clearAllCache(Context context, String... names) {
         clearSpCache(context, names);
+        clearExternalFilesDir(context);
     }
 
-    public String getAllCacheSize() {
-
-        return null;
+    /**
+     * 获取全部缓存文件大小
+     *
+     * @param context
+     * @return
+     * @throws Exception
+     */
+    public static String getTotalCacheSize(Context context) throws Exception {
+        long cacheSize = FileHelper.getFolderSize(FileHelper.getExternalFilesDirFile(context));
+        return FileHelper.getFormatSize(cacheSize);
     }
 }
