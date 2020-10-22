@@ -1,6 +1,5 @@
 package com.app.xandone.yblogapp.ui.splash;
 
-import android.util.Log;
 
 import com.app.xandone.baselib.base.BaseSimpleActivity;
 import com.app.xandone.yblogapp.MainActivity;
@@ -79,13 +78,11 @@ public class SplashActivity extends BaseSimpleActivity implements EasyPermission
 
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-        Log.d("gfgdfgdf","1111111");
         go2NextPage();
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-        Log.d("gfgdfgdf","22222");
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             new AppSettingsDialog.Builder(this).build().show();
         }

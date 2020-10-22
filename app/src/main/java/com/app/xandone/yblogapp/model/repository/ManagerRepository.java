@@ -5,6 +5,7 @@ import com.app.xandone.yblogapp.api.ApiClient;
 import com.app.xandone.yblogapp.api.IManager;
 import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.model.bean.AdminBean;
+import com.app.xandone.yblogapp.model.bean.ArtInfoBean;
 import com.app.xandone.yblogapp.rx.BaseSubscriber;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.rx.RxHelper;
@@ -22,6 +23,7 @@ import io.reactivex.disposables.Disposable;
  */
 public class ManagerRepository implements IManager {
     private MediatorLiveData<AdminBean> adminLiveData = new MediatorLiveData<>();
+    private MediatorLiveData<ArtInfoBean> artLiveBeans = new MediatorLiveData<>();
 
     @Override
     public Disposable login(String name, String psw, IRequestCallback<AdminBean> callback) {
@@ -51,5 +53,35 @@ public class ManagerRepository implements IManager {
     @Override
     public MediatorLiveData<AdminBean> getAdminLiveData() {
         return adminLiveData;
+    }
+
+    @Override
+    public Disposable getArtInfoData(String id, IRequestCallback<ArtInfoBean> callback) {
+        return ApiClient.getInstance()
+                .getApiService()
+                .getArtInfoDatas(id)
+                .compose(RxHelper.handleIO())
+                .compose(RxHelper.handleBaseResponse())
+                .subscribeWith(new BaseSubscriber<BaseResponse<ArtInfoBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<ArtInfoBean> response) {
+                        if (response.getData() != null) {
+                            artLiveBeans.setValue(response.getData());
+                        } else {
+                            callback.error(response.getMsg(), response.getCode());
+                        }
+                    }
+
+                    @Override
+                    public void onFail(String message, int code) {
+                        super.onFail(message, code);
+                        callback.error(message, code);
+                    }
+                });
+    }
+
+    @Override
+    public MediatorLiveData<ArtInfoBean> getArtInfoLiveData() {
+        return artLiveBeans;
     }
 }

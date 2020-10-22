@@ -37,6 +37,9 @@
         <activity
             android:name=".ui.manager.setting.SettingActivity"
             android:label="设置" />
+        <activity
+            android:name=".ui.manager.chart.ChartDataActivity"
+            android:label="统计" />
     </application>
 
 </manifest>

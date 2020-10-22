@@ -5,6 +5,7 @@ import com.app.xandone.baselib.cache.FileHelper;
 import com.app.xandone.baselib.utils.NetworkUtils;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.BuildConfig;
+import com.app.xandone.yblogapp.cache.UserInfoHelper;
 import com.app.xandone.yblogapp.config.ApiHost;
 
 import java.io.File;
@@ -48,6 +49,7 @@ public class ApiClient {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
+                request = request.newBuilder().header("token", UserInfoHelper.getAdminToken()).build();
                 if (!NetworkUtils.isConnected(App.sContext) && isCache) {
                     request = request.newBuilder()
                             .cacheControl(CacheControl.FORCE_CACHE)

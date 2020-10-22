@@ -1,9 +1,7 @@
 package com.app.xandone.yblogapp.rx;
 
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.app.xandone.baselib.base.IBaseView;
 import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.baselib.utils.NetworkUtils;
 import com.app.xandone.baselib.utils.ToastUtils;

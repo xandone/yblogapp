@@ -28,12 +28,12 @@ public class AdminBean implements Serializable {
     private String nickname;
     private String adminId;
     private String adminIcon;
-    private String token;
     private String permission;
     private int totalArts;
     private String email;
     private String registTime;
     private String lastLoginTime;
+    private String token;
 
     public String getName() {
         return name;

@@ -2,6 +2,7 @@ package com.app.xandone.yblogapp.api;
 
 import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.model.bean.AdminBean;
+import com.app.xandone.yblogapp.model.bean.ArtInfoBean;
 import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
@@ -15,7 +16,6 @@ import io.reactivex.Flowable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -51,5 +51,8 @@ public interface IApiService {
     @FormUrlEncoded
     @POST("admin/login")
     Flowable<BaseResponse<List<AdminBean>>> login(@Field("name") String name, @Field("psw") String psw);
+
+    @GET("admin/artInfo")
+    Flowable<BaseResponse<ArtInfoBean>> getArtInfoDatas(@Query("adminId") String id);
 
 }

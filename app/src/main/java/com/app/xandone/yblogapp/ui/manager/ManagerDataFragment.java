@@ -11,6 +11,7 @@ import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallFragment;
 import com.app.xandone.yblogapp.constant.ISpKey;
 import com.app.xandone.yblogapp.model.event.SwitchEvent;
+import com.app.xandone.yblogapp.ui.manager.chart.ChartDataActivity;
 import com.app.xandone.yblogapp.ui.manager.setting.SettingActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,9 +49,12 @@ public class ManagerDataFragment extends BaseWallFragment {
         toolbar.setTitle(title);
     }
 
-    @OnClick({R.id.setting_cl, R.id.exit_btn})
+    @OnClick({R.id.setting_cl, R.id.exit_btn, R.id.chart_tip_cl})
     public void click(View view) {
         switch (view.getId()) {
+            case R.id.chart_tip_cl:
+                startActivity(new Intent(mActivity, ChartDataActivity.class));
+                break;
             case R.id.setting_cl:
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;

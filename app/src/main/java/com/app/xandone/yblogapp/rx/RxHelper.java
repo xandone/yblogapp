@@ -61,6 +61,7 @@ public class RxHelper {
      */
     public static <T> FlowableTransformer<BaseResponse<T>, BaseResponse<T>> handleBaseResponse() {
         return upstream -> upstream.flatMap((Function<BaseResponse<T>, Flowable<BaseResponse<T>>>) baseResponse -> {
+            LogHelper.d(JsonUtils.obj2Json(baseResponse));
             if (baseResponse.getCode() == IResponseCode.SUCCESS) {
                 return createData(baseResponse);
             } else {
