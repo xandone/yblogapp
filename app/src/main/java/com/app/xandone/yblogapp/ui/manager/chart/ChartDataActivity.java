@@ -3,13 +3,17 @@ package com.app.xandone.yblogapp.ui.manager.chart;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
+import com.app.xandone.baselib.cache.CacheHelper;
 import com.app.xandone.baselib.utils.SimpleUtils;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallActivity;
 import com.app.xandone.yblogapp.cache.UserInfoHelper;
+import com.app.xandone.yblogapp.constant.IResponseCode;
+import com.app.xandone.yblogapp.constant.ISpKey;
 import com.app.xandone.yblogapp.model.ManagerChartModel;
 import com.app.xandone.yblogapp.model.bean.ArtInfoBean;
+import com.app.xandone.yblogapp.model.event.SwitchEvent;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.utils.LineValueFormatter;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
@@ -26,9 +30,12 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.Utils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 
@@ -78,10 +85,10 @@ public class ChartDataActivity extends BaseWallActivity implements OnChartValueS
                     list3.add(Integer.parseInt(yearArtDataBean.getYear()));
                 }
 
-                addSetData(list1, list3, "lable_1",
-                        ContextCompat.getColor(App.sContext, R.color.chart_fill_color1), true);
-                addSetData(list2, list3, "lable_2",
-                        ContextCompat.getColor(App.sContext, R.color.chart_fill_color3), false);
+                addSetData(list1, list3, "lable_1", ContextCompat.getColor(App.sContext, R.color.chart_fill_color1),
+                        true, R.drawable.fade_fill_blue);
+                addSetData(list2, list3, "lable_2", ContextCompat.getColor(App.sContext, R.color.chart_fill_color3),
+                        true, R.drawable.fade_fill_yellow);
                 chart1.invalidate();
                 onLoadFinish();
             }
@@ -89,6 +96,12 @@ public class ChartDataActivity extends BaseWallActivity implements OnChartValueS
             @Override
             public void error(String message, int statusCode) {
                 onLoadStatus(statusCode);
+                //token失效时，退出到登录界面
+                if (statusCode == IResponseCode.TOKEN_FAIL) {
+                    EventBus.getDefault().post(new SwitchEvent(SwitchEvent.MANAGER_LOGIN_RAG));
+                    CacheHelper.clearDefaultSp(App.sContext, ISpKey.ADMIN_INFO_KEY);
+                    finish();
+                }
             }
         });
     }
@@ -139,7 +152,8 @@ public class ChartDataActivity extends BaseWallActivity implements OnChartValueS
      * @param color
      * @param isMainValue
      */
-    private void addSetData(List<Integer> dList, List<Integer> yearList, String lable, int color, boolean isMainValue) {
+    private void addSetData(List<Integer> dList, List<Integer> yearList, String lable,
+                            int color, boolean isMainValue, @DrawableRes int fillDrawable) {
         if (SimpleUtils.isEmpty(dList)) {
             return;
         }
@@ -163,7 +177,7 @@ public class ChartDataActivity extends BaseWallActivity implements OnChartValueS
 
         if (Utils.getSDKInt() >= 18) {
             // drawables only supported on api level 18 and above
-            Drawable drawable = ContextCompat.getDrawable(App.sContext, R.drawable.fade_fill_blue);
+            Drawable drawable = ContextCompat.getDrawable(App.sContext, fillDrawable);
             set1.setFillDrawable(drawable);
         } else {
             set1.setFillColor(ContextCompat.getColor(App.sContext, R.color.chart_fill_color1));

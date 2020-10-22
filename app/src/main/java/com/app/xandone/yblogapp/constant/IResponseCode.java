@@ -6,5 +6,8 @@ package com.app.xandone.yblogapp.constant;
  * description:
  */
 public interface IResponseCode {
+    //成功
     int SUCCESS = 200;
+    //token失效
+    int TOKEN_FAIL = 203;
 }
