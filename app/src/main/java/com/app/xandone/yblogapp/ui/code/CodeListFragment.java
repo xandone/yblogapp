@@ -128,6 +128,9 @@ public class CodeListFragment extends BaseListFragment {
             @Override
             public void error(String message, int statusCode) {
                 onLoadStatus(statusCode);
+                if (isLoadMore) {
+                    mPage--;
+                }
             }
         });
     }

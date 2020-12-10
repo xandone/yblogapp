@@ -2,7 +2,6 @@ package com.app.xandone.yblogapp.rx;
 
 
 import com.app.xandone.baselib.log.LogHelper;
-import com.app.xandone.baselib.utils.JsonUtils;
 import com.app.xandone.yblogapp.constant.IResponseCode;
 import com.app.xandone.yblogapp.exception.ApiException;
 import com.app.xandone.yblogapp.model.base.BaseResponse;
@@ -12,9 +11,6 @@ import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.FlowableTransformer;
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -61,7 +57,7 @@ public class RxHelper {
      */
     public static <T> FlowableTransformer<BaseResponse<T>, BaseResponse<T>> handleBaseResponse() {
         return upstream -> upstream.flatMap((Function<BaseResponse<T>, Flowable<BaseResponse<T>>>) baseResponse -> {
-            LogHelper.d(JsonUtils.obj2Json(baseResponse));
+//            LogHelper.d(JsonUtils.obj2Json(baseResponse));
             if (baseResponse.getCode() == IResponseCode.SUCCESS) {
                 return createData(baseResponse);
             } else {

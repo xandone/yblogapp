@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.app.xandone.baselib.imageload.ImageLoadHelper;
 import com.app.xandone.baselib.utils.JsonUtils;
+import com.app.xandone.baselib.utils.SimpleUtils;
 import com.app.xandone.widgetlib.utils.SizeUtils;
 import com.app.xandone.widgetlib.utils.SpacesItemDecoration;
 import com.app.xandone.yblogapp.App;
@@ -14,6 +15,7 @@ import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseListFragment;
 import com.app.xandone.yblogapp.constant.IConstantKey;
 import com.app.xandone.yblogapp.model.EssayModel;
+import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.EssayArticleBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
@@ -51,7 +53,6 @@ public class Essayfragment extends BaseListFragment {
     private List<EssayArticleBean> datas;
     private BannerImageAdapter<BannerBean> bannerAdapter;
     private List<BannerBean> bannerList;
-    private int mPage = 1;
 
     private static final int ROW = 10;
 
@@ -150,8 +151,7 @@ public class Essayfragment extends BaseListFragment {
 
     @Override
     protected void requestData() {
-        mPage = 1;
-        getCodeDatas(false);
+        getCodeDatas(1, false);
         getBannerDatas();
     }
 
@@ -171,20 +171,31 @@ public class Essayfragment extends BaseListFragment {
         });
     }
 
-    private void getCodeDatas(boolean isLoadMore) {
-        essayModel.getEssayDatas(mPage, ROW, isLoadMore, new IRequestCallback<List<EssayArticleBean>>() {
+    private void getCodeDatas(int page, boolean isLoadMore) {
+        essayModel.getEssayDatas(page, ROW, isLoadMore, new IRequestCallback<BaseResponse<List<EssayArticleBean>>>() {
             @Override
-            public void success(List<EssayArticleBean> beans) {
-                datas = beans;
-                mAdapter.setList(datas);
+            public void success(BaseResponse<List<EssayArticleBean>> response) {
                 onLoadFinish();
                 if (!isLoadMore) {
                     finishRefresh();
-                    if (beans.size() <= 0) {
-                        onLoadEmpty();
+                    if (response == null) {
+                        onLoadNetError();
+                        return;
                     }
+                    if (SimpleUtils.isEmpty(response.getData())) {
+                        onLoadEmpty();
+                        return;
+                    }
+                    datas = response.getData();
+                    mAdapter.setList(datas);
                 } else {
-                    finishLoadMore();
+                    datas.addAll(response.getData());
+                    mAdapter.setList(datas);
+                    if (datas.size() >= response.getTotal()) {
+                        finishLoadNoMoreData();
+                    } else {
+                        finishLoadMore();
+                    }
                 }
             }
 
@@ -197,14 +208,12 @@ public class Essayfragment extends BaseListFragment {
 
     @Override
     public void getData() {
-        mPage = 1;
-        getCodeDatas(false);
+        getCodeDatas(1, false);
         getBannerDatas();
     }
 
     @Override
     public void getDataMore() {
-        mPage++;
-        getCodeDatas(true);
+        getCodeDatas(datas.size() / ROW + 1, true);
     }
 }

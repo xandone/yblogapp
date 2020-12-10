@@ -1,10 +1,8 @@
 package com.app.xandone.yblogapp.base;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.yblogapp.R;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -66,5 +64,10 @@ public abstract class BaseListFragment extends BaseWallFragment implements IRefr
     @Override
     public void finishLoadMore() {
         refreshLayout.finishLoadMore();
+    }
+
+    @Override
+    public void finishLoadNoMoreData() {
+        refreshLayout.finishLoadMoreWithNoMoreData();
     }
 }

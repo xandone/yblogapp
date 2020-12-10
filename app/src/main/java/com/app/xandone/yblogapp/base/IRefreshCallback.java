@@ -13,4 +13,6 @@ public interface IRefreshCallback {
     void finishRefresh();
 
     void finishLoadMore();
+
+    void finishLoadNoMoreData();
 }

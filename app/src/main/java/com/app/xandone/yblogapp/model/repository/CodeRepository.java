@@ -3,6 +3,7 @@ package com.app.xandone.yblogapp.model.repository;
 
 import com.app.xandone.yblogapp.api.ApiClient;
 import com.app.xandone.yblogapp.api.IFetchArticle;
+import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
@@ -29,7 +30,7 @@ public class CodeRepository implements IFetchArticle {
 
     private MediatorLiveData<CodeDetailsBean> mCodeDetailsLiveData = new MediatorLiveData<>();
 
-    private MediatorLiveData<List<EssayArticleBean>> mEssayLiveData = new MediatorLiveData<>();
+    private MediatorLiveData<BaseResponse<List<EssayArticleBean>>> mEssayLiveData = new MediatorLiveData<>();
 
     private MediatorLiveData<EssayDetailsBean> mEssayDetailsLiveData = new MediatorLiveData<>();
 
@@ -48,7 +49,7 @@ public class CodeRepository implements IFetchArticle {
     }
 
     @Override
-    public MediatorLiveData<List<EssayArticleBean>> getEssayArticleLiveData() {
+    public MediatorLiveData<BaseResponse<List<EssayArticleBean>>> getEssayArticleLiveData() {
         return mEssayLiveData;
     }
 
@@ -124,26 +125,16 @@ public class CodeRepository implements IFetchArticle {
 
 
     @Override
-    public Disposable getEssayDatas(int page, int row, boolean isLoadMore, IRequestCallback<List<EssayArticleBean>> callback) {
+    public Disposable getEssayDatas(int page, int row, boolean isLoadMore, IRequestCallback<BaseResponse<List<EssayArticleBean>>> callback) {
         return ApiClient.getInstance()
                 .getApiService()
                 .getEssayDatas(page, row)
                 .compose(RxHelper.handleIO())
-                .compose(RxHelper.handleRespose())
-                .subscribeWith(new BaseSubscriber<List<EssayArticleBean>>() {
+                .compose(RxHelper.handleBaseResponse())
+                .subscribeWith(new BaseSubscriber<BaseResponse<List<EssayArticleBean>>>() {
                     @Override
-                    public void onSuccess(List<EssayArticleBean> beans) {
-                        if (mEssayLiveData.getValue() == null) {
-                            mEssayLiveData.setValue(beans);
-                            return;
-                        }
-                        if (!isLoadMore) {
-                            mEssayLiveData.setValue(beans);
-                        } else {
-                            List<EssayArticleBean> list = mEssayLiveData.getValue();
-                            list.addAll(beans);
-                            mEssayLiveData.setValue(list);
-                        }
+                    public void onSuccess(BaseResponse<List<EssayArticleBean>> beans) {
+                        mEssayLiveData.setValue(beans);
                     }
 
                     @Override
