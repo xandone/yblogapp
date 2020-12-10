@@ -43,7 +43,7 @@ public class ManagerRepository implements IManager {
                     }
 
                     @Override
-                    public void onFail(String message, int code) {
+                    public void onFail(String message, int code, int... apiCode) {
                         super.onFail(message, code);
                         callback.error(message, code);
                     }
@@ -73,9 +73,9 @@ public class ManagerRepository implements IManager {
                     }
 
                     @Override
-                    public void onFail(String message, int code) {
+                    public void onFail(String message, int code, int... apiCode) {
                         super.onFail(message, code);
-                        callback.error(message, code);
+                        callback.error(message, apiCode[0]);
                     }
                 });
     }

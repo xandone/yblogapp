@@ -54,7 +54,8 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
             if (!TextUtils.isEmpty(mErrorMsg)) {
                 onFail(mErrorMsg, LoadingLayout.ILoadingStatus.SERVER_ERROR);
             } else if (t instanceof ApiException) {
-                onFail(t.toString(), LoadingLayout.ILoadingStatus.SERVER_ERROR);
+                ApiException error = (ApiException) t;
+                onFail(t.toString(), LoadingLayout.ILoadingStatus.SERVER_ERROR, error.getCode());
             } else if (t instanceof HttpException) {
                 onFail("数据加载失败", LoadingLayout.ILoadingStatus.NET_ERROR);
             } else {
@@ -75,7 +76,7 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
 
     public abstract void onSuccess(T t);
 
-    public void onFail(String message, int statusCode) {
+    public void onFail(String message, int statusCode, int... apiCode) {
     }
 
 }

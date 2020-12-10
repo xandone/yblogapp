@@ -49,7 +49,8 @@ public class ApiClient {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
-                request = request.newBuilder().header("token", UserInfoHelper.getAdminToken()).build();
+                request = request.newBuilder().header("token",
+                        UserInfoHelper.isAdminCache() ? UserInfoHelper.getAdminToken() : "").build();
                 if (!NetworkUtils.isConnected(App.sContext) && isCache) {
                     request = request.newBuilder()
                             .cacheControl(CacheControl.FORCE_CACHE)
