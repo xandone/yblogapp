@@ -23,4 +23,8 @@ public interface IManager {
     Disposable getArtInfoData(String id, IRequestCallback<ArtInfoBean> callback);
 
     MediatorLiveData<ArtInfoBean> getArtInfoLiveData();
+
+    Disposable getAdminList(String id, IRequestCallback<List<AdminBean>> callback);
+
+    MediatorLiveData<List<AdminBean>> getAdminListLiveData();
 }

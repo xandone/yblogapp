@@ -34,6 +34,8 @@ public class AdminBean implements Serializable {
     private String registTime;
     private String lastLoginTime;
     private String token;
+    //身份
+    private String identity;
 
     public String getName() {
         return name;
@@ -121,6 +123,14 @@ public class AdminBean implements Serializable {
 
     public void setLastLoginTime(String lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity;
     }
 }
 

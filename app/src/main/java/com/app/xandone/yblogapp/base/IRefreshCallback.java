@@ -15,4 +15,9 @@ public interface IRefreshCallback {
     void finishLoadMore();
 
     void finishLoadNoMoreData();
+
+    /**
+     * 不允许上拉
+     */
+    void unableLoadMore();
 }

@@ -55,4 +55,7 @@ public interface IApiService {
     @GET("admin/artInfo")
     Flowable<BaseResponse<ArtInfoBean>> getArtInfoDatas(@Query("adminId") String id);
 
+    @GET("admin/adminlist")
+    Flowable<BaseResponse<List<AdminBean>>> getAdminList(@Query("adminId") String id);
+
 }

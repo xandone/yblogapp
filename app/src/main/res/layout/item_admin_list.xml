@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white_color"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingTop="20dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="20dp">
+
+    <com.app.xandone.widgetlib.view.UserCircleView
+        android:id="@+id/admin_icon_uv"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        tools:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/admin_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/normal_tv"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="Admin" />
+
+    <TextView
+        android:id="@+id/admin_identity_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/normal_tv"
+        android:textSize="14sp"
+        tools:text="超级管理员" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="最近登录："
+        android:textColor="@color/light_tv"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/admin_last_login_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/light_tv"
+        android:textSize="13sp"
+        tools:text="2020-2222-222" />
+
+</LinearLayout>

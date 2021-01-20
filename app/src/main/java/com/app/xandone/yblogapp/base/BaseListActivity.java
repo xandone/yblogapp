@@ -1,7 +1,5 @@
 package com.app.xandone.yblogapp.base;
 
-import android.os.Bundle;
-import android.view.View;
 
 import com.app.xandone.yblogapp.R;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -10,16 +8,15 @@ import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /**
  * author: Admin
- * created on: 2020/9/2 09:27
+ * created on: 2021/01/20 09:27
  * description:
  */
-public abstract class BaseListFragment extends BaseWallFragment implements IRefreshCallback {
+public abstract class BaseListActivity extends BaseWallActivity implements IRefreshCallback {
     @BindView(R.id.refreshLayout)
     protected SmartRefreshLayout refreshLayout;
     @BindView(R.id.recycler)
@@ -27,11 +24,12 @@ public abstract class BaseListFragment extends BaseWallFragment implements IRefr
 
     @Override
     public int getLayout() {
-        return R.layout.frag_base_list;
+        return R.layout.act_base_list;
     }
 
     @Override
-    public void init(View view) {
+    public void init() {
+        super.init();
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshlayout) {
@@ -44,11 +42,6 @@ public abstract class BaseListFragment extends BaseWallFragment implements IRefr
                 getDataMore();
             }
         });
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

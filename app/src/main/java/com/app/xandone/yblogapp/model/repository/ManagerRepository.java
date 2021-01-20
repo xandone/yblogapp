@@ -24,6 +24,7 @@ import io.reactivex.disposables.Disposable;
 public class ManagerRepository implements IManager {
     private MediatorLiveData<AdminBean> adminLiveData = new MediatorLiveData<>();
     private MediatorLiveData<ArtInfoBean> artLiveBeans = new MediatorLiveData<>();
+    private MediatorLiveData<List<AdminBean>> admins = new MediatorLiveData<>();
 
     @Override
     public Disposable login(String name, String psw, IRequestCallback<AdminBean> callback) {
@@ -84,4 +85,36 @@ public class ManagerRepository implements IManager {
     public MediatorLiveData<ArtInfoBean> getArtInfoLiveData() {
         return artLiveBeans;
     }
+
+    @Override
+    public Disposable getAdminList(String id, IRequestCallback<List<AdminBean>> callback) {
+        return ApiClient.getInstance()
+                .getApiService()
+                .getAdminList(id)
+                .compose(RxHelper.handleIO())
+                .compose(RxHelper.handleBaseResponse())
+                .subscribeWith(new BaseSubscriber<BaseResponse<List<AdminBean>>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<List<AdminBean>> response) {
+                        if (response.getData() != null) {
+                            admins.setValue(response.getData());
+                        } else {
+                            callback.error(response.getMsg(), response.getCode());
+                        }
+                    }
+
+                    @Override
+                    public void onFail(String message, int code, int... apiCode) {
+                        super.onFail(message, code);
+                        callback.error(message, apiCode[0]);
+                    }
+                });
+    }
+
+    @Override
+    public MediatorLiveData<List<AdminBean>> getAdminListLiveData() {
+        return admins;
+    }
+
+
 }

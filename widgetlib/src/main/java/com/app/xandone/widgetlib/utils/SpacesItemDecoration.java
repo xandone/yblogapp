@@ -12,34 +12,35 @@ import androidx.recyclerview.widget.RecyclerView;
  * description:
  */
 public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-    private int itemSpaceH;
     private int itemSpaceHLeft;
-    private int itemSpaceV;
+    private int itemSpaceRight;
+    private int itemSpaceTop;
+    private int itemSpaceBottom;
 
     /**
-     * @param itemSpaceH 横向
-     * @param itemSpaceV 纵向
+     * @param itemSpaceLeft 横向
+     * @param itemSpaceTop  纵向
      */
-    public SpacesItemDecoration(Context context, int itemSpaceH, int itemSpaceV) {
-        this.itemSpaceH = SizeUtils.dp2px(context, itemSpaceH);
-        this.itemSpaceV = SizeUtils.dp2px(context, itemSpaceV);
+    public SpacesItemDecoration(Context context, int itemSpaceLeft, int itemSpaceTop) {
+        this.itemSpaceHLeft = SizeUtils.dp2px(context, itemSpaceLeft);
+        this.itemSpaceTop = SizeUtils.dp2px(context, itemSpaceTop);
     }
 
     public SpacesItemDecoration(Context context, int itemSpaceHL, int itemSpaceHR, int itemSpaceV) {
-        this.itemSpaceH = SizeUtils.dp2px(context, itemSpaceHR);
-        this.itemSpaceHLeft = SizeUtils.dp2px(context, itemSpaceHL);
-        this.itemSpaceV = SizeUtils.dp2px(context, itemSpaceV);
+        this.itemSpaceHLeft = SizeUtils.dp2px(context, itemSpaceHR);
+        this.itemSpaceRight = SizeUtils.dp2px(context, itemSpaceHL);
+        this.itemSpaceTop = SizeUtils.dp2px(context, itemSpaceV);
     }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
-        outRect.top = itemSpaceV;
+        outRect.top = itemSpaceTop;
 
-        outRect.right = itemSpaceH;
+        outRect.left = itemSpaceHLeft;
 
-        if (itemSpaceHLeft > 0) {
-            outRect.left = itemSpaceHLeft;
+        if (itemSpaceRight > 0) {
+            outRect.right = itemSpaceRight;
         }
 
 

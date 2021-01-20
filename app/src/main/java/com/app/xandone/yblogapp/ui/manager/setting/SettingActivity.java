@@ -11,6 +11,9 @@ import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallActivity;
 import com.app.xandone.yblogapp.constant.ISpKey;
+import com.app.xandone.yblogapp.model.event.SwitchEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,7 +47,7 @@ public class SettingActivity extends BaseWallActivity {
 
     }
 
-    @OnClick({R.id.clear_setting_cl, R.id.clear_all_cache_cl})
+    @OnClick({R.id.clear_setting_cl, R.id.clear_all_cache_cl, R.id.exit_btn})
     public void click(View v) {
         switch (v.getId()) {
             case R.id.clear_setting_cl:
@@ -52,6 +55,9 @@ public class SettingActivity extends BaseWallActivity {
                 break;
             case R.id.clear_all_cache_cl:
                 clearAllCache();
+                break;
+            case R.id.exit_btn:
+                exit();
                 break;
             default:
                 break;
@@ -76,6 +82,17 @@ public class SettingActivity extends BaseWallActivity {
                 CacheHelper.clearExternalFilesDir(App.sContext);
                 allCacheSizeTv.setText("0KB");
                 ToastUtils.showShort("清除完成");
+            }
+        });
+    }
+
+    private void exit() {
+        MDialogUtils.showSimpleDialog(this, "是否退出登录？", new MDialogOnclickListener() {
+            @Override
+            public void onConfirm() {
+                EventBus.getDefault().post(new SwitchEvent(SwitchEvent.MANAGER_LOGIN_RAG));
+                CacheHelper.clearDefaultSp(App.sContext, ISpKey.ADMIN_INFO_KEY);
+                finish();
             }
         });
     }

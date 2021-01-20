@@ -40,6 +40,9 @@
         <activity
             android:name=".ui.manager.chart.ChartDataActivity"
             android:label="统计" />
+        <activity
+            android:name=".ui.manager.admin.AdminListActivity"
+            android:label="管理员" />
     </application>
 
 </manifest>

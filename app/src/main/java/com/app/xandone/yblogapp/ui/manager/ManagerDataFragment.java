@@ -2,19 +2,17 @@ package com.app.xandone.yblogapp.ui.manager;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.TextView;
 
-import com.app.xandone.baselib.cache.CacheHelper;
-import com.app.xandone.widgetlib.dialog.MDialogOnclickListener;
-import com.app.xandone.widgetlib.dialog.MDialogUtils;
-import com.app.xandone.yblogapp.App;
+import com.app.xandone.baselib.imageload.ImageLoadHelper;
+import com.app.xandone.widgetlib.view.UserCircleView;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallFragment;
-import com.app.xandone.yblogapp.constant.ISpKey;
-import com.app.xandone.yblogapp.model.event.SwitchEvent;
+import com.app.xandone.yblogapp.cache.UserInfoHelper;
+import com.app.xandone.yblogapp.model.bean.AdminBean;
+import com.app.xandone.yblogapp.ui.manager.admin.AdminListActivity;
 import com.app.xandone.yblogapp.ui.manager.chart.ChartDataActivity;
 import com.app.xandone.yblogapp.ui.manager.setting.SettingActivity;
-
-import org.greenrobot.eventbus.EventBus;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
@@ -28,6 +26,14 @@ import butterknife.OnClick;
 public class ManagerDataFragment extends BaseWallFragment {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.admin_icon_uv)
+    UserCircleView adminIconUv;
+    @BindView(R.id.admin_name_tv)
+    TextView adminNameTv;
+    @BindView(R.id.admin_last_login_tv)
+    TextView adminLastLoginTv;
+    @BindView(R.id.admin_identity_tv)
+    TextView adminIdentityTv;
 
     @Override
     public int getLayout() {
@@ -38,6 +44,14 @@ public class ManagerDataFragment extends BaseWallFragment {
     public void init(View view) {
         setToolBar("管理系统");
         onLoadFinish();
+
+        AdminBean adminBean = UserInfoHelper.getAdminBean();
+        if (adminBean != null) {
+            ImageLoadHelper.getInstance().display(mActivity, adminBean.getAdminIcon(), adminIconUv);
+            adminNameTv.setText(adminBean.getNickname());
+            adminIdentityTv.setText(adminBean.getIdentity());
+            adminLastLoginTv.setText("最近登录:" + adminBean.getLastLoginTime());
+        }
     }
 
     @Override
@@ -49,7 +63,7 @@ public class ManagerDataFragment extends BaseWallFragment {
         toolbar.setTitle(title);
     }
 
-    @OnClick({R.id.setting_cl, R.id.exit_btn, R.id.chart_tip_cl})
+    @OnClick({R.id.setting_cl, R.id.chart_tip_cl, R.id.admin_tip_cl})
     public void click(View view) {
         switch (view.getId()) {
             case R.id.chart_tip_cl:
@@ -58,22 +72,11 @@ public class ManagerDataFragment extends BaseWallFragment {
             case R.id.setting_cl:
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
-            case R.id.exit_btn:
-                exit();
+            case R.id.admin_tip_cl:
+                startActivity(new Intent(mActivity, AdminListActivity.class));
                 break;
             default:
                 break;
         }
-    }
-
-    private void exit() {
-        MDialogUtils.showSimpleDialog(mActivity, "是否退出登录？", new MDialogOnclickListener() {
-            @Override
-            public void onConfirm() {
-                EventBus.getDefault().post(new SwitchEvent(SwitchEvent.MANAGER_LOGIN_RAG));
-                CacheHelper.clearDefaultSp(App.sContext, ISpKey.ADMIN_INFO_KEY);
-            }
-        });
-
     }
 }

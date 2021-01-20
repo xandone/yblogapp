@@ -8,6 +8,7 @@ import com.app.xandone.baselib.utils.JsonUtils;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallFragment;
+import com.app.xandone.yblogapp.cache.UserInfoHelper;
 import com.app.xandone.yblogapp.constant.ISpKey;
 import com.app.xandone.yblogapp.model.bean.AdminBean;
 import com.app.xandone.yblogapp.model.event.SwitchEvent;
@@ -44,15 +45,12 @@ public class ManagerFragment extends BaseWallFragment {
      * 自动检测缓存的Admin信息
      */
     private void autoCheckAdminInfo() {
-        String adminJson = SpHelper.getDefaultString(App.sContext, ISpKey.ADMIN_INFO_KEY);
-        if (TextUtils.isEmpty(adminJson)) {
+        AdminBean adminBean = UserInfoHelper.getAdminBean();
+        if (adminBean == null) {
             showInitView();
             return;
         }
-        AdminBean adminBean = JsonUtils.json2Obj(adminJson, AdminBean.class);
-        if (adminBean != null) {
-            switchFragment(new ManagerDataFragment());
-        }
+        switchFragment(new ManagerDataFragment());
     }
 
 
@@ -61,7 +59,7 @@ public class ManagerFragment extends BaseWallFragment {
     }
 
     private void switchFragment(Fragment fragment) {
-        getChildFragmentManager().beginTransaction().replace(R.id.main_fl, fragment).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.main_fl, fragment).commitAllowingStateLoss();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
