@@ -1,9 +1,11 @@
 package com.app.xandone.yblogapp.model.repository;
 
 
+import com.app.xandone.baselib.utils.SimpleUtils;
 import com.app.xandone.yblogapp.api.ApiClient;
 import com.app.xandone.yblogapp.api.IFetchArticle;
 import com.app.xandone.yblogapp.model.base.BaseResponse;
+import com.app.xandone.yblogapp.model.bean.ApkBean;
 import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
@@ -37,6 +39,8 @@ public class CodeRepository implements IFetchArticle {
     private MediatorLiveData<List<BannerBean>> mBannerLiveData = new MediatorLiveData<>();
 
     private MediatorLiveData<List<CodeTypeBean>> mCodeTypeLiveData = new MediatorLiveData<>();
+
+    private MediatorLiveData<ApkBean> mLiveApkBean = new MediatorLiveData<>();
 
     @Override
     public MediatorLiveData<List<CodeArticleBean>> getCodeArticleLiveData() {
@@ -208,4 +212,32 @@ public class CodeRepository implements IFetchArticle {
                 });
     }
 
+
+    @Override
+    public Disposable getLastApkInfo(IRequestCallback<ApkBean> callback) {
+        return ApiClient.getInstance()
+                .getApiService()
+                .getLastApkInfo()
+                .compose(RxHelper.handleIO())
+                .compose(RxHelper.handleRespose())
+                .subscribeWith(new BaseSubscriber<List<ApkBean>>() {
+                    @Override
+                    public void onSuccess(List<ApkBean> beans) {
+                        if (!SimpleUtils.isEmpty(beans)) {
+                            mLiveApkBean.setValue(beans.get(0));
+                        }
+                    }
+
+                    @Override
+                    public void onFail(String message, int code, int... apiCode) {
+                        super.onFail(message, code);
+                        callback.error(message, code);
+                    }
+                });
+    }
+
+    @Override
+    public MediatorLiveData<ApkBean> getLastLiveApkInfo() {
+        return mLiveApkBean;
+    }
 }

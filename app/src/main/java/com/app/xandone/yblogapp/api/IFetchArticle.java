@@ -1,6 +1,7 @@
 package com.app.xandone.yblogapp.api;
 
 import com.app.xandone.yblogapp.model.base.BaseResponse;
+import com.app.xandone.yblogapp.model.bean.ApkBean;
 import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
@@ -43,4 +44,8 @@ public interface IFetchArticle {
     Disposable getCodeTypeDatas(IRequestCallback<List<CodeTypeBean>> callback);
 
     MediatorLiveData<List<CodeTypeBean>> getCodeTypeLiveData();
+
+    Disposable getLastApkInfo(IRequestCallback<ApkBean> callback);
+
+    MediatorLiveData<ApkBean> getLastLiveApkInfo();
 }

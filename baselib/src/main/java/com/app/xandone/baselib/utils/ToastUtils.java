@@ -20,16 +20,16 @@ public class ToastUtils {
     private static Toast toast_1;
     private static Toast toast_2;
 
-    private static Application app;
+    private static Application sApp;
 
     //静态变量传递的是值，不存在创建了多个app
     public static void init(Application application) {
-        ToastUtils.app = application;
+        ToastUtils.sApp = application;
     }
 
     private static Toast createToast(CharSequence msg, int duration) {
         if (toast_1 == null) {
-            toast_1 = Toast.makeText(app, msg, duration);
+            toast_1 = Toast.makeText(sApp, msg, duration);
         } else {
             toast_1.setText(msg);
             toast_1.setDuration(duration);
@@ -42,7 +42,7 @@ public class ToastUtils {
     }
 
     public static void showShort(int strId) {
-        createToast(app.getText(strId), Toast.LENGTH_SHORT).show();
+        createToast(sApp.getText(strId), Toast.LENGTH_SHORT).show();
     }
 
     public static void showLong(CharSequence msg) {
@@ -50,14 +50,14 @@ public class ToastUtils {
     }
 
     public static void showLong(int strId) {
-        createToast(app.getText(strId), Toast.LENGTH_SHORT).show();
+        createToast(sApp.getText(strId), Toast.LENGTH_SHORT).show();
     }
 
     public static Toast showToastWithImg(final String tvStr, final int imageResource) {
         if (toast_2 == null) {
-            toast_2 = new Toast(app);
+            toast_2 = new Toast(sApp);
         }
-        View view = LayoutInflater.from(app).inflate(R.layout.toast_custom, null);
+        View view = LayoutInflater.from(sApp).inflate(R.layout.toast_custom, null);
         TextView tv = (TextView) view.findViewById(R.id.toast_custom_tv);
         tv.setText(TextUtils.isEmpty(tvStr) ? "" : tvStr);
         ImageView iv = (ImageView) view.findViewById(R.id.toast_custom_iv);

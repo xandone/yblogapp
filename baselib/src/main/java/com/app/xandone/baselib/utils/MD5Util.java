@@ -9,26 +9,45 @@ import java.security.NoSuchAlgorithmException;
  * description:
  */
 public class MD5Util {
-    public static String MD5(String str) {
+    /**
+     * md5加密(16位 小写)
+     *
+     * @param password
+     * @return
+     */
+    public static String decode16(String password) {
+        return MD5(password).substring(8, 24);
+    }
+
+    /**
+     * md5加密(32位 小写)
+     *
+     * @param password
+     * @return
+     */
+    public static String MD5(String password) {
+
         try {
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            md5.update(str.getBytes());
-            byte bytes[] = md5.digest();
-            StringBuilder sb = new StringBuilder("");
-            for (int n = 0; n < bytes.length; n++) {
-                int i = bytes[n];
-                if (i < 0) {
-                    i += 256;
+            // 得到一个信息摘要器
+            MessageDigest digest = MessageDigest.getInstance("md5");
+            byte[] result = digest.digest(password.getBytes());
+            StringBuilder buffer = new StringBuilder();
+            // 把每一个byte 做一个与运算 0xff;
+            for (byte b : result) {
+                // 与运算 加盐
+                int number = b & 0xff;
+                String str = Integer.toHexString(number);
+                if (str.length() == 1) {
+                    buffer.append("0");
                 }
-                if (i < 16) {
-                    sb.append("0");
-                }
-                sb.append(Integer.toHexString(i));
+                buffer.append(str);
             }
-            return sb.toString();
+
+            // 标准的md5加密后的结果
+            return buffer.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            return null;
+            return "";
         }
     }
 }

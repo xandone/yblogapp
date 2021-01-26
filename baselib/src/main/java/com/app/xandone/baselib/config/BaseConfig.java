@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.app.xandone.baselib.imageload.ImageLoadHelper;
 import com.app.xandone.baselib.log.LogHelper;
+import com.app.xandone.baselib.utils.AppUtils;
 import com.app.xandone.baselib.utils.ToastUtils;
 
 
@@ -28,5 +29,7 @@ public class BaseConfig {
         ImageLoadHelper.getInstance().initEngine(ImageLoadHelper.ENGINE_GLIDE);
         //初始化toast，主要是获取application
         ToastUtils.init(application);
+        //初始化App工具包
+        AppUtils.init(application);
     }
 }

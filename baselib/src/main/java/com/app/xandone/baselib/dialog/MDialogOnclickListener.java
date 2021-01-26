@@ -1,4 +1,4 @@
-package com.app.xandone.widgetlib.dialog;
+package com.app.xandone.baselib.dialog;
 
 /**
  * author: Admin
@@ -7,6 +7,9 @@ package com.app.xandone.widgetlib.dialog;
  */
 public abstract class MDialogOnclickListener {
     public void onCancle() {
+    }
+
+    public void onNeutral() {
     }
 
     public abstract void onConfirm();

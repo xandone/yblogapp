@@ -1,6 +1,5 @@
 package com.app.xandone.yblogapp.ui.manager.admin;
 
-import android.view.ViewGroup;
 
 import com.app.xandone.baselib.imageload.ImageLoadHelper;
 import com.app.xandone.baselib.utils.SimpleUtils;
@@ -12,11 +11,7 @@ import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseListActivity;
 import com.app.xandone.yblogapp.cache.UserInfoHelper;
 import com.app.xandone.yblogapp.model.AdminModel;
-import com.app.xandone.yblogapp.model.EssayModel;
-import com.app.xandone.yblogapp.model.ManagerModel;
-import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.model.bean.AdminBean;
-import com.app.xandone.yblogapp.model.bean.EssayArticleBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
 import com.chad.library.adapter.base.BaseQuickAdapter;

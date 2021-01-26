@@ -21,23 +21,26 @@ import retrofit2.HttpException;
 public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
     private String mErrorMsg;
     private boolean isShowErrorState;
+    private boolean isShowDialog;
 
     //默认开启
     public BaseSubscriber() {
-        this(true);
+        this(true, false);
     }
 
     protected BaseSubscriber(String errorMsg) {
         this.mErrorMsg = errorMsg;
     }
 
-    protected BaseSubscriber(boolean isShowErrorState) {
+    protected BaseSubscriber(boolean isShowErrorState, boolean isShowDialog) {
         this.isShowErrorState = isShowErrorState;
+        this.isShowDialog = isShowDialog;
     }
 
-    protected BaseSubscriber(String errorMsg, boolean isShowErrorState) {
+    protected BaseSubscriber(String errorMsg, boolean isShowErrorState, boolean isShowDialog) {
         this.mErrorMsg = errorMsg;
         this.isShowErrorState = isShowErrorState;
+        this.isShowDialog = isShowDialog;
     }
 
     @Override

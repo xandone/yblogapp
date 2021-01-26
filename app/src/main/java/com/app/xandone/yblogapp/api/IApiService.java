@@ -2,6 +2,7 @@ package com.app.xandone.yblogapp.api;
 
 import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.model.bean.AdminBean;
+import com.app.xandone.yblogapp.model.bean.ApkBean;
 import com.app.xandone.yblogapp.model.bean.ArtInfoBean;
 import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
@@ -57,5 +58,8 @@ public interface IApiService {
 
     @GET("admin/adminlist")
     Flowable<BaseResponse<List<AdminBean>>> getAdminList(@Query("adminId") String id);
+
+    @GET("apk/apkInfo")
+    Flowable<BaseResponse<List<ApkBean>>> getLastApkInfo();
 
 }

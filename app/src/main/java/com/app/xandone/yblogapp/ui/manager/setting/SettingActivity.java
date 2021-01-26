@@ -4,14 +4,19 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.app.xandone.baselib.cache.CacheHelper;
+import com.app.xandone.baselib.dialog.MDialogOnclickListener;
+import com.app.xandone.baselib.dialog.MDialogUtils;
+import com.app.xandone.baselib.update.UpdateHelper;
 import com.app.xandone.baselib.utils.ToastUtils;
-import com.app.xandone.widgetlib.dialog.MDialogOnclickListener;
-import com.app.xandone.widgetlib.dialog.MDialogUtils;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallActivity;
 import com.app.xandone.yblogapp.constant.ISpKey;
+import com.app.xandone.yblogapp.model.ApkModel;
+import com.app.xandone.yblogapp.model.bean.ApkBean;
 import com.app.xandone.yblogapp.model.event.SwitchEvent;
+import com.app.xandone.yblogapp.rx.IRequestCallback;
+import com.app.xandone.yblogapp.viewmodel.ModelProvider;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -27,7 +32,10 @@ public class SettingActivity extends BaseWallActivity {
     @BindView(R.id.all_cache_size_tv)
     TextView allCacheSizeTv;
 
+    private ApkModel mApkModel;
+
     @Override
+
     public int getLayout() {
         return R.layout.act_setting;
     }
@@ -43,11 +51,16 @@ public class SettingActivity extends BaseWallActivity {
     }
 
     @Override
+    protected void initDataObserver() {
+        mApkModel = ModelProvider.getModel(this, ApkModel.class, App.sContext);
+    }
+
+    @Override
     protected void requestData() {
 
     }
 
-    @OnClick({R.id.clear_setting_cl, R.id.clear_all_cache_cl, R.id.exit_btn})
+    @OnClick({R.id.clear_setting_cl, R.id.clear_all_cache_cl, R.id.check_version_cl, R.id.exit_btn})
     public void click(View v) {
         switch (v.getId()) {
             case R.id.clear_setting_cl:
@@ -55,6 +68,9 @@ public class SettingActivity extends BaseWallActivity {
                 break;
             case R.id.clear_all_cache_cl:
                 clearAllCache();
+                break;
+            case R.id.check_version_cl:
+                checkApkVersion();
                 break;
             case R.id.exit_btn:
                 exit();
@@ -83,6 +99,30 @@ public class SettingActivity extends BaseWallActivity {
                 allCacheSizeTv.setText("0KB");
                 ToastUtils.showShort("清除完成");
             }
+        });
+    }
+
+    private void checkApkVersion() {
+        showApiLoading();
+        mApkModel.getLastApkInfo(new IRequestCallback<ApkBean>() {
+            @Override
+            public void success(ApkBean apkBean) {
+                cancleApiLoading();
+                UpdateHelper.getInstance().init()
+                        .setId(apkBean.getId())
+                        .setVersionCode(Integer.parseInt(apkBean.getVersionCode()))
+                        .setVersionName(apkBean.getVersionName())
+                        .setPostTime(apkBean.getPostTime())
+                        .setVersionTip(apkBean.getVersionTip())
+                        .isForce(true)
+                        .start(SettingActivity.this);
+            }
+
+            @Override
+            public void error(String message, int statusCode) {
+                cancleApiLoading();
+            }
+
         });
     }
 
