@@ -12,6 +12,7 @@ import android.content.Context;
 public class UpdateHelper implements IUpdate {
     private UpdateInfo mUpdateInfo;
     private IUpdateAgent mIUpdateAgent;
+    private IDownloadEngine mIDownloadEngine;
 
     private UpdateHelper() {
     }
@@ -67,8 +68,14 @@ public class UpdateHelper implements IUpdate {
     }
 
     @Override
+    public IUpdate setDownloadEngine(IDownloadEngine engine) {
+        this.mIDownloadEngine = engine;
+        return this;
+    }
+
+    @Override
     public void start(Context context) {
-        mIUpdateAgent.showDialog(context, mUpdateInfo);
+        mIUpdateAgent.checkVersion(context, mUpdateInfo);
     }
 
     private static class Builder {

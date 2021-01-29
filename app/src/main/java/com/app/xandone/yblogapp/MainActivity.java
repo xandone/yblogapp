@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 
 import com.app.xandone.baselib.base.BaseSimpleActivity;
+import com.app.xandone.baselib.dialog.MDialogUtils;
 import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.baselib.update.IUpdateAgent;
 import com.app.xandone.baselib.update.UpdateHelper;

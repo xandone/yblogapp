@@ -6,7 +6,7 @@ package com.app.xandone.baselib.update;
  * description:
  */
 public interface IDownloadEngine {
-    void onLoad(String url);
+    void download(String url);
 
-    void onError(int code);
+    void error(int code);
 }

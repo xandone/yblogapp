@@ -3,6 +3,7 @@ package com.app.xandone.baselib.base;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.app.xandone.baselib.utils.ProgressDialogHelper;
 import com.app.xandone.baselib.utils.ProgressDialogUtil;
 
 
@@ -52,11 +53,11 @@ public abstract class BaseSimpleActivity extends AppCompatActivity implements IA
 
     @Override
     public void showApiLoading() {
-        ProgressDialogUtil.showProgress(this);
+        ProgressDialogHelper.getInstance().showLoading(this);
     }
 
     @Override
     public void cancleApiLoading() {
-        ProgressDialogUtil.dismiss();
+        ProgressDialogHelper.getInstance().dimissLoading();
     }
 }

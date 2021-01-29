@@ -80,7 +80,6 @@ public class MDialogUtils {
     public static void showProgressDialog(Context context) {
         new MaterialDialog.Builder(context)
                 .content(R.string.progress_tip)
-                .title(R.string.dialog_title)
                 .titleColorRes(R.color.white)
                 .contentColor(Color.WHITE)
                 .backgroundColorRes(R.color.alpha_black_80)

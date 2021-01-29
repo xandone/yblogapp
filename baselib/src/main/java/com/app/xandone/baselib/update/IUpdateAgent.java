@@ -9,6 +9,8 @@ import android.content.Context;
  */
 public interface IUpdateAgent {
 
+    void checkVersion(Context context, UpdateInfo updateInfo, IDownloadEngine engine);
+
     void showDialog(Context context, UpdateInfo updateInfo);
 
 }

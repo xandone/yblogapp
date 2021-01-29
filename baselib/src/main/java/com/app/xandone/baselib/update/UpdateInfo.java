@@ -12,18 +12,20 @@ public class UpdateInfo {
     private String versionName;
     private String versionTip;
     private String postTime;
+    private String apkUrl;
     private boolean isForce;
 
     public UpdateInfo() {
     }
 
     public UpdateInfo(int id, int versionCode, String versionName, String versionTip,
-                      String postTime, boolean isForce) {
+                      String postTime, String apkUrl, boolean isForce) {
         this.id = id;
         this.versionCode = versionCode;
         this.versionName = versionName;
         this.versionTip = versionTip;
         this.postTime = postTime;
+        this.apkUrl = apkUrl;
         this.isForce = isForce;
     }
 
@@ -66,6 +68,14 @@ public class UpdateInfo {
 
     public void setPostTime(String postTime) {
         this.postTime = postTime;
+    }
+
+    public String getApkUrl() {
+        return apkUrl;
+    }
+
+    public void setApkUrl(String apkUrl) {
+        this.apkUrl = apkUrl;
     }
 
     public boolean isForce() {

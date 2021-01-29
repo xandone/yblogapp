@@ -84,7 +84,7 @@
                 android:drawablePadding="5dp"
                 android:text="统计"
                 android:textColor="@color/normal_tv"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -117,7 +117,7 @@
                 android:drawablePadding="5dp"
                 android:text="code"
                 android:textColor="@color/normal_tv"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -150,7 +150,7 @@
                 android:drawablePadding="5dp"
                 android:text="杂文"
                 android:textColor="@color/normal_tv"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -183,7 +183,7 @@
                 android:drawablePadding="5dp"
                 android:text="管理员"
                 android:textColor="@color/normal_tv"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -217,7 +217,7 @@
                 android:drawablePadding="5dp"
                 android:text="设置"
                 android:textColor="@color/normal_tv"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
