@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import com.app.xandone.baselib.cache.ApkCache;
 import com.app.xandone.baselib.cache.CacheHelper;
 import com.app.xandone.baselib.cache.ImageCache;
 import com.app.xandone.baselib.log.LogHelper;
@@ -58,6 +59,7 @@ public class App extends Application {
 
     private void init() {
         AppConfig.init(this, BuildConfig.DEBUG);
+        Log.d("fsdgsdgdf", ApkCache.getApkFilePath(this));
     }
 
     @Override

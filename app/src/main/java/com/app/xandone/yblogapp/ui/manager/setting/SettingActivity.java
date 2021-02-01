@@ -1,9 +1,11 @@
 package com.app.xandone.yblogapp.ui.manager.setting;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.app.xandone.baselib.cache.CacheHelper;
+import com.app.xandone.baselib.cache.FileHelper;
 import com.app.xandone.baselib.dialog.MDialogOnclickListener;
 import com.app.xandone.baselib.dialog.MDialogUtils;
 import com.app.xandone.baselib.update.UpdateHelper;
@@ -16,10 +18,16 @@ import com.app.xandone.yblogapp.model.ApkModel;
 import com.app.xandone.yblogapp.model.bean.ApkBean;
 import com.app.xandone.yblogapp.model.event.SwitchEvent;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
+import com.app.xandone.yblogapp.utils.download.OkdownloadCallback;
+import com.app.xandone.yblogapp.utils.download.OkdownloadEngine;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
+import com.liulishuo.okdownload.DownloadTask;
+import com.liulishuo.okdownload.core.cause.EndCause;
 
 import org.greenrobot.eventbus.EventBus;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -114,7 +122,25 @@ public class SettingActivity extends BaseWallActivity {
                         .setVersionName(apkBean.getVersionName())
                         .setPostTime(apkBean.getPostTime())
                         .setVersionTip(apkBean.getVersionTip())
+//                        .setApkurl("http://localhost/apk/apkdown")
+                        .setApkurl("http://xandone.pub/yblog/apk/apkdown")
                         .isForce(true)
+                        .setDownloadEngine(new OkdownloadEngine(new OkdownloadCallback() {
+                            @Override
+                            public void fetchStart(@NonNull DownloadTask task, int blockIndex, long contentLength) {
+                                Log.d("xandone", "contentLength=" + contentLength + "字节   " + FileHelper.getFormatSize(contentLength));
+                            }
+
+                            @Override
+                            public void fetchProgress(@NonNull DownloadTask task, int blockIndex, long increaseBytes) {
+//                                Log.d("xandone", "increaseBytes=" + increaseBytes);
+                            }
+
+                            @Override
+                            public void taskEnd(@NonNull DownloadTask task, @NonNull EndCause cause, @Nullable Exception realCause) {
+                                Log.d("xandone", "下载完成....");
+                            }
+                        }))
                         .start(SettingActivity.this);
             }
 

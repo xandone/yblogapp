@@ -32,6 +32,12 @@ public class UpdateHelper implements IUpdate {
     }
 
     @Override
+    public IUpdate setApkInfo(UpdateInfo updateInfo) {
+        mUpdateInfo = updateInfo;
+        return this;
+    }
+
+    @Override
     public IUpdate setId(int id) {
         mUpdateInfo.setId(id);
         return this;
@@ -62,6 +68,12 @@ public class UpdateHelper implements IUpdate {
     }
 
     @Override
+    public IUpdate setApkurl(String url) {
+        mUpdateInfo.setApkUrl(url);
+        return this;
+    }
+
+    @Override
     public IUpdate isForce(boolean isForce) {
         mUpdateInfo.setForce(isForce);
         return this;
@@ -75,7 +87,7 @@ public class UpdateHelper implements IUpdate {
 
     @Override
     public void start(Context context) {
-        mIUpdateAgent.checkVersion(context, mUpdateInfo);
+        mIUpdateAgent.checkVersion(context, mUpdateInfo, mIDownloadEngine);
     }
 
     private static class Builder {

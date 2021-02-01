@@ -9,6 +9,8 @@ import android.content.Context;
  */
 public interface IUpdate {
 
+    IUpdate setApkInfo(UpdateInfo updateInfo);
+
     IUpdate setId(int id);
 
     IUpdate setVersionCode(int versionCode);
@@ -18,6 +20,8 @@ public interface IUpdate {
     IUpdate setVersionTip(String versionTip);
 
     IUpdate setPostTime(String postTime);
+
+    IUpdate setApkurl(String url);
 
     IUpdate isForce(boolean isForce);
 
