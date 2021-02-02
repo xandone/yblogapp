@@ -1,7 +1,6 @@
 package com.app.xandone.yblogapp.utils.download;
 
 import com.app.xandone.baselib.cache.ApkCache;
-import com.app.xandone.baselib.cache.ImageCache;
 import com.app.xandone.baselib.update.IDownloadEngine;
 import com.app.xandone.yblogapp.App;
 import com.liulishuo.okdownload.DownloadListener;

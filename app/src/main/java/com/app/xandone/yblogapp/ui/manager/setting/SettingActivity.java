@@ -4,11 +4,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.app.xandone.baselib.cache.ApkCache;
 import com.app.xandone.baselib.cache.CacheHelper;
 import com.app.xandone.baselib.cache.FileHelper;
 import com.app.xandone.baselib.dialog.MDialogOnclickListener;
 import com.app.xandone.baselib.dialog.MDialogUtils;
 import com.app.xandone.baselib.update.UpdateHelper;
+import com.app.xandone.baselib.utils.AppUtils;
 import com.app.xandone.baselib.utils.ToastUtils;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
@@ -42,8 +46,10 @@ public class SettingActivity extends BaseWallActivity {
 
     private ApkModel mApkModel;
 
-    @Override
+    private long contentLen;
+    private long grandTotal;
 
+    @Override
     public int getLayout() {
         return R.layout.act_setting;
     }
@@ -55,6 +61,7 @@ public class SettingActivity extends BaseWallActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         onLoadFinish();
     }
 
@@ -124,21 +131,36 @@ public class SettingActivity extends BaseWallActivity {
                         .setVersionTip(apkBean.getVersionTip())
 //                        .setApkurl("http://localhost/apk/apkdown")
                         .setApkurl("http://xandone.pub/yblog/apk/apkdown")
-                        .isForce(true)
+                        .isForce(apkBean.getIsForce() == 1)
                         .setDownloadEngine(new OkdownloadEngine(new OkdownloadCallback() {
                             @Override
                             public void fetchStart(@NonNull DownloadTask task, int blockIndex, long contentLength) {
-                                Log.d("xandone", "contentLength=" + contentLength + "字节   " + FileHelper.getFormatSize(contentLength));
+                                contentLen = contentLength;
+                                Log.d("xandone1", "contentLength=" + contentLength + "字节   " + FileHelper.getFormatSize(contentLength));
+                                tt();
+                                if (!dialog.isShowing()) {
+                                    dialog.show();
+                                }
                             }
 
                             @Override
                             public void fetchProgress(@NonNull DownloadTask task, int blockIndex, long increaseBytes) {
-//                                Log.d("xandone", "increaseBytes=" + increaseBytes);
+                                grandTotal += increaseBytes;
+
+                                int ratio = (int) (grandTotal * dialog.getMaxProgress() / contentLen);
+                                Log.d("xandone1", "increaseBytes=" + ratio);
+                                if (dialog.getCurrentProgress() < dialog.getMaxProgress()) {
+                                    dialog.setProgress(ratio);
+                                }
+
                             }
 
                             @Override
                             public void taskEnd(@NonNull DownloadTask task, @NonNull EndCause cause, @Nullable Exception realCause) {
-                                Log.d("xandone", "下载完成....");
+                                Log.d("xandone1", "下载完成...." + task.getFile().getPath());
+                                dialog.setContent("下载完成");
+                                dialog.dismiss();
+                                AppUtils.installApk(App.sContext, task.getFile().getPath());
                             }
                         }))
                         .start(SettingActivity.this);
@@ -150,6 +172,19 @@ public class SettingActivity extends BaseWallActivity {
             }
 
         });
+    }
+
+    private MaterialDialog dialog;
+
+    private void tt() {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                .title("版本更新")
+                .content("下载中..")
+                .contentGravity(GravityEnum.CENTER)
+                .progress(false, 100, true)
+//                .progressNumberFormat("%1d Mb/%2d Mb")
+                .canceledOnTouchOutside(false);
+        dialog = builder.build();
     }
 
     private void exit() {

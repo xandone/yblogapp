@@ -50,7 +50,7 @@ public class MDialogUtils {
             builder.neutralColorRes(R.color.btn_color);
         }
         builder.title(R.string.dialog_title)
-                .positiveText(R.string.confirm)
+                .positiveText(R.string.download)
                 .positiveColorRes(R.color.btn_color)
                 .content(updateInfo.getVersionTip())
                 .cancelable(!updateInfo.isForce())
@@ -78,6 +78,18 @@ public class MDialogUtils {
     }
 
     public static void showProgressDialog(Context context) {
+        new MaterialDialog.Builder(context)
+                .content(R.string.progress_tip)
+                .titleColorRes(R.color.white)
+                .contentColor(Color.WHITE)
+                .backgroundColorRes(R.color.alpha_black_80)
+                .progress(true, 0)
+                .canceledOnTouchOutside(false)
+                .show();
+    }
+
+
+    public static void showDownloadProgressDialog(Context context) {
         new MaterialDialog.Builder(context)
                 .content(R.string.progress_tip)
                 .titleColorRes(R.color.white)

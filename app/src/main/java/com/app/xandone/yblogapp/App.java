@@ -59,7 +59,6 @@ public class App extends Application {
 
     private void init() {
         AppConfig.init(this, BuildConfig.DEBUG);
-        Log.d("fsdgsdgdf", ApkCache.getApkFilePath(this));
     }
 
     @Override

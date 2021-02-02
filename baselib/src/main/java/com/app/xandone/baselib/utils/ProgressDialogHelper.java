@@ -31,7 +31,7 @@ public class ProgressDialogHelper {
                     .backgroundColorRes(R.color.alpha_black_80)
                     .progress(true, 0)
                     .canceledOnTouchOutside(false);
-            dialog = builder.show();
+            dialog = builder.build();
         }
 
         if (!dialog.isShowing()) {

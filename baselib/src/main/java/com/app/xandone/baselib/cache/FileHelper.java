@@ -1,9 +1,7 @@
 package com.app.xandone.baselib.cache;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Environment;
-import android.provider.MediaStore;
 
 import com.app.xandone.baselib.config.BaseConfig;
 import com.app.xandone.baselib.log.LogHelper;
@@ -13,8 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
-import androidx.annotation.RequiresApi;
 
 /**
  * author: Admin
@@ -189,6 +185,5 @@ public class FileHelper {
         return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()
                 + "TB";
     }
-
 
 }
