@@ -20,8 +20,11 @@ public class BaseConfig {
      */
     public static String appName;
 
+    public static Application sApp;
+
     public static void init(Application application, String appName, boolean isDebug) {
         BaseConfig.appName = appName;
+        BaseConfig.sApp = application;
 
         //初始化日志库
         LogHelper.init(LogHelper.ENGINE_LOGGER, isDebug);

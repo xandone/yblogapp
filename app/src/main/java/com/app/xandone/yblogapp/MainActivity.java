@@ -111,12 +111,7 @@ public class MainActivity extends BaseSimpleActivity {
                         .setPostTime(apkBean.getPostTime())
                         .setVersionTip(apkBean.getVersionTip())
                         .isForce(false)
-                        .setDownloadEngine(new OkdownloadEngine(new OkdownloadCallback() {
-                            @Override
-                            public void taskEnd(@NonNull DownloadTask task, @NonNull EndCause cause, @Nullable Exception realCause) {
-                                
-                            }
-                        }))
+                        .setDownloadEngine(new OkdownloadEngine(MainActivity.this))
                         .start(MainActivity.this);
             }
 

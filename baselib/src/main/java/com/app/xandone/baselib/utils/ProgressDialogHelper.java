@@ -2,7 +2,10 @@ package com.app.xandone.baselib.utils;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.Gravity;
+import android.view.WindowManager;
 
+import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.app.xandone.baselib.R;
 
@@ -29,6 +32,7 @@ public class ProgressDialogHelper {
                     .titleColorRes(R.color.white)
                     .contentColor(Color.WHITE)
                     .backgroundColorRes(R.color.alpha_black_80)
+                    .progressIndeterminateStyle(true)
                     .progress(true, 0)
                     .canceledOnTouchOutside(false);
             dialog = builder.build();
@@ -36,6 +40,11 @@ public class ProgressDialogHelper {
 
         if (!dialog.isShowing()) {
             dialog.show();
+            if (dialog.getWindow() != null) {
+                WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+                lp.width = (int) (AppUtils.getScreenWidth(context) * 0.4);
+                dialog.getWindow().setAttributes(lp);
+            }
         }
 
     }

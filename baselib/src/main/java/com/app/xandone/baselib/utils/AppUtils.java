@@ -7,6 +7,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
 
 import java.io.File;
 
@@ -75,23 +78,37 @@ public class AppUtils {
         }
     }
 
-
-    public static void installApk(Context context, String path) {
-        File file = new File(path);
+    public static void installApp(Context context, final File file) {
+        if (!XFileUtils.isFileExists(file)) {
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri uri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            ////通过FileProvider创建一个content类型的Uri
-            uri = FileProvider.getUriForFile(sApp, "com.app.xandone.yblogapp.fileprovider", file);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            String authority = "com.app.xandone.yblogapp.fileprovider";
+            uri = FileProvider.getUriForFile(context, authority, file);
         } else {
             uri = Uri.fromFile(file);
         }
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(uri, "application/vnd.android.package-archive");
+        if (uri == null) {
+            return;
+        }
+        String type = "application/vnd.android.package-archive";
+        intent.setDataAndType(uri, type);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        //目标应用临时授权该Uri所代表的文件
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         context.startActivity(intent);
+    }
+
+    public static int getScreenWidth(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        if (windowManager == null) {
+            return 0;
+        }
+        Display display = windowManager.getDefaultDisplay();
+        display.getMetrics(dm);
+        return dm.widthPixels;
     }
 
 }

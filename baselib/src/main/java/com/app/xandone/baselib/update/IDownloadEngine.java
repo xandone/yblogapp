@@ -8,5 +8,7 @@ package com.app.xandone.baselib.update;
 public interface IDownloadEngine {
     void download(String url);
 
+    void success();
+
     void error(int code);
 }
