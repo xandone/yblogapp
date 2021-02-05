@@ -25,6 +25,8 @@ public interface IUpdate {
 
     IUpdate isForce(boolean isForce);
 
+    IUpdate isCanIgnore(boolean isCanIgnore);
+
     IUpdate setDownloadEngine(IDownloadEngine engine);
 
     void start(Context context);

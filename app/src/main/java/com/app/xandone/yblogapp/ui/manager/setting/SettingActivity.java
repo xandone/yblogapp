@@ -1,15 +1,12 @@
 package com.app.xandone.yblogapp.ui.manager.setting;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.app.xandone.baselib.cache.ApkCache;
 import com.app.xandone.baselib.cache.CacheHelper;
 import com.app.xandone.baselib.dialog.MDialogOnclickListener;
 import com.app.xandone.baselib.dialog.MDialogUtils;
 import com.app.xandone.baselib.update.UpdateHelper;
-import com.app.xandone.baselib.utils.AppUtils;
 import com.app.xandone.baselib.utils.ToastUtils;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
@@ -21,12 +18,9 @@ import com.app.xandone.yblogapp.model.event.SwitchEvent;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.utils.download.OkdownloadEngine;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
-import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 
-
-import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;

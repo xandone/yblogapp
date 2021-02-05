@@ -1,30 +1,20 @@
 package com.app.xandone.yblogapp;
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 
 import com.app.xandone.baselib.base.BaseSimpleActivity;
-import com.app.xandone.baselib.dialog.MDialogUtils;
-import com.app.xandone.baselib.log.LogHelper;
-import com.app.xandone.baselib.update.IUpdateAgent;
 import com.app.xandone.baselib.update.UpdateHelper;
-import com.app.xandone.baselib.utils.JsonUtils;
-import com.app.xandone.yblogapp.model.AdminModel;
 import com.app.xandone.yblogapp.model.ApkModel;
 import com.app.xandone.yblogapp.model.bean.ApkBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.ui.code.CodeFragment;
 import com.app.xandone.yblogapp.ui.essay.Essayfragment;
 import com.app.xandone.yblogapp.ui.manager.ManagerFragment;
-import com.app.xandone.yblogapp.utils.download.OkdownloadCallback;
 import com.app.xandone.yblogapp.utils.download.OkdownloadEngine;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
-import com.liulishuo.okdownload.DownloadTask;
-import com.liulishuo.okdownload.core.cause.EndCause;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
@@ -81,7 +71,7 @@ public class MainActivity extends BaseSimpleActivity {
     protected void initDataObserver() {
         mApkModel = ModelProvider.getModel(this, ApkModel.class, App.sContext);
 
-//        checkApkVersion();
+        checkApkVersion();
     }
 
 
@@ -110,7 +100,9 @@ public class MainActivity extends BaseSimpleActivity {
                         .setVersionName(apkBean.getVersionName())
                         .setPostTime(apkBean.getPostTime())
                         .setVersionTip(apkBean.getVersionTip())
+                        .setApkurl("http://xandone.pub/yblog/apk/apkdown")
                         .isForce(false)
+                        .isCanIgnore(true)
                         .setDownloadEngine(new OkdownloadEngine(MainActivity.this))
                         .start(MainActivity.this);
             }

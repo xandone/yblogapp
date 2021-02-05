@@ -12,6 +12,10 @@ import android.content.Context;
 public class UpdateHelper implements IUpdate {
     private UpdateInfo mUpdateInfo;
     private IUpdateAgent mIUpdateAgent;
+
+    /**
+     * 不提供下载引擎，需要使用的时候手动设置
+     */
     private IDownloadEngine mIDownloadEngine;
 
     private UpdateHelper() {
@@ -22,12 +26,8 @@ public class UpdateHelper implements IUpdate {
     }
 
     public IUpdate init() {
-        if (mUpdateInfo == null) {
-            mUpdateInfo = new UpdateInfo();
-        }
-        if (mIUpdateAgent == null) {
-            mIUpdateAgent = new UpdateAgent();
-        }
+        mUpdateInfo = new UpdateInfo();
+        mIUpdateAgent = new UpdateAgent();
         return this;
     }
 
@@ -80,6 +80,12 @@ public class UpdateHelper implements IUpdate {
     }
 
     @Override
+    public IUpdate isCanIgnore(boolean isCanIgnore) {
+        mUpdateInfo.setCanIgnore(isCanIgnore);
+        return this;
+    }
+
+    @Override
     public IUpdate setDownloadEngine(IDownloadEngine engine) {
         this.mIDownloadEngine = engine;
         return this;
@@ -93,4 +99,6 @@ public class UpdateHelper implements IUpdate {
     private static class Builder {
         private static UpdateHelper helper = new UpdateHelper();
     }
+
+    public static final String IGNORE_APK_CODE = "ignore_apk_code";
 }

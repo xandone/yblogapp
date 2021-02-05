@@ -2,6 +2,7 @@ package com.app.xandone.baselib.dialog;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -43,11 +44,14 @@ public class MDialogUtils {
 
     public static void showVersionDialog(Context context, UpdateInfo updateInfo, final MDialogOnclickListener listener) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+        Log.d("gdfgfdgdfg", updateInfo.isCanIgnore() + "");
         if (!updateInfo.isForce()) {
             builder.negativeText(R.string.cancle);
             builder.negativeColorRes(R.color.btn_color);
-            builder.neutralText(R.string.ignore_version);
-            builder.neutralColorRes(R.color.btn_color);
+            if (updateInfo.isCanIgnore()) {
+                builder.neutralText(R.string.ignore_version);
+                builder.neutralColorRes(R.color.btn_color);
+            }
         }
         builder.title(R.string.dialog_title)
                 .positiveText(R.string.download)

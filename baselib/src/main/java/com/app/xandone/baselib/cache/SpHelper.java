@@ -35,6 +35,18 @@ public class SpHelper {
     }
 
     /**
+     * 保存到默认的sp
+     *
+     * @param context
+     * @param key
+     * @param msg
+     */
+    public static void save2DefaultSp(Context context, @NonNull String key, int msg) {
+        getDefaultSp(context).edit().putInt(key, msg).apply();
+    }
+
+
+    /**
      * 保存到指定sp
      *
      * @param context
@@ -59,6 +71,21 @@ public class SpHelper {
 
     public static String getDefaultString(Context context, @NonNull final String key, @NonNull final String defaultValue) {
         return getDefaultSp(context).getString(key, defaultValue);
+    }
+
+    /**
+     * 获取默认的sp下的int
+     *
+     * @param context
+     * @param key
+     * @return
+     */
+    public static int getDefaultInteger(Context context, @NonNull final String key) {
+        return getDefaultInteger(context, key, -1);
+    }
+
+    public static int getDefaultInteger(Context context, @NonNull final String key, final int defaultValue) {
+        return getDefaultSp(context).getInt(key, defaultValue);
     }
 
     /**

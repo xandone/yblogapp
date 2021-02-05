@@ -14,6 +14,8 @@ public class UpdateInfo {
     private String postTime;
     private String apkUrl;
     private boolean isForce;
+    //是否可以忽略最新版本
+    private boolean isCanIgnore;
 
     public UpdateInfo() {
     }
@@ -84,5 +86,13 @@ public class UpdateInfo {
 
     public void setForce(boolean force) {
         isForce = force;
+    }
+
+    public boolean isCanIgnore() {
+        return isCanIgnore;
+    }
+
+    public void setCanIgnore(boolean canIgnore) {
+        isCanIgnore = canIgnore;
     }
 }

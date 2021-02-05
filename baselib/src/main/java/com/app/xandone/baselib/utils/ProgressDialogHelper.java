@@ -2,10 +2,8 @@ package com.app.xandone.baselib.utils;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.view.Gravity;
 import android.view.WindowManager;
 
-import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.app.xandone.baselib.R;
 
@@ -26,17 +24,15 @@ public class ProgressDialogHelper {
     }
 
     public void showLoading(Context context) {
-        if (dialog == null) {
-            MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
-                    .content(R.string.progress_tip)
-                    .titleColorRes(R.color.white)
-                    .contentColor(Color.WHITE)
-                    .backgroundColorRes(R.color.alpha_black_80)
-                    .progressIndeterminateStyle(true)
-                    .progress(true, 0)
-                    .canceledOnTouchOutside(false);
-            dialog = builder.build();
-        }
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+                .content(R.string.progress_tip)
+                .titleColorRes(R.color.white)
+                .contentColor(Color.WHITE)
+                .backgroundColorRes(R.color.alpha_black_80)
+                .progressIndeterminateStyle(true)
+                .progress(true, 0)
+                .canceledOnTouchOutside(false);
+        dialog = builder.build();
 
         if (!dialog.isShowing()) {
             dialog.show();
