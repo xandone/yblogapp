@@ -1,23 +1,17 @@
 package com.app.xandone.yblogapp.ui.articledetails;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.app.xandone.baselib.cache.ImageCache;
 import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.baselib.utils.ImageUtils;
-import com.app.xandone.baselib.utils.ToastUtils;
 import com.app.xandone.widgetlib.dialog.bottom.BottomDialog;
 import com.app.xandone.widgetlib.utils.SizeUtils;
 import com.app.xandone.yblogapp.App;
@@ -49,7 +43,6 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -114,7 +107,6 @@ public class ArticleDetailsActivity extends BaseWallActivity {
                 public void success(CodeDetailsBean codeDetailsBean) {
                     String html = codeDetailsBean.getContentHtml().replace("<pre", "<pre style=\"overflow: auto;background-color: #F3F5F8;padding:10px;\"");
                     webView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
-                    onLoadFinish();
                 }
 
                 @Override
@@ -128,7 +120,6 @@ public class ArticleDetailsActivity extends BaseWallActivity {
                 public void success(EssayDetailsBean essayDetailsBean) {
                     String html = essayDetailsBean.getContentHtml().replace("<pre", "<pre style=\"overflow: auto;background-color: #F3F5F8;padding:10px;\"");
                     webView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
-                    onLoadFinish();
                 }
 
                 @Override
@@ -162,6 +153,13 @@ public class ArticleDetailsActivity extends BaseWallActivity {
             ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //设置网页在加载的时候暂时不加载图片,等页面finish后再发起图片加载
+            ws.setLoadsImagesAutomatically(true);
+        } else {
+            ws.setLoadsImagesAutomatically(false);
+        }
+
         //修改图片大小
         int screenWidth = AppConfig.SCREEN_WIDTH;
         String width = String.valueOf(SizeUtils.px2dp(App.sContext, screenWidth) - 20);
@@ -171,7 +169,10 @@ public class ArticleDetailsActivity extends BaseWallActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-
+                //等页面finish后再发起图片加载
+                if (!ws.getLoadsImagesAutomatically()) {
+                    ws.setLoadsImagesAutomatically(true);
+                }
 
                 String javascript = "javascript:function ResizeImages() {" +
                         "var myimg,oldwidth;" +
@@ -203,7 +204,10 @@ public class ArticleDetailsActivity extends BaseWallActivity {
                         "    }" +
                         "    addImgClickEvent();");
 
+
+                onLoadFinish();
             }
+
         });
     }
 
@@ -323,6 +327,23 @@ public class ArticleDetailsActivity extends BaseWallActivity {
                 ImageUtils.saveFile2SdCard(App.sContext, task.getFile(), "yblog");
             }
         };
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (webView != null) {
+            webView.getSettings().setJavaScriptEnabled(true);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (webView != null) {
+            webView.getSettings().setJavaScriptEnabled(false);
+        }
     }
 
     @Override
