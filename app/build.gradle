@@ -48,6 +48,17 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+
+    def appName = "yblog"
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${appName}_${defaultConfig.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
+        }
+    }
+}
+
+static def releaseTime() {
+    return new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone("GMT+08:00"))
 }
 
 dependencies {
