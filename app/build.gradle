@@ -19,10 +19,17 @@ android {
 
     signingConfigs {
         release {
-//            storeFile file('')
-//            keyAlias ''
-//            keyPassword ''
-//            storePassword ''
+            storeFile file(STORE_FILE_PATH)
+            storePassword STORE_PASSWORD
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
+        }
+
+        debug {
+            storeFile file(STORE_FILE_PATH)
+            storePassword STORE_PASSWORD
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
         }
     }
 
@@ -75,12 +82,14 @@ dependencies {
 
     implementation 'com.android.support:multidex:1.0.3'
 
-    implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
-    implementation "com.squareup.retrofit2:retrofit:2.8.1"
-    implementation "com.squareup.retrofit2:converter-gson:2.8.1"
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.8.1'
-    implementation "com.squareup.okhttp3:okhttp:4.8.1"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.8.1"
+    implementation([
+            'com.squareup.retrofit2:converter-gson:2.8.1',
+            "com.squareup.retrofit2:retrofit:2.8.1",
+            "com.squareup.retrofit2:converter-gson:2.8.1",
+            'com.squareup.retrofit2:adapter-rxjava2:2.8.1',
+            "com.squareup.okhttp3:okhttp:4.8.1",
+            "com.squareup.okhttp3:logging-interceptor:4.8.1"
+    ])
 
     implementation "io.reactivex.rxjava2:rxjava:2.2.18"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
