@@ -46,9 +46,9 @@ public class EssayModel extends BaseViewModel {
         });
     }
 
-    public void getEssayDatas(int page, int row, boolean isLoadMore, IRequestCallback<BaseResponse<List<EssayArticleBean>>> callback) {
+    public void getEssayDatas(int page, int row, IRequestCallback<BaseResponse<List<EssayArticleBean>>> callback) {
         this.callback = callback;
-        addSubscrible(articleRepo.getEssayDatas(page, row, isLoadMore, callback));
+        addSubscrible(articleRepo.getEssayDatas(page, row, callback));
     }
 
     public void getBannerDatas(IRequestCallback<List<BannerBean>> callback) {

@@ -29,7 +29,7 @@ public interface IFetchArticle {
 
     MediatorLiveData<CodeDetailsBean> getCodeDetailsLiveData();
 
-    Disposable getEssayDatas(int page, int row, boolean isLoadMore, IRequestCallback<BaseResponse<List<EssayArticleBean>>> callback);
+    Disposable getEssayDatas(int page, int row, IRequestCallback<BaseResponse<List<EssayArticleBean>>> callback);
 
     MediatorLiveData<BaseResponse<List<EssayArticleBean>>> getEssayArticleLiveData();
 

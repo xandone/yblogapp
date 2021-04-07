@@ -129,7 +129,7 @@ public class CodeRepository implements IFetchArticle {
 
 
     @Override
-    public Disposable getEssayDatas(int page, int row, boolean isLoadMore, IRequestCallback<BaseResponse<List<EssayArticleBean>>> callback) {
+    public Disposable getEssayDatas(int page, int row, IRequestCallback<BaseResponse<List<EssayArticleBean>>> callback) {
         return ApiClient.getInstance()
                 .getApiService()
                 .getEssayDatas(page, row)

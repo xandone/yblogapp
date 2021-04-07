@@ -17,7 +17,7 @@ public class EssayArticleBean {
     private String postTime;
     private String content;
     private String contentHtml;
-    private int isTopping;
+    private boolean isTopping;
 
     public String getEssayId() {
         return essayId;
@@ -99,11 +99,11 @@ public class EssayArticleBean {
         this.contentHtml = contentHtml;
     }
 
-    public int getIsTopping() {
+    public boolean isTopping() {
         return isTopping;
     }
 
-    public void setIsTopping(int isTopping) {
-        this.isTopping = isTopping;
+    public void setTopping(boolean topping) {
+        isTopping = topping;
     }
 }

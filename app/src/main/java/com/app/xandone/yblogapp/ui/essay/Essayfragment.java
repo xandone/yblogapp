@@ -57,8 +57,7 @@ public class Essayfragment extends BaseListFragment {
     private static final int ROW = 10;
 
     public static Essayfragment getInstance() {
-        Essayfragment fragment = new Essayfragment();
-        return fragment;
+        return new Essayfragment();
     }
 
     @Override
@@ -172,7 +171,7 @@ public class Essayfragment extends BaseListFragment {
     }
 
     private void getCodeDatas(int page, boolean isLoadMore) {
-        essayModel.getEssayDatas(page, ROW, isLoadMore, new IRequestCallback<BaseResponse<List<EssayArticleBean>>>() {
+        essayModel.getEssayDatas(page, ROW, new IRequestCallback<BaseResponse<List<EssayArticleBean>>>() {
             @Override
             public void success(BaseResponse<List<EssayArticleBean>> response) {
                 onLoadFinish();
