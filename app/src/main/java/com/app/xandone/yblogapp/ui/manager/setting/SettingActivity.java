@@ -118,6 +118,7 @@ public class SettingActivity extends BaseWallActivity {
                         .setVersionTip(apkBean.getVersionTip())
                         .setApkurl("http://xandone.pub/yblog/apk/apkdown")
                         .isForce(apkBean.getIsForce() == 1)
+                        .isShowToast(true)
                         .setDownloadEngine(new OkdownloadEngine(SettingActivity.this))
                         .start(SettingActivity.this);
             }

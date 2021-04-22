@@ -1,12 +1,16 @@
 package com.app.xandone.yblogapp;
 
 
+import android.os.Handler;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 
 import com.app.xandone.baselib.base.BaseSimpleActivity;
 import com.app.xandone.baselib.update.UpdateHelper;
+import com.app.xandone.baselib.utils.DoubleClickHelper;
+import com.app.xandone.baselib.utils.ToastUtils;
 import com.app.xandone.yblogapp.model.ApkModel;
 import com.app.xandone.yblogapp.model.bean.ApkBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
@@ -15,8 +19,7 @@ import com.app.xandone.yblogapp.ui.essay.Essayfragment;
 import com.app.xandone.yblogapp.ui.manager.ManagerFragment;
 import com.app.xandone.yblogapp.utils.download.OkdownloadEngine;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ import java.util.List;
 
 public class MainActivity extends BaseSimpleActivity {
     @BindView(R.id.bottom_bar)
-    BottomBar mBottomBar;
+    BottomNavigationView mBottomBar;
 
     private List<Fragment> fragments;
     private Fragment mCurrentFragment;
@@ -46,24 +49,29 @@ public class MainActivity extends BaseSimpleActivity {
         fragments.add(Essayfragment.getInstance());
         fragments.add(new ManagerFragment());
 
-        mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelected(int tabId) {
-                switch (tabId) {
-                    case R.id.main_footer_code_rb:
-                        mCurrentIndex = 0;
-                        break;
-                    case R.id.main_footer_essay_rb:
-                        mCurrentIndex = 1;
-                        break;
-                    case R.id.main_footer_manager_rb:
-                        mCurrentIndex = 2;
-                        break;
-                    default:
-                        break;
-                }
-                turn2Fragment(mCurrentIndex);
+        turn2Fragment(mCurrentIndex);
+
+        mBottomBar.setOnNavigationItemSelectedListener(item -> {
+            boolean isSelect;
+            switch (item.getItemId()) {
+                case R.id.main_footer_code_rb:
+                    mCurrentIndex = 0;
+                    isSelect = true;
+                    break;
+                case R.id.main_footer_essay_rb:
+                    mCurrentIndex = 1;
+                    isSelect = true;
+                    break;
+                case R.id.main_footer_manager_rb:
+                    mCurrentIndex = 2;
+                    isSelect = true;
+                    break;
+                default:
+                    isSelect = false;
+                    break;
             }
+            turn2Fragment(mCurrentIndex);
+            return isSelect;
         });
     }
 
@@ -112,5 +120,15 @@ public class MainActivity extends BaseSimpleActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!DoubleClickHelper.isOnDoubleClick()) {
+            ToastUtils.showShort("再按一次退出");
+            return;
+        }
+        moveTaskToBack(false);
+        new Handler().postDelayed(this::finish, 300);
     }
 }

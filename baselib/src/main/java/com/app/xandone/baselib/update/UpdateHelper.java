@@ -86,6 +86,12 @@ public class UpdateHelper implements IUpdate {
     }
 
     @Override
+    public IUpdate isShowToast(boolean isShowToast) {
+        mUpdateInfo.setShowToast(isShowToast);
+        return this;
+    }
+
+    @Override
     public IUpdate setDownloadEngine(IDownloadEngine engine) {
         this.mIDownloadEngine = engine;
         return this;

@@ -7,6 +7,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.app.xandone.baselib.config.BaseConfig;
+import com.app.xandone.yblogapp.BuildConfig;
 
 /**
  * author: Admin
@@ -18,9 +19,13 @@ public class AppConfig {
     public static int SCREEN_WIDTH = -1;
     public static int SCREEN_HEIGHT = -1;
 
-    public static void init(Application application, boolean isDebug) {
-        BaseConfig.init(application, APP_NAME, isDebug);
+    public static void init(Application application, boolean isDebug, boolean isLogAble) {
+        BaseConfig.init(application, APP_NAME, isDebug, isLogAble);
         getScreenSize(application);
+    }
+
+    public static boolean isLogEnable() {
+        return BuildConfig.LOG_ENABLE;
     }
 
     public static void getScreenSize(Context context) {

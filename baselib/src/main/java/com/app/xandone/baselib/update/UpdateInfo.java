@@ -16,6 +16,7 @@ public class UpdateInfo {
     private boolean isForce;
     //是否可以忽略最新版本
     private boolean isCanIgnore;
+    private boolean isShowToast;
 
     public UpdateInfo() {
     }
@@ -94,5 +95,13 @@ public class UpdateInfo {
 
     public void setCanIgnore(boolean canIgnore) {
         isCanIgnore = canIgnore;
+    }
+
+    public boolean isShowToast() {
+        return isShowToast;
+    }
+
+    public void setShowToast(boolean showToast) {
+        isShowToast = showToast;
     }
 }

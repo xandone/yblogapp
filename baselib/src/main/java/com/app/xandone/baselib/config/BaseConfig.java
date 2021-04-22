@@ -22,12 +22,12 @@ public class BaseConfig {
 
     public static Application sApp;
 
-    public static void init(Application application, String appName, boolean isDebug) {
+    public static void init(Application application, String appName, boolean isDebug, boolean isLogAble) {
         BaseConfig.appName = appName;
         BaseConfig.sApp = application;
 
         //初始化日志库
-        LogHelper.init(LogHelper.ENGINE_LOGGER, isDebug);
+        LogHelper.init(LogHelper.ENGINE_LOGGER, isLogAble);
         //初始化图片加载引擎
         ImageLoadHelper.getInstance().initEngine(ImageLoadHelper.ENGINE_GLIDE);
         //初始化toast，主要是获取application

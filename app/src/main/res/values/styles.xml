@@ -41,4 +41,9 @@
         <item name="android:textCursorDrawable">@drawable/cursor_color</item>
     </style>
 
+    <!-- 底部导航栏字体样式 -->
+    <style name="BottomTabTextStyle" >
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

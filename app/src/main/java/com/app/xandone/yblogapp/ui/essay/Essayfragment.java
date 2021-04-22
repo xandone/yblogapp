@@ -130,7 +130,10 @@ public class Essayfragment extends BaseListFragment {
 
             @Override
             public void onBindView(BannerImageHolder holder, BannerBean data, int position, int size) {
-                ImageLoadHelper.getInstance().display(mActivity, bannerList.get(position).getImgUrl(), holder.imageView);
+                if (!mActivity.isFinishing()) {
+                    ImageLoadHelper.getInstance().display(mActivity, bannerList.get(position).getImgUrl(), holder.imageView);
+                }
+
             }
         };
         banner.setAdapter(bannerAdapter).addBannerLifecycleObserver(this).setIndicator(new CircleIndicator(mActivity));

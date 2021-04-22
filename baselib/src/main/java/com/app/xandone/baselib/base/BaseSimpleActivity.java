@@ -2,7 +2,11 @@ package com.app.xandone.baselib.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 
+import com.app.xandone.baselib.utils.KeyBoardUtils;
 import com.app.xandone.baselib.utils.ProgressDialogHelper;
 import com.app.xandone.baselib.utils.ProgressDialogUtil;
 
@@ -27,6 +31,7 @@ public abstract class BaseSimpleActivity extends AppCompatActivity implements IA
         initButterKnife();
         init();
         initDataObserver();
+        initSoftKeyBoard();
     }
 
     protected void initContentView() {
@@ -47,8 +52,27 @@ public abstract class BaseSimpleActivity extends AppCompatActivity implements IA
 
     }
 
+    private void initSoftKeyBoard() {
+        getAndroidContentView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                KeyBoardUtils.hideKeyboard(getCurrentFocus());
+            }
+        });
+    }
+
+    protected ViewGroup getAndroidContentView() {
+        return findViewById(Window.ID_ANDROID_CONTENT);
+    }
+
     protected void startActivity(Class activity) {
         startActivity(new Intent(this, activity));
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        KeyBoardUtils.hideKeyboard(getCurrentFocus());
+        super.startActivityForResult(intent, requestCode);
     }
 
     @Override

@@ -30,7 +30,9 @@ public class UpdateAgent implements IUpdateAgent {
         if (code < updateInfo.getVersionCode()) {
             showDialog(context, updateInfo);
         } else {
-            ToastUtils.showShort("当前已经是最新版本");
+            if (updateInfo.isShowToast()) {
+                ToastUtils.showShort("当前已经是最新版本");
+            }
         }
     }
 

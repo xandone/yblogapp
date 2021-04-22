@@ -36,6 +36,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            buildConfigField('boolean', 'LOG_ENABLE', 'true')
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             ndk {
                 abiFilters "x86", "armeabi", "armeabi-v7a"
@@ -43,6 +44,7 @@ android {
         }
         debug {
             minifyEnabled false
+            buildConfigField('boolean', 'LOG_ENABLE', 'false')
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             ndk {
                 abiFilters "x86", "armeabi", "armeabi-v7a"
@@ -75,7 +77,7 @@ dependencies {
     implementation project(':widgetlib')
 
     implementation rootProject.ext.depends.appcompat
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
     implementation 'com.jakewharton:butterknife:10.2.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.2'

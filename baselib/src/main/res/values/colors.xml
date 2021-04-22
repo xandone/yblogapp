@@ -13,4 +13,6 @@
     <color name="white">#FFFFFF</color>
     <color name="alpha_black_80">#80000000</color>
 
+    <color name="black">#000</color>
+
 </resources>

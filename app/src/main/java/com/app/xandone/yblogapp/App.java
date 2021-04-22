@@ -58,7 +58,7 @@ public class App extends Application {
     }
 
     private void init() {
-        AppConfig.init(this, BuildConfig.DEBUG);
+        AppConfig.init(this, BuildConfig.DEBUG, BuildConfig.LOG_ENABLE);
     }
 
     @Override

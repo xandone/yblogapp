@@ -27,6 +27,8 @@ public interface IUpdate {
 
     IUpdate isCanIgnore(boolean isCanIgnore);
 
+    IUpdate isShowToast(boolean isShowToast);
+
     IUpdate setDownloadEngine(IDownloadEngine engine);
 
     void start(Context context);

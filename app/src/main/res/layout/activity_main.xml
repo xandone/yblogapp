@@ -14,17 +14,17 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.roughike.bottombar.BottomBar
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="#FFFFFF"
-        app:bb_activeTabColor="@color/colorPrimary"
-        app:bb_behavior="shifting"
-        app:bb_inActiveTabAlpha="0.3"
-        app:bb_inActiveTabColor="@android:color/black"
-        app:bb_tabXmlResource="@xml/bottom_tabs"
-        app:bb_titleTextAppearance="@style/CustomTitleTextAppearance"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:background="@color/white"
+        app:itemBackground="@null"
+        app:itemTextAppearanceActive="@style/BottomTabTextStyle"
+        app:itemTextAppearanceInactive="@style/BottomTabTextStyle"
+        app:itemTextColor="@drawable/home_navigation_color_selector"
+        app:labelVisibilityMode="selected"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/menu_home_bottom_nav" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
