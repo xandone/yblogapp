@@ -1,15 +1,10 @@
 package com.app.xandone.yblogapp.ui.manager;
 
-import android.text.TextUtils;
 import android.view.View;
 
-import com.app.xandone.baselib.cache.SpHelper;
-import com.app.xandone.baselib.utils.JsonUtils;
-import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallFragment;
 import com.app.xandone.yblogapp.cache.UserInfoHelper;
-import com.app.xandone.yblogapp.constant.ISpKey;
 import com.app.xandone.yblogapp.model.bean.AdminBean;
 import com.app.xandone.yblogapp.model.event.SwitchEvent;
 

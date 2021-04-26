@@ -6,14 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/v_toolbar" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_color"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp">
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp">
 
         <com.app.xandone.widgetlib.view.UserCircleView
             android:id="@+id/admin_icon_uv"

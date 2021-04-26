@@ -71,6 +71,7 @@ static def releaseTime() {
 }
 
 dependencies {
+    // 依赖 libs 目录下所有的 jar 和 aar 包
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':baselib')
@@ -104,5 +105,8 @@ dependencies {
     implementation 'com.liulishuo.okdownload:okdownload:1.0.7'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // 沉浸式框架：https://github.com/gyf-dev/ImmersionBar
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
 
 }

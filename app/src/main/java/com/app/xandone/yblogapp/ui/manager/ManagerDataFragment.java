@@ -24,8 +24,6 @@ import butterknife.OnClick;
  * description:
  */
 public class ManagerDataFragment extends BaseWallFragment {
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     @BindView(R.id.admin_icon_uv)
     UserCircleView adminIconUv;
     @BindView(R.id.admin_name_tv)
@@ -42,7 +40,6 @@ public class ManagerDataFragment extends BaseWallFragment {
 
     @Override
     public void init(View view) {
-        setToolBar("管理系统");
         onLoadFinish();
 
         AdminBean adminBean = UserInfoHelper.getAdminBean();
@@ -57,10 +54,6 @@ public class ManagerDataFragment extends BaseWallFragment {
     @Override
     protected void requestData() {
 
-    }
-
-    private void setToolBar(CharSequence title) {
-        toolbar.setTitle(title);
     }
 
     @OnClick({R.id.setting_cl, R.id.chart_tip_cl, R.id.admin_tip_cl})
