@@ -15,6 +15,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        // 混淆配置
+        proguardFiles 'proguard-app.pro'
     }
 
     signingConfigs {
@@ -34,18 +37,18 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
             buildConfigField('boolean', 'LOG_ENABLE', 'true')
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField('String', 'BUGLY_ID', '"1"')
             ndk {
                 abiFilters "x86", "armeabi", "armeabi-v7a"
             }
         }
-        debug {
+        release {
             minifyEnabled false
             buildConfigField('boolean', 'LOG_ENABLE', 'false')
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField('String', 'BUGLY_ID', '"2"')
             ndk {
                 abiFilters "x86", "armeabi", "armeabi-v7a"
             }
@@ -108,5 +111,8 @@ dependencies {
 
     // 沉浸式框架：https://github.com/gyf-dev/ImmersionBar
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
+
+    implementation 'com.tencent.bugly:crashreport:3.3.3'
+    implementation 'com.tencent.bugly:nativecrashreport:3.7.700'
 
 }

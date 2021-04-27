@@ -2,12 +2,7 @@ package com.app.xandone.yblogapp;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
-import com.app.xandone.baselib.cache.ApkCache;
-import com.app.xandone.baselib.cache.CacheHelper;
-import com.app.xandone.baselib.cache.ImageCache;
-import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.yblogapp.config.AppConfig;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
@@ -17,6 +12,7 @@ import com.scwang.smart.refresh.layout.api.RefreshHeader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshFooterCreator;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator;
+import com.tencent.bugly.crashreport.CrashReport;
 
 
 import androidx.multidex.MultiDex;
@@ -58,7 +54,11 @@ public class App extends Application {
     }
 
     private void init() {
+        //系统配置
         AppConfig.init(this, BuildConfig.DEBUG, BuildConfig.LOG_ENABLE);
+
+        //Bugly
+        CrashReport.initCrashReport(this, AppConfig.getBuglyId(), AppConfig.isDebug());
     }
 
     @Override

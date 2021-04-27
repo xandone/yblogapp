@@ -28,6 +28,14 @@ public class AppConfig {
         return BuildConfig.LOG_ENABLE;
     }
 
+    public static String getBuglyId() {
+        return BuildConfig.BUGLY_ID;
+    }
+
+    public static boolean isDebug() {
+        return BuildConfig.DEBUG;
+    }
+
     public static void getScreenSize(Context context) {
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
