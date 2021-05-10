@@ -28,49 +28,67 @@ import io.reactivex.disposables.Disposable;
  */
 public class CodeRepository implements IFetchArticle {
 
-    private MediatorLiveData<List<CodeArticleBean>> mArtsLiveData = new MediatorLiveData<>();
+    private MediatorLiveData<List<CodeArticleBean>> mArtsLiveData;
 
-    private MediatorLiveData<CodeDetailsBean> mCodeDetailsLiveData = new MediatorLiveData<>();
+    private MediatorLiveData<CodeDetailsBean> mCodeDetailsLiveData;
 
-    private MediatorLiveData<BaseResponse<List<EssayArticleBean>>> mEssayLiveData = new MediatorLiveData<>();
+    private MediatorLiveData<BaseResponse<List<EssayArticleBean>>> mEssayLiveData;
 
-    private MediatorLiveData<EssayDetailsBean> mEssayDetailsLiveData = new MediatorLiveData<>();
+    private MediatorLiveData<EssayDetailsBean> mEssayDetailsLiveData;
 
-    private MediatorLiveData<List<BannerBean>> mBannerLiveData = new MediatorLiveData<>();
+    private MediatorLiveData<List<BannerBean>> mBannerLiveData;
 
-    private MediatorLiveData<List<CodeTypeBean>> mCodeTypeLiveData = new MediatorLiveData<>();
+    private MediatorLiveData<List<CodeTypeBean>> mCodeTypeLiveData;
 
-    private MediatorLiveData<ApkBean> mLiveApkBean = new MediatorLiveData<>();
+    private MediatorLiveData<ApkBean> mLiveApkBean;
 
     @Override
     public MediatorLiveData<List<CodeArticleBean>> getCodeArticleLiveData() {
+        if (mArtsLiveData == null) {
+            mArtsLiveData = new MediatorLiveData<>();
+        }
         return mArtsLiveData;
     }
 
     @Override
     public MediatorLiveData<CodeDetailsBean> getCodeDetailsLiveData() {
+        if (mCodeDetailsLiveData == null) {
+            mCodeDetailsLiveData = new MediatorLiveData<>();
+        }
         return mCodeDetailsLiveData;
     }
 
     @Override
     public MediatorLiveData<BaseResponse<List<EssayArticleBean>>> getEssayArticleLiveData() {
+        if (mEssayLiveData == null) {
+            mEssayLiveData = new MediatorLiveData<>();
+        }
         return mEssayLiveData;
     }
 
     @Override
     public MediatorLiveData<EssayDetailsBean> getEssayDetailsLiveData() {
+        if (mEssayDetailsLiveData == null) {
+            mEssayDetailsLiveData = new MediatorLiveData<>();
+        }
         return mEssayDetailsLiveData;
     }
 
 
     @Override
     public MediatorLiveData<List<BannerBean>> getBannerLiveData() {
+        if (mBannerLiveData == null) {
+            mBannerLiveData = new MediatorLiveData<>();
+        }
         return mBannerLiveData;
     }
 
 
     @Override
     public MediatorLiveData<List<CodeTypeBean>> getCodeTypeLiveData() {
+        if (mCodeTypeLiveData == null) {
+            mCodeTypeLiveData = new MediatorLiveData<>();
+        }
         return mCodeTypeLiveData;
     }
 
@@ -238,6 +256,9 @@ public class CodeRepository implements IFetchArticle {
 
     @Override
     public MediatorLiveData<ApkBean> getLastLiveApkInfo() {
+        if (mLiveApkBean == null) {
+            mLiveApkBean = new MediatorLiveData<>();
+        }
         return mLiveApkBean;
     }
 }

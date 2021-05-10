@@ -21,14 +21,14 @@ android {
     }
 
     signingConfigs {
-        release {
+        debug {
             storeFile file(STORE_FILE_PATH)
             storePassword STORE_PASSWORD
             keyAlias KEY_ALIAS
             keyPassword KEY_PASSWORD
         }
 
-        debug {
+        release {
             storeFile file(STORE_FILE_PATH)
             storePassword STORE_PASSWORD
             keyAlias KEY_ALIAS
@@ -40,7 +40,7 @@ android {
         debug {
             minifyEnabled false
             buildConfigField('boolean', 'LOG_ENABLE', 'true')
-            buildConfigField('String', 'BUGLY_ID', '"1"')
+            buildConfigField('String', 'BUGLY_ID', '"05e52bce99"')
             ndk {
                 abiFilters "x86", "armeabi", "armeabi-v7a"
             }
@@ -48,7 +48,7 @@ android {
         release {
             minifyEnabled false
             buildConfigField('boolean', 'LOG_ENABLE', 'false')
-            buildConfigField('String', 'BUGLY_ID', '"2"')
+            buildConfigField('String', 'BUGLY_ID', '"05e52bce99"')
             ndk {
                 abiFilters "x86", "armeabi", "armeabi-v7a"
             }

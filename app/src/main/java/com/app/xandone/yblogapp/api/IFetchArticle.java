@@ -20,32 +20,21 @@ import io.reactivex.disposables.Disposable;
  * created on: 2020/8/12 17:59
  * description:
  */
-public interface IFetchArticle {
-    Disposable getCodeDatas(int page, int row, int type, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback);
+public interface IFetchArticle extends IFetchLive {
 
-    MediatorLiveData<List<CodeArticleBean>> getCodeArticleLiveData();
+    Disposable getCodeDatas(int page, int row, int type, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback);
 
     Disposable getCodeDetails(String id, IRequestCallback<CodeDetailsBean> callback);
 
-    MediatorLiveData<CodeDetailsBean> getCodeDetailsLiveData();
-
     Disposable getEssayDatas(int page, int row, IRequestCallback<BaseResponse<List<EssayArticleBean>>> callback);
-
-    MediatorLiveData<BaseResponse<List<EssayArticleBean>>> getEssayArticleLiveData();
 
     Disposable getEssayDetails(String id, IRequestCallback<EssayDetailsBean> callback);
 
-    MediatorLiveData<EssayDetailsBean> getEssayDetailsLiveData();
-
     Disposable getBannerDatas(IRequestCallback<List<BannerBean>> callback);
-
-    MediatorLiveData<List<BannerBean>> getBannerLiveData();
 
     Disposable getCodeTypeDatas(IRequestCallback<List<CodeTypeBean>> callback);
 
-    MediatorLiveData<List<CodeTypeBean>> getCodeTypeLiveData();
-
     Disposable getLastApkInfo(IRequestCallback<ApkBean> callback);
 
-    MediatorLiveData<ApkBean> getLastLiveApkInfo();
+
 }
