@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="@drawable/shape_ver_divide_line"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:showDividers="middle">
+
+    <TextView
+        android:id="@+id/filter_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:textColor="#555"
+        android:textSize="14sp"
+        tools:text="类别" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp">
+
+        <TextView
+            android:id="@+id/keyNo_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/shape_btn_blue_r_4"
+            android:drawableRight="@mipmap/arrow"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="筛选项"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/search_et"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_stroke_gray_4"
+            android:hint="请选择关键字类型"
+            android:maxHeight="60dp"
+            android:minHeight="30dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/text_normal"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="13sp" />
+    </LinearLayout>
+</LinearLayout>

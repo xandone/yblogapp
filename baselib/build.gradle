@@ -46,4 +46,8 @@ dependencies {
     api 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.orhanobut:logger:2.2.0'
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+
+    //三级联动
+    implementation 'com.contrarywind:Android-PickerView:4.1.8'
 }

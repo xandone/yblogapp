@@ -14,5 +14,6 @@
     <color name="alpha_black_80">#80000000</color>
 
     <color name="black">#000</color>
+    <color name="line_color">#D7D7DA</color>
 
 </resources>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="@drawable/shape_ver_divide_line"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:showDividers="middle">
+
+    <TextView
+        android:id="@+id/filter_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:textColor="#555"
+        android:textSize="14sp"
+        tools:text="类别" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/start_date_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_stroke_gray_4"
+            android:drawableRight="@mipmap/calendar"
+            android:gravity="center"
+            android:paddingRight="10dp"
+            android:text="请选择开始时间"
+            android:textColor="@color/colorPrimary"
+            android:textSize="13sp"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/end_date_tv" />
+
+        <TextView
+            android:id="@+id/end_date_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/shape_stroke_gray_4"
+            android:drawableRight="@mipmap/calendar"
+            android:gravity="center"
+            android:paddingRight="10dp"
+            android:text="请选择结束时间"
+            android:textColor="@color/colorPrimary"
+            android:textSize="13sp"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@+id/start_date_tv"
+            app:layout_constraintRight_toRightOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
