@@ -15,6 +15,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +41,8 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
 
     public static final String TYPE_KEY = "filter_type_key";
     public static final String DATA_KEY = "filter_data_key";
+
+    public static String IS_FILTER = "FilterFragment_isFilter";
 
 
     @Nullable
@@ -140,6 +143,7 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
     }
 
     private void commitFilter() {
+        paramsMap.put(IS_FILTER, isFilterData());
         EventBus.getDefault().post(paramsMap);
     }
 
@@ -154,4 +158,86 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
             commitFilter();
         }
     }
+
+    /**
+     * 是否进行了筛选
+     */
+    private boolean isFilterData() {
+        for (int i = 0; i < filters.size(); i++) {
+            FilterItem[] arr = filters.get(i).getFilterItems();
+            switch (filters.get(i).getItemType()) {
+                case Filter.FILTER_SEARCH:
+                    if (isChange(filters.get(i).getFilterItems()[0].getItemValue(), paramsMap.get(Filter.FILTER_SEARCH_KEY)) ||
+                            isChange("", paramsMap.get(Filter.FILTER_SEARCH_CONTENT))) {
+                        return true;
+                    }
+                    break;
+                case Filter.FILTER_GRID:
+                    if (SimpleUtils.isEmpty(arr)) {
+                        break;
+                    }
+                    if (isChange(filters.get(i).getFilterItems()[0].getItemValue(), paramsMap.get(Filter.FILTER_GRID_KEY))) {
+                        return true;
+                    }
+                    break;
+                case Filter.FILTER_GRID_2:
+                    if (SimpleUtils.isEmpty(arr)) {
+                        break;
+                    }
+                    if (isChange(filters.get(i).getFilterItems()[0].getItemValue(), paramsMap.get(Filter.FILTER_GRID_KEY_2))) {
+                        return true;
+                    }
+                    break;
+                case Filter.FILTER_DATE:
+                    if (isChange("", paramsMap.get(Filter.FILTER_DATE_START_KEY)) ||
+                            isChange("", paramsMap.get(Filter.FILTER_DATE_END_KEY))) {
+                        return true;
+                    }
+                    break;
+                case Filter.FILTER_DATE_2:
+                    if (isChange("", paramsMap.get(Filter.FILTER_DATE_START_KEY_2)) ||
+                            isChange("", paramsMap.get(Filter.FILTER_DATE_END_KEY_2))) {
+                        return true;
+                    }
+                    break;
+                case Filter.FILTER_CHOOSE_1:
+                    if (SimpleUtils.isEmpty(arr)) {
+                        break;
+                    }
+                    if (isChange(arr[0].getItemValue(), paramsMap.get(Filter.FILTER_CHOOSE_KEY_1))) {
+                        return true;
+                    }
+                    break;
+                case Filter.FILTER_CHOOSE_2:
+                    if (SimpleUtils.isEmpty(arr)) {
+                        break;
+                    }
+                    if (isChange(arr[0].getItemValue(), paramsMap.get(Filter.FILTER_CHOOSE_KEY_2))) {
+                        return true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return false;
+
+    }
+
+    /**
+     * 判断map的某个值是否和原始值一样
+     *
+     * @param o1
+     * @param mapObject
+     * @return
+     */
+    private boolean isChange(Object o1, Object mapObject) {
+        //null的时候，表面根本没有选择过，直接返回false
+        if (mapObject == null) {
+            return false;
+        }
+        return !Objects.equals(o1, mapObject);
+    }
+
 }
