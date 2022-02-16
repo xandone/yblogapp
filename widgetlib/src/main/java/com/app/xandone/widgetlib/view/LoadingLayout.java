@@ -3,7 +3,6 @@ package com.app.xandone.widgetlib.view;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 
 import com.app.xandone.widgetlib.R;
 
-import androidx.core.content.ContextCompat;
-
 
 /**
  * author: Admin
@@ -21,10 +18,10 @@ import androidx.core.content.ContextCompat;
  * description:
  */
 public class LoadingLayout extends LinearLayout {
-    private ImageView img_tip_logo;
+    private ImageView imgTipLogo;
     private ProgressBar progressBar;
-    private TextView tv_tips;
-    private TextView bt_operate;
+    private TextView tvTips;
+    private TextView btOperate;
 
     private OnReloadListener onReloadListener;
     private String errorMsg;
@@ -47,15 +44,15 @@ public class LoadingLayout extends LinearLayout {
     }
 
     public void initView(Context context) {
-        View.inflate(context, R.layout.loading_tip_layout, this);
-        img_tip_logo = findViewById(R.id.img_tip_logo);
+        View.inflate(context, R.layout.xwidget_loading_tip_layout, this);
+        imgTipLogo = findViewById(R.id.img_tip_logo);
         progressBar = findViewById(R.id.progress);
-        tv_tips = findViewById(R.id.tv_tips);
-        bt_operate = findViewById(R.id.bt_operate);
+        tvTips = findViewById(R.id.tv_tips);
+        btOperate = findViewById(R.id.bt_operate);
 
         setVisibility(GONE);
 
-        bt_operate.setOnClickListener(new OnClickListener() {
+        btOperate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onReloadListener != null) {
@@ -67,10 +64,10 @@ public class LoadingLayout extends LinearLayout {
     }
 
     public void setTips(String tips) {
-        if (tv_tips == null) {
+        if (tvTips == null) {
             return;
         }
-        tv_tips.setText(tips);
+        tvTips.setText(tips);
     }
 
     public int getNullPic() {
@@ -85,47 +82,47 @@ public class LoadingLayout extends LinearLayout {
         switch (loadStatus) {
             case ILoadingStatus.NET_ERROR:
                 setVisibility(VISIBLE);
-                img_tip_logo.setVisibility(VISIBLE);
+                imgTipLogo.setVisibility(VISIBLE);
                 stopProgress(mContext);
-                bt_operate.setVisibility(VISIBLE);
+                btOperate.setVisibility(VISIBLE);
                 if (TextUtils.isEmpty(errorMsg)) {
-                    tv_tips.setText("数据加载失败");
+                    tvTips.setText("数据加载失败");
                 } else {
-                    tv_tips.setText(errorMsg);
+                    tvTips.setText(errorMsg);
                 }
-                img_tip_logo.setImageResource(R.mipmap.icon_net_error);
+                imgTipLogo.setImageResource(R.drawable.icon_net_error);
                 break;
             case ILoadingStatus.SERVER_ERROR:
                 setVisibility(View.VISIBLE);
-                img_tip_logo.setVisibility(VISIBLE);
+                imgTipLogo.setVisibility(VISIBLE);
                 stopProgress(mContext);
-                bt_operate.setVisibility(VISIBLE);
+                btOperate.setVisibility(VISIBLE);
                 if (TextUtils.isEmpty(errorMsg)) {
-                    tv_tips.setText("服务器异常");
+                    tvTips.setText("服务器异常");
                 } else {
-                    tv_tips.setText(errorMsg);
+                    tvTips.setText(errorMsg);
                 }
-                img_tip_logo.setImageResource(R.mipmap.icon_server_error);
+                imgTipLogo.setImageResource(R.drawable.icon_server_error);
                 break;
             case ILoadingStatus.EMPTY:
                 setVisibility(VISIBLE);
-                img_tip_logo.setVisibility(VISIBLE);
+                imgTipLogo.setVisibility(VISIBLE);
                 stopProgress(mContext);
-                bt_operate.setVisibility(VISIBLE);
-                tv_tips.setText("暂无数据");
+                btOperate.setVisibility(VISIBLE);
+                tvTips.setText("暂无数据");
                 if (nullPic <= 0) {
-                    img_tip_logo.setImageResource(R.mipmap.icon_net_nodata
+                    imgTipLogo.setImageResource(R.drawable.icon_net_nodata
                     );
                 } else {
-                    img_tip_logo.setImageResource(nullPic);
+                    imgTipLogo.setImageResource(nullPic);
                 }
                 break;
             case ILoadingStatus.LOADING:
                 setVisibility(VISIBLE);
-                img_tip_logo.setVisibility(GONE);
+                imgTipLogo.setVisibility(GONE);
                 startProgress(mContext);
-                bt_operate.setVisibility(GONE);
-                tv_tips.setText("加载..");
+                btOperate.setVisibility(GONE);
+                tvTips.setText("加载..");
                 break;
             case ILoadingStatus.FINISH:
                 setVisibility(GONE);

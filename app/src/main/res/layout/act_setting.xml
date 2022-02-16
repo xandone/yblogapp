@@ -19,7 +19,7 @@
             android:id="@+id/clear_setting_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/clear_setting_ic"
+            android:drawableLeft="@drawable/clear_setting_ic"
             android:drawablePadding="5dp"
             android:text="清除配置信息"
             android:textColor="@color/normal_tv"
@@ -31,7 +31,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/go_arrow"
+            android:src="@drawable/go_arrow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +52,7 @@
             android:id="@+id/clear_all_cache_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/clear_cache_ic"
+            android:drawableLeft="@drawable/clear_cache_ic"
             android:drawablePadding="5dp"
             android:text="清除缓存文件"
             android:textColor="@color/normal_tv"
@@ -76,7 +76,7 @@
             android:id="@+id/clear_all_cache_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/go_arrow"
+            android:src="@drawable/go_arrow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -97,7 +97,7 @@
             android:id="@+id/check_version_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/version_ic"
+            android:drawableLeft="@drawable/version_ic"
             android:drawablePadding="5dp"
             android:text="检查更新"
             android:textColor="@color/normal_tv"
@@ -121,7 +121,7 @@
             android:id="@+id/current_version_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/go_arrow"
+            android:src="@drawable/go_arrow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

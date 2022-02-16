@@ -88,7 +88,7 @@ public abstract class BaseBottomDialog extends DialogFragment {
      */
     public @StyleRes
     int getStyleRes() {
-        return R.style.bottomDialog_style;
+        return R.style.xwidget_bottomDialog_style;
     }
 
     /**

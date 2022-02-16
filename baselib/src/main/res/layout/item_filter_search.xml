@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:background="@drawable/shape_btn_blue_r_4"
-            android:drawableRight="@mipmap/arrow"
+            android:drawableRight="@drawable/arrow"
             android:drawablePadding="10dp"
             android:gravity="center"
             android:paddingLeft="10dp"

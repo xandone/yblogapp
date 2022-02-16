@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="dialog_title">提示</string>
-    <string name="cancle">取消</string>
-    <string name="confirm">确定</string>
+    <string name="xwidget_dialog_title">提示</string>
+    <string name="xwidget_cancle">取消</string>
+    <string name="xwidget_confirm">确定</string>
 </resources>

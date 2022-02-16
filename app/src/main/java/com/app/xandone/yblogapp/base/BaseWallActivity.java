@@ -57,7 +57,7 @@ public abstract class BaseWallActivity extends BaseActivity implements ILoadingW
 
     @Override
     protected void initToolbar() {
-        setToolBar(getTitle(), R.mipmap.back_ic);
+        setToolBar(getTitle(), R.drawable.back_ic);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -76,7 +76,7 @@ public abstract class BaseWallActivity extends BaseActivity implements ILoadingW
 
     public void setToolBar(CharSequence title) {
         toolbar.setTitle(title);
-        toolbar.setNavigationIcon(R.mipmap.back_ic);
+        toolbar.setNavigationIcon(R.drawable.back_ic);
     }
 
 

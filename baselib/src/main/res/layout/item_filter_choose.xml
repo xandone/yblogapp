@@ -25,7 +25,7 @@
         android:layout_height="30dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_stroke_gray_4"
-        android:drawableRight="@mipmap/ddm"
+        android:drawableRight="@drawable/ddm"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"

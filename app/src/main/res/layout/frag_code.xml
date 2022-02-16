@@ -23,7 +23,7 @@
             android:layout_height="40dp"
             android:background="@color/app_bg_color"
             android:padding="8dp"
-            android:src="@mipmap/add_ic"
+            android:src="@drawable/add_ic"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

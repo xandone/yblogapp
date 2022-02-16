@@ -3,16 +3,16 @@
 
     <item
         android:id="@+id/main_footer_code_rb"
-        android:icon="@mipmap/bar_code"
+        android:icon="@drawable/bottom_bar_code"
         android:title="编程" />
 
     <item
         android:id="@+id/main_footer_essay_rb"
-        android:icon="@mipmap/bar_essay"
+        android:icon="@drawable/bottom_bar_essay"
         android:title="杂文" />
 
     <item
         android:id="@+id/main_footer_manager_rb"
-        android:icon="@mipmap/bar_manager"
+        android:icon="@drawable/bottom_bar_manager"
         android:title="后台" />
 </menu>
