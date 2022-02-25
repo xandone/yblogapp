@@ -8,7 +8,6 @@ import android.view.Window;
 
 import com.app.xandone.baselib.utils.KeyBoardUtils;
 import com.app.xandone.baselib.utils.ProgressDialogHelper;
-import com.app.xandone.baselib.utils.ProgressDialogUtil;
 
 
 import androidx.annotation.Nullable;
@@ -42,6 +41,9 @@ public abstract class BaseSimpleActivity extends AppCompatActivity implements IA
         ButterKnife.bind(this);
     }
 
+    /**
+     * {@link IActivityInit}
+     */
     @Override
     public void doBeforeSetContentView() {
 
@@ -75,11 +77,17 @@ public abstract class BaseSimpleActivity extends AppCompatActivity implements IA
         super.startActivityForResult(intent, requestCode);
     }
 
+    /**
+     * {@link IApiLoading}
+     */
     @Override
     public void showApiLoading() {
         ProgressDialogHelper.getInstance().showLoading(this);
     }
 
+    /**
+     * {@link IApiLoading}
+     */
     @Override
     public void cancleApiLoading() {
         ProgressDialogHelper.getInstance().dimissLoading();

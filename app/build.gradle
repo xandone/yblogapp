@@ -41,12 +41,13 @@ android {
             minifyEnabled false
             buildConfigField('boolean', 'LOG_ENABLE', 'true')
             buildConfigField('String', 'BUGLY_ID', '"05e52bce99"')
+            //调试模式下只保留一种架构的 so 库，提升打包速度
             ndk {
-                abiFilters "x86", "armeabi", "armeabi-v7a"
+                abiFilters "armeabi-v7a"
             }
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
             buildConfigField('boolean', 'LOG_ENABLE', 'false')
             buildConfigField('String', 'BUGLY_ID', '"05e52bce99"')
             ndk {
@@ -61,10 +62,10 @@ android {
     }
 
 
-    def appName = "yblog"
+//    def appName = "yblog"
     applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "${appName}_${defaultConfig.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
+            outputFileName = rootProject.getName() + "_${defaultConfig.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
         }
     }
 }

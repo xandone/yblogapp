@@ -147,31 +147,49 @@ public abstract class BaseWallActivity extends BaseActivity implements ILoadingW
      */
     protected abstract void requestData();
 
+    /**
+     * {@link ILoadingWall}
+     */
     @Override
     public void onLoading() {
         loadLayout.setLoadingStatus(LoadingLayout.ILoadingStatus.LOADING);
     }
 
+    /**
+     * {@link ILoadingWall}
+     */
     @Override
     public void onLoadEmpty() {
         loadLayout.setLoadingStatus(LoadingLayout.ILoadingStatus.EMPTY);
     }
 
+    /**
+     * {@link ILoadingWall}
+     */
     @Override
     public void onLoadSeverError() {
         loadLayout.setLoadingStatus(LoadingLayout.ILoadingStatus.SERVER_ERROR);
     }
 
+    /**
+     * {@link ILoadingWall}
+     */
     @Override
     public void onLoadNetError() {
         loadLayout.setLoadingStatus(LoadingLayout.ILoadingStatus.NET_ERROR);
     }
 
+    /**
+     * {@link ILoadingWall}
+     */
     @Override
     public void onLoadFinish() {
         loadLayout.setLoadingStatus(LoadingLayout.ILoadingStatus.FINISH);
     }
 
+    /**
+     * {@link ILoadingWall}
+     */
     @Override
     public void onLoadStatus(int statusCode) {
         loadLayout.setLoadingStatus(statusCode);
