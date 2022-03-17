@@ -2,15 +2,17 @@ package com.app.xandone.yblogapp;
 
 
 import android.os.Handler;
+import android.os.Looper;
+import android.view.View;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import butterknife.BindView;
 
 import com.app.xandone.baselib.base.BaseSimpleActivity;
 import com.app.xandone.baselib.update.UpdateHelper;
 import com.app.xandone.baselib.utils.DoubleClickHelper;
 import com.app.xandone.baselib.utils.ToastUtils;
+import com.app.xandone.yblogapp.databinding.ActivityMainBinding;
 import com.app.xandone.yblogapp.model.ApkModel;
 import com.app.xandone.yblogapp.model.bean.ApkBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
@@ -19,15 +21,17 @@ import com.app.xandone.yblogapp.ui.essay.Essayfragment;
 import com.app.xandone.yblogapp.ui.manager.ManagerFragment;
 import com.app.xandone.yblogapp.utils.download.OkdownloadEngine;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends BaseSimpleActivity {
-    @BindView(R.id.bottom_bar)
-    BottomNavigationView mBottomBar;
+
+    /**
+     * ButterKnife改为 ViewBinding
+     */
+    private ActivityMainBinding mMainBinding;
 
     private List<Fragment> fragments;
     private Fragment mCurrentFragment;
@@ -37,6 +41,12 @@ public class MainActivity extends BaseSimpleActivity {
     @Override
     public int getLayout() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initContentView() {
+        mMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(mMainBinding.getRoot());
     }
 
     @Override
@@ -51,24 +61,21 @@ public class MainActivity extends BaseSimpleActivity {
 
         turn2Fragment(mCurrentIndex);
 
-        mBottomBar.setOnNavigationItemSelectedListener(item -> {
+        mMainBinding.bottomBar.setOnNavigationItemSelectedListener(item -> {
             boolean isSelect;
-            switch (item.getItemId()) {
-                case R.id.main_footer_code_rb:
-                    mCurrentIndex = 0;
-                    isSelect = true;
-                    break;
-                case R.id.main_footer_essay_rb:
-                    mCurrentIndex = 1;
-                    isSelect = true;
-                    break;
-                case R.id.main_footer_manager_rb:
-                    mCurrentIndex = 2;
-                    isSelect = true;
-                    break;
-                default:
-                    isSelect = false;
-                    break;
+            int itemId = item.getItemId();
+            //R 中的id 不再是final，改为if else
+            if (itemId == R.id.main_footer_code_rb) {
+                mCurrentIndex = 0;
+                isSelect = true;
+            } else if (itemId == R.id.main_footer_essay_rb) {
+                mCurrentIndex = 1;
+                isSelect = true;
+            } else if (itemId == R.id.main_footer_manager_rb) {
+                mCurrentIndex = 2;
+                isSelect = true;
+            } else {
+                isSelect = false;
             }
             turn2Fragment(mCurrentIndex);
             return isSelect;
@@ -129,6 +136,12 @@ public class MainActivity extends BaseSimpleActivity {
             return;
         }
         moveTaskToBack(false);
-        new Handler().postDelayed(this::finish, 300);
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, 300);
     }
 }

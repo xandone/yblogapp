@@ -4,7 +4,7 @@ apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
+//    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
         applicationId rootProject.ext.android.applicationId
@@ -38,6 +38,7 @@ android {
 
     buildTypes {
         debug {
+            signingConfig signingConfigs.release
             minifyEnabled false
             buildConfigField('boolean', 'LOG_ENABLE', 'true')
             buildConfigField('String', 'BUGLY_ID', '"05e52bce99"')
@@ -47,6 +48,7 @@ android {
             }
         }
         release {
+            signingConfig signingConfigs.release
             minifyEnabled true
             buildConfigField('boolean', 'LOG_ENABLE', 'false')
             buildConfigField('String', 'BUGLY_ID', '"05e52bce99"')
@@ -67,6 +69,11 @@ android {
         variant.outputs.all {
             outputFileName = rootProject.getName() + "_${defaultConfig.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
         }
+    }
+
+    //启用 viewBinding
+    buildFeatures {
+        viewBinding true
     }
 }
 

@@ -86,7 +86,7 @@ public class AppUtils {
         Uri uri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            String authority = "com.app.xandone.yblogapp.fileprovider";
+            String authority = getPackageName() + ".fileprovider";
             uri = FileProvider.getUriForFile(context, authority, file);
         } else {
             uri = Uri.fromFile(file);

@@ -3,6 +3,7 @@ package com.app.xandone.yblogapp;
 import android.app.Application;
 import android.content.Context;
 
+import com.app.xandone.yblogapp.base.ActManager;
 import com.app.xandone.yblogapp.config.AppConfig;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
@@ -56,6 +57,8 @@ public class App extends Application {
     private void init() {
         //系统配置
         AppConfig.init(this, BuildConfig.DEBUG, BuildConfig.LOG_ENABLE);
+
+        ActManager.getInstance().init(this);
 
         //Bugly
         CrashReport.initCrashReport(this, AppConfig.getBuglyId(), AppConfig.isDebug());
