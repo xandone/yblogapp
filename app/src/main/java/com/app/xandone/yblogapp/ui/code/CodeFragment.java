@@ -77,8 +77,6 @@ public class CodeFragment extends BaseWallFragment {
     @Override
     protected void initDataObserver() {
         mCodeTypeModel = ModelProvider.getModel(mActivity, CodeTypeModel.class, App.sContext);
-
-        requestData();
     }
 
     @Override
@@ -95,6 +93,12 @@ public class CodeFragment extends BaseWallFragment {
                 onLoadStatus(statusCode);
             }
         });
+    }
+
+    @Override
+    protected void lazyLoadData() {
+        super.lazyLoadData();
+        requestData();
     }
 
     public void initType(List<CodeTypeBean> codeTypeBeans) {

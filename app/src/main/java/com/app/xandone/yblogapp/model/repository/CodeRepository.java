@@ -1,6 +1,8 @@
 package com.app.xandone.yblogapp.model.repository;
 
 
+import android.util.Log;
+
 import com.app.xandone.baselib.utils.SimpleUtils;
 import com.app.xandone.yblogapp.api.ApiClient;
 import com.app.xandone.yblogapp.api.IFetchArticle;

@@ -3,6 +3,7 @@ package com.app.xandone.yblogapp.ui.code;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -41,8 +42,6 @@ public class CodeListFragment extends BaseListFragment {
     private BaseQuickAdapter<CodeArticleBean, BaseViewHolder> mAdapter;
     private List<CodeArticleBean> datas;
     private int mType;
-    private int mPage = 1;
-    protected boolean mIsLoadedData;
 
     private static final int ROW = 10;
     public static final String TYPE = "type";
@@ -98,18 +97,19 @@ public class CodeListFragment extends BaseListFragment {
         codeModel = ModelProvider.getModel(mActivity, CodeModel.class, App.sContext);
     }
 
+    @Override
     protected void lazyLoadData() {
-        mPage = 1;
+        super.lazyLoadData();
         requestData();
     }
 
     @Override
     protected void requestData() {
-        getCodeDatas(false);
+        getCodeDatas(1, false);
     }
 
-    private void getCodeDatas(boolean isLoadMore) {
-        codeModel.getCodeDatas(mPage, ROW, mType, isLoadMore, new IRequestCallback<List<CodeArticleBean>>() {
+    private void getCodeDatas(int page, boolean isLoadMore) {
+        codeModel.getCodeDatas(page, ROW, mType, isLoadMore, new IRequestCallback<List<CodeArticleBean>>() {
             @Override
             public void success(List<CodeArticleBean> beans) {
                 datas = beans;
@@ -128,37 +128,18 @@ public class CodeListFragment extends BaseListFragment {
             @Override
             public void error(String message, int statusCode) {
                 onLoadStatus(statusCode);
-                if (isLoadMore) {
-                    mPage--;
-                }
             }
         });
     }
 
     @Override
     public void getData() {
-        mPage = 1;
-        getCodeDatas(false);
+        getCodeDatas(1, false);
     }
 
     @Override
     public void getDataMore() {
-        mPage++;
-        getCodeDatas(true);
+        getCodeDatas(datas.size() / ROW + 1, true);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!mIsLoadedData) {
-            lazyLoadData();
-            mIsLoadedData = true;
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mIsLoadedData = false;
-    }
 }

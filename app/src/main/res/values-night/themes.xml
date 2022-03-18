@@ -2,6 +2,6 @@
 <resources>
 
     <style name="BlogTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="normal_tv">@color/chart_fill_color4</item>
+        <item name="normal_tv">@color/main_tv_night</item>
     </style>
 </resources>

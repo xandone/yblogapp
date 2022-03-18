@@ -3,10 +3,12 @@ package com.app.xandone.yblogapp;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.view.View;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.app.xandone.baselib.base.BaseSimpleActivity;
 import com.app.xandone.baselib.update.UpdateHelper;
@@ -34,7 +36,6 @@ public class MainActivity extends BaseSimpleActivity {
     private ActivityMainBinding mMainBinding;
 
     private List<Fragment> fragments;
-    private Fragment mCurrentFragment;
     private int mCurrentIndex = 0;
     private ApkModel mApkModel;
 
@@ -59,12 +60,27 @@ public class MainActivity extends BaseSimpleActivity {
         fragments.add(Essayfragment.getInstance());
         fragments.add(new ManagerFragment());
 
-        turn2Fragment(mCurrentIndex);
+        //禁止触摸滑动
+        mMainBinding.mainVp.setUserInputEnabled(false);
+        //禁止预加载
+        mMainBinding.mainVp.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
+        mMainBinding.mainVp.setAdapter(new FragmentStateAdapter(this) {
+            @Override
+            public int getItemCount() {
+                return fragments.size();
+            }
+
+            @NonNull
+            @Override
+            public Fragment createFragment(int position) {
+                return fragments.get(position);
+            }
+        });
 
         mMainBinding.bottomBar.setOnNavigationItemSelectedListener(item -> {
             boolean isSelect;
             int itemId = item.getItemId();
-            //R 中的id 不再是final，改为if else
+            //R 中的id gradle8.0不再是final，改为if else ,选中switch Alt+enter 一键改为if else
             if (itemId == R.id.main_footer_code_rb) {
                 mCurrentIndex = 0;
                 isSelect = true;
@@ -77,7 +93,7 @@ public class MainActivity extends BaseSimpleActivity {
             } else {
                 isSelect = false;
             }
-            turn2Fragment(mCurrentIndex);
+            mMainBinding.mainVp.setCurrentItem(mCurrentIndex);
             return isSelect;
         });
     }
@@ -86,24 +102,9 @@ public class MainActivity extends BaseSimpleActivity {
     protected void initDataObserver() {
         mApkModel = ModelProvider.getModel(this, ApkModel.class, App.sContext);
 
-        checkApkVersion();
+//        checkApkVersion();
     }
 
-
-    public void turn2Fragment(int index) {
-        Fragment toFragment = fragments.get(index);
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (mCurrentFragment != null) {
-            ft.hide(mCurrentFragment);
-        }
-        if (toFragment.isAdded()) {
-            ft.show(toFragment);
-        } else {
-            ft.add(R.id.main_frame, toFragment);
-        }
-        ft.commitAllowingStateLoss();
-        mCurrentFragment = toFragment;
-    }
 
     private void checkApkVersion() {
         mApkModel.getLastApkInfo(new IRequestCallback<ApkBean>() {
@@ -128,6 +129,7 @@ public class MainActivity extends BaseSimpleActivity {
             }
         });
     }
+
 
     @Override
     public void onBackPressed() {

@@ -5,6 +5,7 @@
     <color name="colorAccent">#03DAC5</color>
 
     <color name="app_bg_color">#F3F5F8</color>
+    <color name="main_tv">#333</color>
     <color name="light_tv">#555</color>
     <color name="thin_tv">#999</color>
     <color name="black_color">#000</color>
@@ -14,6 +15,8 @@
     <color name="btn_press_color">#408bff</color>
     <color name="dividle_line_color">#e3e3e3</color>
     <color name="hint_normal">#ccc</color>
+
+    <color name="main_tv_night">#34aadc</color>
 
     <color name="chart_fill_color1">#6b5aeb</color>
     <color name="chart_fill_color2">#34aadc</color>

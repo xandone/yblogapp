@@ -117,8 +117,6 @@ public class Essayfragment extends BaseListFragment {
     @Override
     protected void initDataObserver() {
         essayModel = ModelProvider.getModel(mActivity, EssayModel.class, App.sContext);
-
-        requestData();
     }
 
     private void initBanner() {
@@ -152,8 +150,14 @@ public class Essayfragment extends BaseListFragment {
     }
 
     @Override
+    protected void lazyLoadData() {
+        super.lazyLoadData();
+        requestData();
+    }
+
+    @Override
     protected void requestData() {
-        getCodeDatas(1, false);
+        getEssayDatas(1, false);
         getBannerDatas();
     }
 
@@ -173,7 +177,7 @@ public class Essayfragment extends BaseListFragment {
         });
     }
 
-    private void getCodeDatas(int page, boolean isLoadMore) {
+    private void getEssayDatas(int page, boolean isLoadMore) {
         essayModel.getEssayDatas(page, ROW, new IRequestCallback<BaseResponse<List<EssayArticleBean>>>() {
             @Override
             public void success(BaseResponse<List<EssayArticleBean>> response) {
@@ -210,12 +214,12 @@ public class Essayfragment extends BaseListFragment {
 
     @Override
     public void getData() {
-        getCodeDatas(1, false);
+        getEssayDatas(1, false);
         getBannerDatas();
     }
 
     @Override
     public void getDataMore() {
-        getCodeDatas(datas.size() / ROW + 1, true);
+        getEssayDatas(datas.size() / ROW + 1, true);
     }
 }

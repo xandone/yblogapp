@@ -28,6 +28,8 @@ import butterknife.ButterKnife;
 public abstract class BaseSimpleFragment extends Fragment implements IFragInit {
     protected FragmentActivity mActivity;
 
+    protected boolean mIsLoadedData;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +71,29 @@ public abstract class BaseSimpleFragment extends Fragment implements IFragInit {
 
     }
 
-    @Override
-    public void onDestroyView() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroyView();
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageReceived(SimplEvent event) {
     }
+
+
+    protected void lazyLoadData() {
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!mIsLoadedData) {
+            lazyLoadData();
+            mIsLoadedData = true;
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+        mIsLoadedData = false;
+    }
+
 }
