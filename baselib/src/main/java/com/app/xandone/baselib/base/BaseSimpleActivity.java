@@ -19,7 +19,8 @@ import butterknife.ButterKnife;
  * created on: 2020/8/12 10:34
  * description:
  */
-public abstract class BaseSimpleActivity extends AppCompatActivity implements IActivityInit, IApiLoading {
+public abstract class BaseSimpleActivity extends AppCompatActivity implements IActivityInit, IApiLoading,
+        IToastAction {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

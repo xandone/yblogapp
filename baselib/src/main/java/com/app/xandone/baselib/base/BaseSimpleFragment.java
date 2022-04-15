@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  * created on: 2020/8/12 11:05
  * description:
  */
-public abstract class BaseSimpleFragment extends Fragment implements IFragInit {
+public abstract class BaseSimpleFragment extends Fragment implements IFragInit, IToastAction {
     protected FragmentActivity mActivity;
 
     protected boolean mIsLoadedData;

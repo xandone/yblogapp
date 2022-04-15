@@ -134,7 +134,7 @@ public class MainActivity extends BaseSimpleActivity {
     @Override
     public void onBackPressed() {
         if (!DoubleClickHelper.isOnDoubleClick()) {
-            ToastUtils.showShort("再按一次退出");
+            toast("再按一次退出");
             return;
         }
         moveTaskToBack(false);

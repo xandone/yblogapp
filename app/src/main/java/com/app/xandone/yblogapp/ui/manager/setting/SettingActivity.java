@@ -88,7 +88,7 @@ public class SettingActivity extends BaseWallActivity {
             @Override
             public void onConfirm() {
                 CacheHelper.clearDefaultSp(App.sContext, ISpKey.CODE_TYPE_KEY);
-                ToastUtils.showShort("清除完成");
+                toast("清除完成");
             }
         });
 
@@ -100,7 +100,7 @@ public class SettingActivity extends BaseWallActivity {
             public void onConfirm() {
                 CacheHelper.clearExternalFilesDir(App.sContext);
                 allCacheSizeTv.setText("0KB");
-                ToastUtils.showShort("清除完成");
+                toast("清除完成");
             }
         });
     }

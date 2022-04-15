@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import com.app.xandone.baselib.R;
 
+import androidx.annotation.StringDef;
+import androidx.annotation.StringRes;
+
 /**
  * author: Admin
  * created on: 2020/8/13 16:17
@@ -41,7 +44,7 @@ public class ToastUtils {
         createToast(msg, Toast.LENGTH_SHORT).show();
     }
 
-    public static void showShort(int strId) {
+    public static void showShort(@StringRes int strId) {
         createToast(sApp.getText(strId), Toast.LENGTH_SHORT).show();
     }
 

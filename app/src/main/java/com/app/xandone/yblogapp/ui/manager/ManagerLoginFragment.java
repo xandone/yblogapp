@@ -80,11 +80,11 @@ public class ManagerLoginFragment extends BaseFrament implements KeyboardWatcher
         String name = loginAccountEt.getText().toString();
         String psw = loginPswEt.getText().toString();
         if (TextUtils.isEmpty(name)) {
-            ToastUtils.showShort("请输入账户");
+            toast("请输入账户");
             return;
         }
         if (TextUtils.isEmpty(psw)) {
-            ToastUtils.showShort("请输入密码");
+            toast("请输入密码");
             return;
         }
         psw = MD5Util.MD5(psw);
@@ -93,12 +93,12 @@ public class ManagerLoginFragment extends BaseFrament implements KeyboardWatcher
             public void success(AdminBean adminBean) {
                 EventBus.getDefault().post(new SwitchEvent(SwitchEvent.MANAGER_DATA_RAG));
                 savaLoginInfo(adminBean);
-                ToastUtils.showShort("登录成功");
+                toast("登录成功");
             }
 
             @Override
             public void error(String message, int statusCode) {
-                ToastUtils.showShort("登录异常" + message);
+                toast("登录异常" + message);
             }
         });
     }
