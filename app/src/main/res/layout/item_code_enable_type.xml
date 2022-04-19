@@ -14,7 +14,7 @@
         android:paddingRight="16dp"
         android:paddingBottom="8dp"
         android:text="全部"
-        android:textColor="?normal_tv"
+        android:textColor="?attr/normal_tv"
         android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

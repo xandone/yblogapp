@@ -25,20 +25,18 @@ import com.app.xandone.yblogapp.model.IArtDetailsModel;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
 import com.app.xandone.yblogapp.model.bean.EssayDetailsBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
+import com.app.xandone.yblogapp.utils.download.OkdownloadCallback;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
 import com.hitomi.tilibrary.transfer.TransferConfig;
 import com.hitomi.tilibrary.transfer.Transferee;
 import com.liulishuo.okdownload.DownloadListener;
 import com.liulishuo.okdownload.DownloadTask;
-import com.liulishuo.okdownload.core.breakpoint.BreakpointInfo;
 import com.liulishuo.okdownload.core.cause.EndCause;
-import com.liulishuo.okdownload.core.cause.ResumeFailedCause;
 import com.vansz.universalimageloader.UniversalImageLoader;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -261,7 +259,7 @@ public class ArticleDetailsActivity extends BaseWallActivity {
                 })
                 .setLayoutRes(R.layout.dialog_download_img)
                 .setDimAmount(0.6f)
-                .setHeight(SizeUtils.dp2px(App.sContext, 200))
+//                .setHeight(SizeUtils.dp2px(App.sContext, 200))
                 .setTag("BottomDialog");
         downloadDialog.show();
     }
@@ -280,51 +278,11 @@ public class ArticleDetailsActivity extends BaseWallActivity {
     }
 
     private void initDownloadListener() {
-        mDownloadListener = new DownloadListener() {
-            @Override
-            public void taskStart(@NonNull DownloadTask task) {
-            }
-
-            @Override
-            public void connectTrialStart(@NonNull DownloadTask task, @NonNull Map<String, List<String>> requestHeaderFields) {
-            }
-
-            @Override
-            public void connectTrialEnd(@NonNull DownloadTask task, int responseCode, @NonNull Map<String, List<String>> responseHeaderFields) {
-            }
-
-            @Override
-            public void downloadFromBeginning(@NonNull DownloadTask task, @NonNull BreakpointInfo info, @NonNull ResumeFailedCause cause) {
-            }
-
-            @Override
-            public void downloadFromBreakpoint(@NonNull DownloadTask task, @NonNull BreakpointInfo info) {
-            }
-
-            @Override
-            public void connectStart(@NonNull DownloadTask task, int blockIndex, @NonNull Map<String, List<String>> requestHeaderFields) {
-            }
-
-            @Override
-            public void connectEnd(@NonNull DownloadTask task, int blockIndex, int responseCode, @NonNull Map<String, List<String>> responseHeaderFields) {
-            }
-
-            @Override
-            public void fetchStart(@NonNull DownloadTask task, int blockIndex, long contentLength) {
-            }
-
-            @Override
-            public void fetchProgress(@NonNull DownloadTask task, int blockIndex, long increaseBytes) {
-            }
-
-            @Override
-            public void fetchEnd(@NonNull DownloadTask task, int blockIndex, long contentLength) {
-            }
-
+        mDownloadListener = new OkdownloadCallback() {
             @Override
             public void taskEnd(@NonNull DownloadTask task, @NonNull EndCause cause, @Nullable Exception realCause) {
                 LogHelper.d("image download taskEnd fileName=" + task.getFilename());
-                ImageUtils.saveFile2SdCard(App.sContext, task.getFile(), "yblog");
+                ImageUtils.saveFile2SdCard(App.sContext, task.getFile(), AppConfig.APP_FILE_DIR);
             }
         };
     }

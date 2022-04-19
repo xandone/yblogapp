@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="总年数据"
-            android:textColor="?normal_tv"
+            android:textColor="?attr/normal_tv"
             app:layout_constraintLeft_toLeftOf="parent" />
 
         <LinearLayout

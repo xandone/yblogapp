@@ -26,6 +26,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.delegate.BaseMultiTypeDelegate;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -104,7 +109,13 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
         types = new ArrayList<>(getArguments().getParcelableArrayList(IConstantKey.DATA));
         removeTypes = new ArrayList<>(getArguments().getParcelableArrayList(IConstantKey.DATA2));
         initItemTouchHelper();
-        recycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        FlexboxLayoutManager layoutManager=new FlexboxLayoutManager(getActivity());
+        layoutManager.setFlexWrap(FlexWrap.WRAP);
+        layoutManager.setFlexDirection(FlexDirection.ROW);
+        layoutManager.setAlignItems(AlignItems.STRETCH);
+        layoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        recycler.setLayoutManager(layoutManager);
+
         recycler.addItemDecoration(new SpacesItemDecoration(App.sContext, 10, 10, 10));
         mAdapter = new DelegateMultiAdapter(types);
 
@@ -127,7 +138,12 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
     }
 
     private void initRemoveRecycler() {
-        typeRemovRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        FlexboxLayoutManager layoutManager=new FlexboxLayoutManager(getActivity());
+        layoutManager.setFlexWrap(FlexWrap.WRAP);
+        layoutManager.setFlexDirection(FlexDirection.ROW);
+        layoutManager.setAlignItems(AlignItems.STRETCH);
+        layoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        typeRemovRecycler.setLayoutManager(layoutManager);
         typeRemovRecycler.addItemDecoration(new SpacesItemDecoration(App.sContext, 10, 10, 10));
         mRemoveAdapter = new BaseQuickAdapter<CodeTypeBean, BaseViewHolder>(R.layout.item_remove_code_type, removeTypes) {
             @Override
@@ -265,11 +281,6 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
     }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageReceived(SimplEvent event) {
-    }
-
 
     class DelegateMultiAdapter extends BaseDelegateMultiAdapter<CodeTypeBean, BaseViewHolder> {
 

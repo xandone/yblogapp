@@ -34,7 +34,9 @@ public abstract class BaseSimpleFragment extends Fragment implements IFragInit, 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         doBeforeSetContentView();
-        EventBus.getDefault().register(this);
+        if (isRegisterEventBus()) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -71,11 +73,9 @@ public abstract class BaseSimpleFragment extends Fragment implements IFragInit, 
 
     }
 
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageReceived(SimplEvent event) {
+    protected boolean isRegisterEventBus() {
+        return false;
     }
-
 
     protected void lazyLoadData() {
     }
@@ -92,7 +92,9 @@ public abstract class BaseSimpleFragment extends Fragment implements IFragInit, 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        EventBus.getDefault().unregister(this);
+        if (isRegisterEventBus()) {
+            EventBus.getDefault().unregister(this);
+        }
         mIsLoadedData = false;
     }
 

@@ -2,6 +2,7 @@ package com.app.xandone.yblogapp.ui.manager;
 
 import android.view.View;
 
+import com.app.xandone.baselib.utils.KeyBoardUtils;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallFragment;
 import com.app.xandone.yblogapp.cache.UserInfoHelper;
@@ -57,8 +58,18 @@ public class ManagerFragment extends BaseWallFragment {
         getChildFragmentManager().beginTransaction().replace(R.id.main_fl, fragment).commitAllowingStateLoss();
     }
 
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void switchEvent(SwitchEvent event) {
+        if (isDetached()) {
+            return;
+        }
+        KeyBoardUtils.hideKeyboard(mActivity.getCurrentFocus());
         Fragment fragment;
         switch (event.getTag()) {
             case SwitchEvent.MANAGER_DATA_RAG:

@@ -15,7 +15,7 @@
         android:ellipsize="end"
         android:gravity="start"
         android:singleLine="true"
-        android:textColor="?normal_tv"
+        android:textColor="?attr/normal_tv"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"

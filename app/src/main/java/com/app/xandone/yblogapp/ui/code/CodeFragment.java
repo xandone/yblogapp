@@ -220,8 +220,16 @@ public class CodeFragment extends BaseWallFragment {
         }
     }
 
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCodeTypeEvent(CodeTypeEvent event) {
+        if (isDetached()) {
+            return;
+        }
         if (event == null || event.getList() == null) {
             return;
         }

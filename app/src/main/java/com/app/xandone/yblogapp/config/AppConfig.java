@@ -15,7 +15,12 @@ import com.app.xandone.yblogapp.BuildConfig;
  * description:
  */
 public class AppConfig {
-    private static final String APP_NAME = "";
+    private static final String APP_NAME = "yblog";
+
+    /**
+     * 缓存文件夹，图片、文件等
+     */
+    public static final String APP_FILE_DIR = "yblog";
     public static int SCREEN_WIDTH = -1;
     public static int SCREEN_HEIGHT = -1;
 
