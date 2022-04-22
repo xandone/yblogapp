@@ -83,12 +83,6 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -274,12 +268,6 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
         });
 
         mItemHelper.attachToRecyclerView(recycler);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        EventBus.getDefault().unregister(this);
     }
 
     class DelegateMultiAdapter extends BaseDelegateMultiAdapter<CodeTypeBean, BaseViewHolder> {

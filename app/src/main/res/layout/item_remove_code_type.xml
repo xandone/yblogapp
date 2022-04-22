@@ -21,8 +21,8 @@
 
     <ImageView
         android:id="@+id/type_del_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:layout_marginTop="2dp"
         android:layout_marginRight="2dp"
         android:src="@drawable/add_type_ic"

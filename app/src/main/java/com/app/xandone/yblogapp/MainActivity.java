@@ -77,7 +77,7 @@ public class MainActivity extends BaseSimpleActivity {
             }
         });
 
-        mMainBinding.bottomBar.setOnNavigationItemSelectedListener(item -> {
+        mMainBinding.bottomBar.setOnItemSelectedListener(item -> {
             boolean isSelect;
             int itemId = item.getItemId();
             //R 中的id gradle8.0不再是final，改为if else ,选中switch Alt+enter 一键改为if else

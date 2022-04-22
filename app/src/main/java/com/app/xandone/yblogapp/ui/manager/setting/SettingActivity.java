@@ -65,6 +65,7 @@ public class SettingActivity extends BaseWallActivity {
 
     @OnClick({R.id.clear_setting_cl, R.id.clear_all_cache_cl, R.id.check_version_cl, R.id.exit_btn})
     public void click(View v) {
+        //选中 switch alt+enter 转化为if else
         switch (v.getId()) {
             case R.id.clear_setting_cl:
                 clearSettingInfo();
