@@ -1,6 +1,8 @@
 package com.app.xandone.yblogapp.api;
 
 
+import android.util.Log;
+
 import com.app.xandone.baselib.cache.FileHelper;
 import com.app.xandone.baselib.utils.NetworkUtils;
 import com.app.xandone.yblogapp.App;
@@ -52,27 +54,19 @@ public class ApiClient {
                 request = request.newBuilder().header("token",
                         UserInfoHelper.isAdminCache() ? UserInfoHelper.getAdminToken() : "").build();
                 if (!NetworkUtils.isConnected(App.sContext) && isCache) {
+                    int maxStale = 60 * 60 * 24 * 2;
                     request = request.newBuilder()
                             .cacheControl(CacheControl.FORCE_CACHE)
-                            .build();
-                }
-                Response response = chain.proceed(request);
-                if (NetworkUtils.isConnected(App.sContext)) {
-                    int maxAge = 0;
-                    // 有网络时, 不缓存, 最大保存时长为0
-                    response.newBuilder()
-                            .header("Cache-Control", "public, max-age=" + maxAge)
-                            .removeHeader("Pragma")
+                            .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
                             .build();
                 } else {
-                    // 无网络时，设置超时为2天
-                    int maxStale = 60 * 60 * 24 * 2;
-                    response.newBuilder()
-                            .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
-                            .removeHeader("Pragma")
+                    request = request.newBuilder()
+                            .cacheControl(CacheControl.FORCE_NETWORK)
+                            .header("Cache-Control", "public, max-age=" + 0)
                             .build();
                 }
-                return response;
+
+                return chain.proceed(request);
             }
         };
         //设置缓存
