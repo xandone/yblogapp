@@ -45,12 +45,10 @@ import androidx.recyclerview.widget.RecyclerView;
  * created on: 2020/9/3 16:20
  * description:
  */
-public class Essayfragment extends BaseListFragment {
+public class Essayfragment extends BaseListFragment<EssayArticleBean> {
 
     private EssayModel essayModel;
 
-    private BaseQuickAdapter<EssayArticleBean, BaseViewHolder> mAdapter;
-    private List<EssayArticleBean> datas;
     private BannerImageAdapter<BannerBean> bannerAdapter;
     private List<BannerBean> bannerList;
 
@@ -63,9 +61,9 @@ public class Essayfragment extends BaseListFragment {
     @Override
     public void init(View view) {
         super.init(view);
-        datas = new ArrayList<>();
+        mDatas = new ArrayList<>();
         bannerList = new ArrayList<>();
-        mAdapter = new BaseQuickAdapter<EssayArticleBean, BaseViewHolder>(R.layout.item_essay_list, datas) {
+        mAdapter = new BaseQuickAdapter<EssayArticleBean, BaseViewHolder>(R.layout.item_essay_list, mDatas) {
             @Override
             protected void convert(@NotNull BaseViewHolder baseViewHolder, EssayArticleBean essayArticleBean) {
                 baseViewHolder.setText(R.id.essay_title_tv, essayArticleBean.getTitle());
@@ -106,9 +104,9 @@ public class Essayfragment extends BaseListFragment {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
                 startActivity(new Intent(mActivity, ArticleDetailsActivity.class)
-                        .putExtra(IConstantKey.ID, datas.get(position).getEssayId())
+                        .putExtra(IConstantKey.ID, mDatas.get(position).getEssayId())
                         .putExtra(IConstantKey.TYPE, ArticleDetailsActivity.TYPE_ESSAY)
-                        .putExtra(IConstantKey.TITLE, datas.get(position).getTitle())
+                        .putExtra(IConstantKey.TITLE, mDatas.get(position).getTitle())
                 );
             }
         });
@@ -181,33 +179,12 @@ public class Essayfragment extends BaseListFragment {
         essayModel.getEssayDatas(page, ROW, new IRequestCallback<BaseResponse<List<EssayArticleBean>>>() {
             @Override
             public void success(BaseResponse<List<EssayArticleBean>> response) {
-                onLoadFinish();
-                if (!isLoadMore) {
-                    finishRefresh();
-                    if (response == null) {
-                        onLoadNetError();
-                        return;
-                    }
-                    if (SimpleUtils.isEmpty(response.getData())) {
-                        onLoadEmpty();
-                        return;
-                    }
-                    datas = response.getData();
-                    mAdapter.setList(datas);
-                } else {
-                    datas.addAll(response.getData());
-                    mAdapter.setList(datas);
-                    if (datas.size() >= response.getTotal()) {
-                        finishLoadNoMoreData();
-                    } else {
-                        finishLoadMore();
-                    }
-                }
+                mIListAction.dealLoadSuccess(response, isLoadMore);
             }
 
             @Override
             public void error(String message, int statusCode) {
-                onLoadStatus(statusCode);
+                mIListAction.dealLoadFail(message, statusCode);
             }
         });
     }
@@ -220,6 +197,6 @@ public class Essayfragment extends BaseListFragment {
 
     @Override
     public void getDataMore() {
-        getEssayDatas(datas.size() / ROW + 1, true);
+        getEssayDatas(mDatas.size() / ROW + 1, true);
     }
 }

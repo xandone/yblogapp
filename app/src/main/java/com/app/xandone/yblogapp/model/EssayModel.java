@@ -1,16 +1,18 @@
 package com.app.xandone.yblogapp.model;
 
-import com.app.xandone.yblogapp.api.IFetchArticle;
+import com.app.xandone.yblogapp.api.ApiClient;
 import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.model.bean.BannerBean;
 import com.app.xandone.yblogapp.model.bean.EssayArticleBean;
-import com.app.xandone.yblogapp.model.repository.CodeRepository;
+import com.app.xandone.yblogapp.rx.BaseSubscriber;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
+import com.app.xandone.yblogapp.rx.RxHelper;
 import com.app.xandone.yblogapp.viewmodel.BaseViewModel;
 
 import java.util.List;
 
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
 /**
@@ -19,15 +21,18 @@ import androidx.lifecycle.Observer;
  * description:
  */
 public class EssayModel extends BaseViewModel {
-    private IFetchArticle articleRepo;
+    private MediatorLiveData<BaseResponse<List<EssayArticleBean>>> mEssayLiveData;
+    private MediatorLiveData<List<BannerBean>> mBannerLiveData;
+
     private IRequestCallback<BaseResponse<List<EssayArticleBean>>> callback;
     private IRequestCallback<List<BannerBean>> bannerCallback;
 
     @Override
     protected void onCreate(LifecycleOwner owner) {
-        articleRepo = new CodeRepository();
+        mEssayLiveData = new MediatorLiveData<>();
+        mBannerLiveData = new MediatorLiveData<>();
 
-        articleRepo.getEssayArticleLiveData().observe(owner, new Observer<BaseResponse<List<EssayArticleBean>>>() {
+        mEssayLiveData.observe(owner, new Observer<BaseResponse<List<EssayArticleBean>>>() {
             @Override
             public void onChanged(BaseResponse<List<EssayArticleBean>> beans) {
                 if (callback != null) {
@@ -36,7 +41,7 @@ public class EssayModel extends BaseViewModel {
             }
         });
 
-        articleRepo.getBannerLiveData().observe(owner, new Observer<List<BannerBean>>() {
+        mBannerLiveData.observe(owner, new Observer<List<BannerBean>>() {
             @Override
             public void onChanged(List<BannerBean> beans) {
                 if (bannerCallback != null) {
@@ -48,11 +53,43 @@ public class EssayModel extends BaseViewModel {
 
     public void getEssayDatas(int page, int row, IRequestCallback<BaseResponse<List<EssayArticleBean>>> callback) {
         this.callback = callback;
-        addSubscrible(articleRepo.getEssayDatas(page, row, callback));
+        addSubscrible(ApiClient.getInstance()
+                .getApiService()
+                .getEssayDatas(page, row)
+                .compose(RxHelper.handleIO())
+                .compose(RxHelper.handleBaseResponse())
+                .subscribeWith(new BaseSubscriber<BaseResponse<List<EssayArticleBean>>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<List<EssayArticleBean>> response) {
+                        mEssayLiveData.setValue(response);
+                    }
+
+                    @Override
+                    public void onFail(String message, int code, int... apiCode) {
+                        super.onFail(message, code);
+                        callback.error(message, code);
+                    }
+                }));
     }
 
     public void getBannerDatas(IRequestCallback<List<BannerBean>> callback) {
         this.bannerCallback = callback;
-        addSubscrible(articleRepo.getBannerDatas(callback));
+        addSubscrible(ApiClient.getInstance()
+                .getApiService()
+                .getBannerDatas()
+                .compose(RxHelper.handleIO())
+                .compose(RxHelper.handleRespose())
+                .subscribeWith(new BaseSubscriber<List<BannerBean>>() {
+                    @Override
+                    public void onSuccess(List<BannerBean> beans) {
+                        mBannerLiveData.setValue(beans);
+                    }
+
+                    @Override
+                    public void onFail(String message, int code, int... apiCode) {
+                        super.onFail(message, code);
+                        callback.error(message, code);
+                    }
+                }));
     }
 }

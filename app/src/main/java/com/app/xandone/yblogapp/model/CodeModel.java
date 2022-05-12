@@ -1,15 +1,17 @@
 package com.app.xandone.yblogapp.model;
 
-import com.app.xandone.yblogapp.api.IFetchArticle;
+import com.app.xandone.yblogapp.api.ApiClient;
+import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
-import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
-import com.app.xandone.yblogapp.model.repository.CodeRepository;
+import com.app.xandone.yblogapp.rx.BaseSubscriber;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
+import com.app.xandone.yblogapp.rx.RxHelper;
 import com.app.xandone.yblogapp.viewmodel.BaseViewModel;
 
 import java.util.List;
 
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
 /**
@@ -18,16 +20,17 @@ import androidx.lifecycle.Observer;
  * description:
  */
 public class CodeModel extends BaseViewModel {
-    private IFetchArticle articleRepo;
-    private IRequestCallback<List<CodeArticleBean>> callback;
+    private IRequestCallback<BaseResponse<List<CodeArticleBean>>> callback;
+
+    private MediatorLiveData<BaseResponse<List<CodeArticleBean>>> mArtsLiveData;
 
     @Override
     protected void onCreate(LifecycleOwner owner) {
-        articleRepo = new CodeRepository();
+        mArtsLiveData = new MediatorLiveData<>();
 
-        articleRepo.getCodeArticleLiveData().observe(owner, new Observer<List<CodeArticleBean>>() {
+        mArtsLiveData.observe(owner, new Observer<BaseResponse<List<CodeArticleBean>>>() {
             @Override
-            public void onChanged(List<CodeArticleBean> beans) {
+            public void onChanged(BaseResponse<List<CodeArticleBean>> beans) {
                 if (callback != null) {
                     callback.success(beans);
                 }
@@ -35,8 +38,24 @@ public class CodeModel extends BaseViewModel {
         });
     }
 
-    public void getCodeDatas(int page, int row, int type, boolean isLoadMore, IRequestCallback<List<CodeArticleBean>> callback) {
+    public void getCodeDatas(int page, int row, int type, IRequestCallback<BaseResponse<List<CodeArticleBean>>> callback) {
         this.callback = callback;
-        addSubscrible(articleRepo.getCodeDatas(page, row, type, isLoadMore, callback));
+        addSubscrible(ApiClient.getInstance()
+                .getApiService()
+                .getCodeDatas(page, row, type)
+                .compose(RxHelper.handleIO())
+                .compose(RxHelper.handleBaseResponse())
+                .subscribeWith(new BaseSubscriber<BaseResponse<List<CodeArticleBean>>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<List<CodeArticleBean>> response) {
+                        mArtsLiveData.setValue(response);
+                    }
+
+                    @Override
+                    public void onFail(String message, int code, int... apiCode) {
+                        super.onFail(message, code);
+                        callback.error(message, code);
+                    }
+                }));
     }
 }

@@ -27,6 +27,8 @@ import io.reactivex.disposables.Disposable;
  * author: Admin
  * created on: 2020/8/12 17:19
  * description:
+ *
+ * @deprecated 没啥用
  */
 public class CodeRepository implements IFetchArticle {
 

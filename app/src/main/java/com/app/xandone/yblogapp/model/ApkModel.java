@@ -1,13 +1,17 @@
 package com.app.xandone.yblogapp.model;
 
-import com.app.xandone.baselib.update.IUpdate;
-import com.app.xandone.yblogapp.api.IFetchArticle;
+import com.app.xandone.baselib.utils.SimpleUtils;
+import com.app.xandone.yblogapp.api.ApiClient;
 import com.app.xandone.yblogapp.model.bean.ApkBean;
-import com.app.xandone.yblogapp.model.repository.CodeRepository;
+import com.app.xandone.yblogapp.rx.BaseSubscriber;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
+import com.app.xandone.yblogapp.rx.RxHelper;
 import com.app.xandone.yblogapp.viewmodel.BaseViewModel;
 
+import java.util.List;
+
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
 /**
@@ -16,14 +20,13 @@ import androidx.lifecycle.Observer;
  * description:
  */
 public class ApkModel extends BaseViewModel {
-    private IFetchArticle articleRepo;
+    private MediatorLiveData<ApkBean> mLiveApkBean;
     private IRequestCallback<ApkBean> callback;
 
     @Override
     protected void onCreate(LifecycleOwner owner) {
-        articleRepo = new CodeRepository();
-
-        articleRepo.getLastLiveApkInfo().observe(owner, new Observer<ApkBean>() {
+        mLiveApkBean = new MediatorLiveData<>();
+        mLiveApkBean.observe(owner, new Observer<ApkBean>() {
             @Override
             public void onChanged(ApkBean beans) {
                 if (callback != null) {
@@ -35,6 +38,24 @@ public class ApkModel extends BaseViewModel {
 
     public void getLastApkInfo(IRequestCallback<ApkBean> callback) {
         this.callback = callback;
-        addSubscrible(articleRepo.getLastApkInfo(callback));
+        addSubscrible(ApiClient.getInstance()
+                .getApiService()
+                .getLastApkInfo()
+                .compose(RxHelper.handleIO())
+                .compose(RxHelper.handleRespose())
+                .subscribeWith(new BaseSubscriber<List<ApkBean>>() {
+                    @Override
+                    public void onSuccess(List<ApkBean> beans) {
+                        if (!SimpleUtils.isEmpty(beans)) {
+                            mLiveApkBean.setValue(beans.get(0));
+                        }
+                    }
+
+                    @Override
+                    public void onFail(String message, int code, int... apiCode) {
+                        super.onFail(message, code);
+                        callback.error(message, code);
+                    }
+                }));
     }
 }

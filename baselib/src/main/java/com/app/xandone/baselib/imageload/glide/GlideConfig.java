@@ -63,4 +63,9 @@ public class GlideConfig extends AppGlideModule {
                     .error(R.drawable.image_error_bg));
         }
     }
+
+    @Override
+    public boolean isManifestParsingEnabled() {
+        return false;
+    }
 }

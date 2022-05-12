@@ -9,12 +9,14 @@ import android.widget.ImageView;
 
 import com.app.xandone.baselib.imageload.ImageLoadHelper;
 import com.app.xandone.baselib.log.LogHelper;
+import com.app.xandone.baselib.utils.SimpleUtils;
 import com.app.xandone.widgetlib.utils.SpacesItemDecoration;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseListFragment;
 import com.app.xandone.yblogapp.constant.IConstantKey;
 import com.app.xandone.yblogapp.model.CodeModel;
+import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.ui.articledetails.ArticleDetailsActivity;
@@ -36,11 +38,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
  * created on: 2020/8/31 17:55
  * description:
  */
-public class CodeListFragment extends BaseListFragment {
+public class CodeListFragment extends BaseListFragment<CodeArticleBean> {
     private CodeModel codeModel;
-
-    private BaseQuickAdapter<CodeArticleBean, BaseViewHolder> mAdapter;
-    private List<CodeArticleBean> datas;
     private int mType;
 
     private static final int ROW = 10;
@@ -59,8 +58,8 @@ public class CodeListFragment extends BaseListFragment {
     public void init(View view) {
         super.init(view);
         mType = getArguments().getInt(TYPE);
-        datas = new ArrayList<>();
-        mAdapter = new BaseQuickAdapter<CodeArticleBean, BaseViewHolder>(R.layout.item_code_list, datas) {
+        mDatas = new ArrayList<>();
+        mAdapter = new BaseQuickAdapter<CodeArticleBean, BaseViewHolder>(R.layout.item_code_list, mDatas) {
             @Override
             protected void convert(@NotNull BaseViewHolder baseViewHolder, CodeArticleBean codeArticleBean) {
                 baseViewHolder.setText(R.id.code_title_tv, codeArticleBean.getTitle());
@@ -84,9 +83,9 @@ public class CodeListFragment extends BaseListFragment {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
                 startActivity(new Intent(mActivity, ArticleDetailsActivity.class)
-                        .putExtra(IConstantKey.ID, datas.get(position).getArtId())
+                        .putExtra(IConstantKey.ID, mDatas.get(position).getArtId())
                         .putExtra(IConstantKey.TYPE, ArticleDetailsActivity.TYPE_CODE)
-                        .putExtra(IConstantKey.TITLE, datas.get(position).getTitle())
+                        .putExtra(IConstantKey.TITLE, mDatas.get(position).getTitle())
                 );
             }
         });
@@ -109,25 +108,15 @@ public class CodeListFragment extends BaseListFragment {
     }
 
     private void getCodeDatas(int page, boolean isLoadMore) {
-        codeModel.getCodeDatas(page, ROW, mType, isLoadMore, new IRequestCallback<List<CodeArticleBean>>() {
+        codeModel.getCodeDatas(page, ROW, mType, new IRequestCallback<BaseResponse<List<CodeArticleBean>>>() {
             @Override
-            public void success(List<CodeArticleBean> beans) {
-                datas = beans;
-                mAdapter.setList(datas);
-                onLoadFinish();
-                if (!isLoadMore) {
-                    finishRefresh();
-                    if (beans.size() <= 0) {
-                        onLoadEmpty();
-                    }
-                } else {
-                    finishLoadMore();
-                }
+            public void success(BaseResponse<List<CodeArticleBean>> response) {
+                mIListAction.dealLoadSuccess(response, isLoadMore);
             }
 
             @Override
             public void error(String message, int statusCode) {
-                onLoadStatus(statusCode);
+                mIListAction.dealLoadFail(message, statusCode);
             }
         });
     }
@@ -139,7 +128,7 @@ public class CodeListFragment extends BaseListFragment {
 
     @Override
     public void getDataMore() {
-        getCodeDatas(datas.size() / ROW + 1, true);
+        getCodeDatas(mDatas.size() / ROW + 1, true);
     }
 
 }

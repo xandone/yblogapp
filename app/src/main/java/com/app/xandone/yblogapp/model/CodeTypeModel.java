@@ -1,14 +1,16 @@
 package com.app.xandone.yblogapp.model;
 
-import com.app.xandone.yblogapp.api.IFetchArticle;
+import com.app.xandone.yblogapp.api.ApiClient;
 import com.app.xandone.yblogapp.model.bean.CodeTypeBean;
-import com.app.xandone.yblogapp.model.repository.CodeRepository;
+import com.app.xandone.yblogapp.rx.BaseSubscriber;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
+import com.app.xandone.yblogapp.rx.RxHelper;
 import com.app.xandone.yblogapp.viewmodel.BaseViewModel;
 
 import java.util.List;
 
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
 /**
@@ -17,14 +19,15 @@ import androidx.lifecycle.Observer;
  * description:
  */
 public class CodeTypeModel extends BaseViewModel {
-    private IFetchArticle articleRepo;
+    private MediatorLiveData<List<CodeTypeBean>> mCodeTypeLiveData;
+
     private IRequestCallback<List<CodeTypeBean>> callback;
 
     @Override
     protected void onCreate(LifecycleOwner owner) {
-        articleRepo = new CodeRepository();
+        mCodeTypeLiveData = new MediatorLiveData<>();
 
-        articleRepo.getCodeTypeLiveData().observe(owner, new Observer<List<CodeTypeBean>>() {
+        mCodeTypeLiveData.observe(owner, new Observer<List<CodeTypeBean>>() {
             @Override
             public void onChanged(List<CodeTypeBean> beans) {
                 if (callback != null) {
@@ -36,6 +39,22 @@ public class CodeTypeModel extends BaseViewModel {
 
     public void getCodeTypeDatas(IRequestCallback<List<CodeTypeBean>> callback) {
         this.callback = callback;
-        addSubscrible(articleRepo.getCodeTypeDatas(callback));
+        addSubscrible(ApiClient.getInstance()
+                .getApiService()
+                .getCodeTypeDatas()
+                .compose(RxHelper.handleIO())
+                .compose(RxHelper.handleRespose())
+                .subscribeWith(new BaseSubscriber<List<CodeTypeBean>>() {
+                    @Override
+                    public void onSuccess(List<CodeTypeBean> beans) {
+                        mCodeTypeLiveData.setValue(beans);
+                    }
+
+                    @Override
+                    public void onFail(String message, int code, int... apiCode) {
+                        super.onFail(message, code);
+                        callback.error(message, code);
+                    }
+                }));
     }
 }

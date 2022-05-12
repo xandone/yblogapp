@@ -1,13 +1,17 @@
 package com.app.xandone.yblogapp.model;
 
-import com.app.xandone.yblogapp.api.IFetchArticle;
+import com.app.xandone.yblogapp.api.ApiClient;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
-import com.app.xandone.yblogapp.model.repository.CodeRepository;
+import com.app.xandone.yblogapp.rx.BaseSubscriber;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
+import com.app.xandone.yblogapp.rx.RxHelper;
 import com.app.xandone.yblogapp.viewmodel.BaseViewModel;
 
 
+import java.util.List;
+
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
 /**
@@ -16,14 +20,14 @@ import androidx.lifecycle.Observer;
  * description:
  */
 public class CodeDetailsModel extends BaseViewModel implements IArtDetailsModel<CodeDetailsBean> {
-    private IFetchArticle articleRepo;
+    private MediatorLiveData<CodeDetailsBean> mCodeDetailsLiveData;
     private IRequestCallback<CodeDetailsBean> callback;
 
     @Override
     protected void onCreate(LifecycleOwner owner) {
-        articleRepo = new CodeRepository();
+        mCodeDetailsLiveData = new MediatorLiveData<>();
 
-        articleRepo.getCodeDetailsLiveData().observe(owner, new Observer<CodeDetailsBean>() {
+        mCodeDetailsLiveData.observe(owner, new Observer<CodeDetailsBean>() {
                     @Override
                     public void onChanged(CodeDetailsBean codeDetailsBean) {
                         if (callback != null) {
@@ -37,6 +41,20 @@ public class CodeDetailsModel extends BaseViewModel implements IArtDetailsModel<
     @Override
     public void getDetails(String id, IRequestCallback<CodeDetailsBean> callback) {
         this.callback = callback;
-        addSubscrible(articleRepo.getCodeDetails(id, callback));
+        addSubscrible(ApiClient.getInstance()
+                .getApiService()
+                .getCodeDetails(id).compose(RxHelper.handleIO())
+                .compose(RxHelper.handleRespose()).subscribeWith(new BaseSubscriber<List<CodeDetailsBean>>() {
+                    @Override
+                    public void onSuccess(List<CodeDetailsBean> detailsBeans) {
+                        mCodeDetailsLiveData.setValue(detailsBeans.get(0));
+                    }
+
+                    @Override
+                    public void onFail(String message, int code, int... apiCode) {
+                        super.onFail(message, code);
+                        callback.error(message, code);
+                    }
+                }));
     }
 }
