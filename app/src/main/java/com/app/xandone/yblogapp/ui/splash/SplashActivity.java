@@ -1,31 +1,31 @@
 package com.app.xandone.yblogapp.ui.splash;
 
 
+import android.Manifest;
+
 import com.app.xandone.baselib.base.BaseSimpleActivity;
+import com.app.xandone.baselib.base.IFragInit;
 import com.app.xandone.yblogapp.MainActivity;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.config.IMyPermission;
 import com.app.xandone.yblogapp.rx.RxHelper;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.AppSettingsDialog;
-import pub.devrel.easypermissions.EasyPermissions;
-import pub.devrel.easypermissions.PermissionRequest;
 
 /**
  * author: Admin
  * created on: 2020/9/1 14:05
  * description:
  */
-public class SplashActivity extends BaseSimpleActivity implements EasyPermissions.PermissionCallbacks {
-    private Disposable disposable;
+public class SplashActivity extends BaseSimpleActivity {
+    private CompositeDisposable mDisposables;
 
     @Override
     public int getLayout() {
@@ -34,68 +34,36 @@ public class SplashActivity extends BaseSimpleActivity implements EasyPermission
 
     @Override
     public void init() {
-        writeAndReadTask();
+        mDisposables = new CompositeDisposable();
+        mDisposables.add(new RxPermissions(this).request(IMyPermission.WRITE_AND_READ_PERMS).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) {
+                if (aBoolean) {
+                    go2NextPage();
+                } else {
+                    finish();
+                }
+            }
+        }));
     }
 
     private void go2NextPage() {
-        disposable = Flowable.timer(2000, TimeUnit.MILLISECONDS)
+        mDisposables.add(Flowable.timer(2000, TimeUnit.MILLISECONDS)
                 .compose(RxHelper.handleIO())
                 .subscribe(new Consumer<Long>() {
                     @Override
-                    public void accept(Long aLong) throws Exception {
+                    public void accept(Long aLong) {
                         startActivity(MainActivity.class);
                         finish();
                     }
-                });
+                }));
     }
-
-    private boolean hasWriteAndReadPermissions() {
-        return EasyPermissions.hasPermissions(this, IMyPermission.WRITE_AND_READ_PERMS);
-    }
-
-    @AfterPermissionGranted(IMyPermission.RC_WRITE_AND_READ_PERM_CODE)
-    public void writeAndReadTask() {
-        if (hasWriteAndReadPermissions()) {
-            // Have permissions, do the thing!
-            go2NextPage();
-        } else {
-            EasyPermissions.requestPermissions(new PermissionRequest.Builder(this,
-                    IMyPermission.RC_WRITE_AND_READ_PERM_CODE,
-                    IMyPermission.WRITE_AND_READ_PERMS)
-                    .setRationale("需要以下权限")
-                    .build());
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
-
-
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-        go2NextPage();
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            new AppSettingsDialog.Builder(this).build().show();
-        }
-//        AppManager.newInstance().finishAllActivity();
-        finish();
-    }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (disposable != null) {
-            disposable.dispose();
+        if (mDisposables != null) {
+            mDisposables.clear();
         }
     }
 }

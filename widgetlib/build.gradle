@@ -23,6 +23,11 @@ android {
 
     resourcePrefix "xwidget_"
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
@@ -37,4 +42,5 @@ dependencies {
     api 'com.scwang.smart:refresh-header-classics:2.0.1'
     api 'com.github.hackware1993:MagicIndicator:1.5.0'
     api 'com.youth.banner:banner:2.1.0'
+    api 'androidx.constraintlayout:constraintlayout:2.0.4'
 }

@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  * description:
  */
 public abstract class BaseSimpleActivity extends AppCompatActivity implements IActivityInit, IApiLoading,
-        IToastAction {
+        IToastAction, IClickAction {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +39,11 @@ public abstract class BaseSimpleActivity extends AppCompatActivity implements IA
 
     protected void initButterKnife() {
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public <T extends View> T findView(int id) {
+        return getDelegate().findViewById(id);
     }
 
     /**

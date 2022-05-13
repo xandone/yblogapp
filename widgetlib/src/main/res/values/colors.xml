@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="xwidget_text_normal">#6A6868</color>
+    <color name="xwidget_text_default">#6A6868</color>
     <color name="xwidget_btn_color">#236ee1</color>
+
+    <color name="xwidget_white">#ffffff</color>
+    <color name="xwidget_click_color">#FaFaFa</color>
 </resources>

@@ -3,7 +3,6 @@ package com.app.xandone.yblogapp;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,7 +12,6 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.app.xandone.baselib.base.BaseSimpleActivity;
 import com.app.xandone.baselib.update.UpdateHelper;
 import com.app.xandone.baselib.utils.DoubleClickHelper;
-import com.app.xandone.baselib.utils.ToastUtils;
 import com.app.xandone.yblogapp.databinding.ActivityMainBinding;
 import com.app.xandone.yblogapp.model.ApkModel;
 import com.app.xandone.yblogapp.model.bean.ApkBean;

@@ -67,6 +67,7 @@ public class ImageUtils {
                 closeIo(out, fis);
             }
         } else {
+            //这个方法不会把getExternalFilesDir的图片刷新到相册
             MediaScannerConnection.scanFile(context, new String[]{sourceFile.getPath()},
                     new String[]{mimeType}, new MediaScannerConnection.OnScanCompletedListener() {
                         @Override

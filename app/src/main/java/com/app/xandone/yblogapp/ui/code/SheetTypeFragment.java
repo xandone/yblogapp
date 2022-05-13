@@ -103,7 +103,7 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
         types = new ArrayList<>(getArguments().getParcelableArrayList(IConstantKey.DATA));
         removeTypes = new ArrayList<>(getArguments().getParcelableArrayList(IConstantKey.DATA2));
         initItemTouchHelper();
-        FlexboxLayoutManager layoutManager=new FlexboxLayoutManager(getActivity());
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(getActivity());
         layoutManager.setFlexWrap(FlexWrap.WRAP);
         layoutManager.setFlexDirection(FlexDirection.ROW);
         layoutManager.setAlignItems(AlignItems.STRETCH);
@@ -132,7 +132,7 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
     }
 
     private void initRemoveRecycler() {
-        FlexboxLayoutManager layoutManager=new FlexboxLayoutManager(getActivity());
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(getActivity());
         layoutManager.setFlexWrap(FlexWrap.WRAP);
         layoutManager.setFlexDirection(FlexDirection.ROW);
         layoutManager.setAlignItems(AlignItems.STRETCH);
@@ -173,6 +173,7 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
 
     @OnClick({R.id.edit_tv})
     public void click(View view) {
+        //选中 switch alt+enter 转化为if else
         switch (view.getId()) {
             case R.id.edit_tv:
                 isEditState = !isEditState;

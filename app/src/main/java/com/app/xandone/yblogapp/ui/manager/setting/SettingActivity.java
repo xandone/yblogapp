@@ -7,7 +7,7 @@ import com.app.xandone.baselib.cache.CacheHelper;
 import com.app.xandone.baselib.dialog.MDialogOnclickListener;
 import com.app.xandone.baselib.dialog.MDialogUtils;
 import com.app.xandone.baselib.update.UpdateHelper;
-import com.app.xandone.baselib.utils.ToastUtils;
+import com.app.xandone.widgetlib.view.SettingView;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallActivity;
@@ -18,22 +18,23 @@ import com.app.xandone.yblogapp.model.event.SwitchEvent;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.utils.download.OkdownloadEngine;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
-import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * author: Admin
  * created on: 2020/9/29 11:09
  * description:
  */
-public class SettingActivity extends BaseWallActivity {
-    @BindView(R.id.all_cache_size_tv)
-    TextView allCacheSizeTv;
+public class SettingActivity extends BaseWallActivity  {
+    @BindView(R.id.exit_btn)
+    TextView exitBtn;
+    private SettingView settingSv;
+    private SettingView allCacelSv;
+    private SettingView versionSv;
 
     private ApkModel mApkModel;
 
@@ -44,9 +45,15 @@ public class SettingActivity extends BaseWallActivity {
 
     @Override
     public void wallInit() {
-        allCacheSizeTv.setText(CacheHelper.getTotalCacheSize(App.sContext));
+        settingSv = findViewById(R.id.setting_sv);
+        allCacelSv = findViewById(R.id.all_cache_sv);
+        versionSv = findViewById(R.id.version_sv);
+
+        allCacelSv.setSettingRightTv(CacheHelper.getTotalCacheSize(App.sContext));
 
         mApkModel = ModelProvider.getModel(this, ApkModel.class, App.sContext);
+
+        bindClick(R.id.setting_sv, R.id.all_cache_sv, R.id.version_sv, R.id.exit_btn);
 
         onLoadFinish();
     }
@@ -57,17 +64,18 @@ public class SettingActivity extends BaseWallActivity {
 
     }
 
-    @OnClick({R.id.clear_setting_cl, R.id.clear_all_cache_cl, R.id.check_version_cl, R.id.exit_btn})
-    public void click(View v) {
+
+    @Override
+    public void onClick(View v) {
         //选中 switch alt+enter 转化为if else
         switch (v.getId()) {
-            case R.id.clear_setting_cl:
+            case R.id.setting_sv:
                 clearSettingInfo();
                 break;
-            case R.id.clear_all_cache_cl:
+            case R.id.all_cache_sv:
                 clearAllCache();
                 break;
-            case R.id.check_version_cl:
+            case R.id.version_sv:
                 checkApkVersion();
                 break;
             case R.id.exit_btn:
@@ -79,10 +87,6 @@ public class SettingActivity extends BaseWallActivity {
     }
 
     private void clearSettingInfo() {
-        if (CacheHelper.isHaveCache(App.sContext)) {
-            toast("没有缓存~");
-            return;
-        }
         MDialogUtils.showSimpleDialog(this, "是否清除配置信息?", new MDialogOnclickListener() {
             @Override
             public void onConfirm() {
@@ -94,11 +98,15 @@ public class SettingActivity extends BaseWallActivity {
     }
 
     private void clearAllCache() {
+        if (CacheHelper.isHaveCache(App.sContext)) {
+            toast("没有缓存~");
+            return;
+        }
         MDialogUtils.showSimpleDialog(this, "是否清除所有缓存文件?", new MDialogOnclickListener() {
             @Override
             public void onConfirm() {
                 CacheHelper.clearExternalCacheDir(App.sContext);
-                allCacheSizeTv.setText("0KB");
+                allCacelSv.setSettingRightTv("0KB");
                 toast("清除完成");
             }
         });
@@ -141,4 +149,5 @@ public class SettingActivity extends BaseWallActivity {
             }
         });
     }
+
 }
