@@ -71,11 +71,7 @@ public class CodeFragment extends BaseWallFragment {
         apiTypeList = new ArrayList<>();
         codeTypeList = new ArrayList<>();
         removeTypes = new ArrayList<>();
-    }
 
-
-    @Override
-    protected void initDataObserver() {
         mCodeTypeModel = ModelProvider.getModel(mActivity, CodeTypeModel.class, App.sContext);
     }
 

@@ -17,6 +17,6 @@ public interface IMyPermission {
      */
     int RC_BROWSE_THE_CAMERA_CODE = 101;
 
-    String[] WRITE_AND_READ_PERMS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE};
+    String[] WRITE_AND_READ_PERMS = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
     String BROWSE_THE_CAMERA = Manifest.permission.CAMERA;
 }

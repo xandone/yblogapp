@@ -89,10 +89,7 @@ public class CodeListFragment extends BaseListFragment<CodeArticleBean> {
                 );
             }
         });
-    }
 
-    @Override
-    protected void initDataObserver() {
         codeModel = ModelProvider.getModel(mActivity, CodeModel.class, App.sContext);
     }
 

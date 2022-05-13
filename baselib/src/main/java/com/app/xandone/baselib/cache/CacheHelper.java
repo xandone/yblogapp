@@ -33,10 +33,10 @@ public class CacheHelper {
     }
 
     /**
-     * 清除ExternalFilesDir文件夹
+     * 清除ExternalCacheDir文件夹
      */
-    public static void clearExternalFilesDir(Context context) {
-        FileHelper.deleteDir(FileHelper.getExternalFilesDir(context));
+    public static void clearExternalCacheDir(Context context) {
+        FileHelper.deleteDir(FileHelper.getExternalCacheDir(context));
     }
 
     /**
@@ -47,7 +47,7 @@ public class CacheHelper {
      */
     public static void clearAllCache(Context context, String... names) {
         clearSpCache(context, names);
-        clearExternalFilesDir(context);
+        clearExternalCacheDir(context);
     }
 
     /**
@@ -55,10 +55,32 @@ public class CacheHelper {
      *
      * @param context
      * @return
-     * @throws Exception
      */
-    public static String getTotalCacheSize(Context context) throws Exception {
-        long cacheSize = FileHelper.getFolderSize(FileHelper.getExternalFilesDirFile(context));
+    public static String getTotalCacheSize(Context context) {
+        long cacheSize;
+        try {
+            cacheSize = FileHelper.getFolderSize(FileHelper.getExternalCacheDirFile(context));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return FileHelper.getFormatSize(0);
+        }
         return FileHelper.getFormatSize(cacheSize);
+    }
+
+    /**
+     * 是否有缓存
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isHaveCache(Context context) {
+        long cacheSize;
+        try {
+            cacheSize = FileHelper.getFolderSize(FileHelper.getExternalCacheDirFile(context));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return cacheSize <= 0;
     }
 }

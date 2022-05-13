@@ -30,7 +30,6 @@ public abstract class BaseSimpleActivity extends AppCompatActivity implements IA
         initContentView();
         initButterKnife();
         init();
-        initDataObserver();
         initSoftKeyBoard();
     }
 
@@ -47,11 +46,6 @@ public abstract class BaseSimpleActivity extends AppCompatActivity implements IA
      */
     @Override
     public void doBeforeSetContentView() {
-
-    }
-
-    protected void initDataObserver() {
-
 
     }
 

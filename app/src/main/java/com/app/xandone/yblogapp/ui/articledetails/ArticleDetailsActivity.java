@@ -84,10 +84,7 @@ public class ArticleDetailsActivity extends BaseWallActivity {
         urls = new ArrayList<>();
         initWebView();
         initDownloadListener();
-    }
 
-    @Override
-    protected void initDataObserver() {
         if (mType == TYPE_CODE) {
             detailsModel = ModelProvider.getModel(this, CodeDetailsModel.class, App.sContext);
         } else {

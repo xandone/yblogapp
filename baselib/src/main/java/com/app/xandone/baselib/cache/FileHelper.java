@@ -43,6 +43,10 @@ public class FileHelper {
         return context.getExternalFilesDir(Environment.DIRECTORY_DCIM).getAbsolutePath();
     }
 
+    public static File getExternalCacheDirFile(Context context) {
+        return context.getExternalCacheDir();
+    }
+
     public static String getExternalCacheDir(Context context) {
         return context.getExternalCacheDir().getAbsolutePath();
     }

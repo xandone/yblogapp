@@ -53,10 +53,7 @@ public class AdminListActivity extends BaseListActivity {
 
         //一次性加载所有，因此不允许上拉
         unableLoadMore();
-    }
 
-    @Override
-    protected void initDataObserver() {
         adminModel = ModelProvider.getModel(this, AdminModel.class, App.sContext);
         requestData();
     }

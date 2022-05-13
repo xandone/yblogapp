@@ -32,7 +32,7 @@ public class GlideConfig extends AppGlideModule {
     @Override
     public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
         // 读写外部缓存目录不需要申请存储权限
-        File diskCacheFile = new File(context.getCacheDir(), "glide");
+        File diskCacheFile = new File(context.getExternalCacheDir(), "glide");
         // 如果这个路径是一个文件
         if (diskCacheFile.exists() && diskCacheFile.isFile()) {
             // 执行删除操作

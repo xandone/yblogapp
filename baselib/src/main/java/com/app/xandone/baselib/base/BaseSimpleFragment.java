@@ -56,7 +56,6 @@ public abstract class BaseSimpleFragment extends Fragment implements IFragInit, 
         super.onViewCreated(view, savedInstanceState);
         initButterKnife(view);
         init(view);
-        initDataObserver();
     }
 
     protected void initButterKnife(View view) {
@@ -66,10 +65,6 @@ public abstract class BaseSimpleFragment extends Fragment implements IFragInit, 
 
     @Override
     public void doBeforeSetContentView() {
-
-    }
-
-    protected void initDataObserver() {
 
     }
 

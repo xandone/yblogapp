@@ -44,19 +44,13 @@ public class SettingActivity extends BaseWallActivity {
 
     @Override
     public void wallInit() {
-        try {
-            allCacheSizeTv.setText(CacheHelper.getTotalCacheSize(App.sContext));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        allCacheSizeTv.setText(CacheHelper.getTotalCacheSize(App.sContext));
+
+        mApkModel = ModelProvider.getModel(this, ApkModel.class, App.sContext);
 
         onLoadFinish();
     }
 
-    @Override
-    protected void initDataObserver() {
-        mApkModel = ModelProvider.getModel(this, ApkModel.class, App.sContext);
-    }
 
     @Override
     protected void requestData() {
@@ -85,6 +79,10 @@ public class SettingActivity extends BaseWallActivity {
     }
 
     private void clearSettingInfo() {
+        if (CacheHelper.isHaveCache(App.sContext)) {
+            toast("没有缓存~");
+            return;
+        }
         MDialogUtils.showSimpleDialog(this, "是否清除配置信息?", new MDialogOnclickListener() {
             @Override
             public void onConfirm() {
@@ -99,7 +97,7 @@ public class SettingActivity extends BaseWallActivity {
         MDialogUtils.showSimpleDialog(this, "是否清除所有缓存文件?", new MDialogOnclickListener() {
             @Override
             public void onConfirm() {
-                CacheHelper.clearExternalFilesDir(App.sContext);
+                CacheHelper.clearExternalCacheDir(App.sContext);
                 allCacheSizeTv.setText("0KB");
                 toast("清除完成");
             }

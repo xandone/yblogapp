@@ -110,10 +110,7 @@ public class Essayfragment extends BaseListFragment<EssayArticleBean> {
                 );
             }
         });
-    }
 
-    @Override
-    protected void initDataObserver() {
         essayModel = ModelProvider.getModel(mActivity, EssayModel.class, App.sContext);
     }
 

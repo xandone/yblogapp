@@ -59,17 +59,13 @@ public class ChartDataActivity extends BaseWallActivity implements OnChartValueS
 
     @Override
     protected void wallInit() {
-
         initChart();
-
-    }
-
-    @Override
-    protected void initDataObserver() {
+        
         managerChartModel = ModelProvider.getModel(this, ManagerChartModel.class, App.sContext);
-
         requestData();
+
     }
+
 
     @Override
     protected void requestData() {

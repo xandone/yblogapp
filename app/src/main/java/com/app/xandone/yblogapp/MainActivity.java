@@ -96,10 +96,8 @@ public class MainActivity extends BaseSimpleActivity {
             mMainBinding.mainVp.setCurrentItem(mCurrentIndex);
             return isSelect;
         });
-    }
 
-    @Override
-    protected void initDataObserver() {
+
         mApkModel = ModelProvider.getModel(this, ApkModel.class, App.sContext);
 
 //        checkApkVersion();
@@ -132,6 +130,15 @@ public class MainActivity extends BaseSimpleActivity {
 
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mMainBinding != null) {
+            mMainBinding = null;
+        }
+    }
+
+
+    @Override
     public void onBackPressed() {
         if (!DoubleClickHelper.isOnDoubleClick()) {
             toast("再按一次退出");
@@ -146,4 +153,5 @@ public class MainActivity extends BaseSimpleActivity {
             }
         }, 300);
     }
+
 }

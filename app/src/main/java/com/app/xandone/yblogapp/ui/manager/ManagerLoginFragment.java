@@ -58,10 +58,7 @@ public class ManagerLoginFragment extends BaseFrament implements KeyboardWatcher
     public void init(View view) {
         keyboardWatcher = new KeyboardWatcher(mActivity.findViewById(Window.ID_ANDROID_CONTENT));
         keyboardWatcher.addSoftKeyboardStateListener(this);
-    }
 
-    @Override
-    protected void initDataObserver() {
         managerModel = ModelProvider.getModel(mActivity, ManagerModel.class, App.sContext);
     }
 
