@@ -10,13 +10,17 @@
     <color name="thin_tv">#999</color>
     <color name="black_color">#000</color>
     <color name="white_color">#fff</color>
+    <color name="view_bg_color">#fff</color>
     <color name="enable_click_bg_color">#aaa</color>
     <color name="btn_color">#236ee1</color>
     <color name="btn_press_color">#408bff</color>
     <color name="dividle_line_color">#e3e3e3</color>
     <color name="hint_normal">#ccc</color>
 
-    <color name="main_tv_night">#34aadc</color>
+    <color name="app_bg_color_night">#000</color>
+    <color name="main_tv_night">#fff</color>
+    <color name="view_bg_color_night">#222</color>
+    <color name="view_click_color_ngiht">#333</color>
 
     <color name="chart_fill_color1">#6b5aeb</color>
     <color name="chart_fill_color2">#34aadc</color>

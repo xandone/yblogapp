@@ -13,6 +13,7 @@
         <attr name="xwidget_left_ic" format="reference" />
         <attr name="xwidget_right_text" format="string" />
         <attr name="xwidget_right_text_color" format="color" />
+        <attr name="xwidget_bg" format="reference" />
     </declare-styleable>
 
 </resources>

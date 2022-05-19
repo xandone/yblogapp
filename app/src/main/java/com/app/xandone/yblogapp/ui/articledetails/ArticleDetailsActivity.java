@@ -1,7 +1,10 @@
 package com.app.xandone.yblogapp.ui.articledetails;
 
 import android.annotation.SuppressLint;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -40,6 +43,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -69,6 +74,10 @@ public class ArticleDetailsActivity extends BaseWallActivity {
     public static final int TYPE_CODE = 1;
     public static final int TYPE_ESSAY = 2;
 
+    private String bgColorHex;
+    private String tvColorHex;
+    private String tvCodeColorHex;
+
     @Override
     public int getLayout() {
         return R.layout.act_article_details;
@@ -90,6 +99,19 @@ public class ArticleDetailsActivity extends BaseWallActivity {
         } else {
             detailsModel = ModelProvider.getModel(this, EssayDetailsModel.class, App.sContext);
         }
+        TypedArray array = getTheme().obtainStyledAttributes(new int[]{
+                R.attr.view_bg_color,
+                R.attr.normal_tv,
+                R.attr.app_bg,
+        });
+        int bgColor = array.getColor(0, Color.parseColor("#f3f5f8"));
+        int tvColor = array.getColor(1, Color.parseColor("#333333"));
+        int tvCodeColor = array.getColor(2, Color.parseColor("#f3f5f8"));
+        //带alpha的颜色，webView无法正常显示
+        bgColorHex = "#" + Integer.toHexString(bgColor).substring(2);
+        tvColorHex = "#" + Integer.toHexString(tvColor).substring(2);
+        tvCodeColorHex = "#" + Integer.toHexString(tvCodeColor).substring(2);
+        array.recycle();
 
         requestData();
     }
@@ -100,7 +122,7 @@ public class ArticleDetailsActivity extends BaseWallActivity {
             detailsModel.getDetails(mId, new IRequestCallback<CodeDetailsBean>() {
                 @Override
                 public void success(CodeDetailsBean codeDetailsBean) {
-                    String html = codeDetailsBean.getContentHtml().replace("<pre", "<pre style=\"overflow: auto;background-color: #F3F5F8;padding:10px;\"");
+                    String html = codeDetailsBean.getContentHtml().replace("<pre", "<pre style=\"overflow: auto;background-color: " + tvCodeColorHex + ";padding:10px;\"");
                     webView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
                 }
 
@@ -183,9 +205,13 @@ public class ArticleDetailsActivity extends BaseWallActivity {
                 view.loadUrl(javascript);
                 view.loadUrl("javascript:ResizeImages();");
 
+
+                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                }
+
                 view.loadUrl("javascript:function modifyTextColor(){" +
-                        "document.getElementsByTagName('body')[0].style.webkitTextFillColor='#333';" +
-                        "document.getElementsByTagName('body')[0].style.background='white';" +
+                        "document.getElementsByTagName('body')[0].style.webkitTextFillColor='" + tvColorHex + "';" +
+                        "document.getElementsByTagName('body')[0].style.background='" + bgColorHex + "';" +
                         "};modifyTextColor();");
 
                 view.loadUrl("javascript:function addImgClickEvent() {" +

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="app_bg" format="reference" />
     <attr name="normal_tv" format="reference" />
+    <attr name="view_bg_color" format="reference" />
+    <attr name="view_click_color" format="reference" />
 </resources>

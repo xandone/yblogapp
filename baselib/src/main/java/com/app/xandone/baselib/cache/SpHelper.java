@@ -24,6 +24,7 @@ public class SpHelper {
     }
 
     /**
+     * String 类型
      * 保存到默认的sp
      *
      * @param context
@@ -35,6 +36,7 @@ public class SpHelper {
     }
 
     /**
+     * int 类型
      * 保存到默认的sp
      *
      * @param context
@@ -43,6 +45,18 @@ public class SpHelper {
      */
     public static void save2DefaultSp(Context context, @NonNull String key, int msg) {
         getDefaultSp(context).edit().putInt(key, msg).apply();
+    }
+
+    /**
+     * boolean类型
+     * 保存到默认的sp
+     *
+     * @param context
+     * @param key
+     * @param msg
+     */
+    public static void save2DefaultSp(Context context, @NonNull String key, boolean msg) {
+        getDefaultSp(context).edit().putBoolean(key, msg).apply();
     }
 
 
@@ -87,6 +101,22 @@ public class SpHelper {
     public static int getDefaultInteger(Context context, @NonNull final String key, final int defaultValue) {
         return getDefaultSp(context).getInt(key, defaultValue);
     }
+
+    /**
+     * 获取默认的sp下的boolean
+     *
+     * @param context
+     * @param key
+     * @return
+     */
+    public static boolean getDefaultBoolean(Context context, @NonNull final String key) {
+        return getDefaultBoolean(context, key, false);
+    }
+
+    public static boolean getDefaultBoolean(Context context, @NonNull final String key, final boolean defaultValue) {
+        return getDefaultSp(context).getBoolean(key, defaultValue);
+    }
+
 
     /**
      * 获取指定的sp下的String

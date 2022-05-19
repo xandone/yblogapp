@@ -2,6 +2,10 @@
 <resources>
 
     <style name="BlogTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/app_bg_color</item>
+        <item name="app_bg">@color/app_bg_color</item>
         <item name="normal_tv">@color/main_tv</item>
+        <item name="view_bg_color">@color/white_color</item>
+        <item name="view_click_color">@color/xwidget_click_color</item>
     </style>
 </resources>

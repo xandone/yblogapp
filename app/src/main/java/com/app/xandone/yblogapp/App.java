@@ -1,10 +1,13 @@
 package com.app.xandone.yblogapp;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
+import com.app.xandone.baselib.cache.SpHelper;
 import com.app.xandone.yblogapp.base.ActManager;
 import com.app.xandone.yblogapp.config.AppConfig;
+import com.app.xandone.yblogapp.constant.ISpKey;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -16,6 +19,9 @@ import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator;
 import com.tencent.bugly.crashreport.CrashReport;
 
 
+import java.util.List;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
 
 /**
@@ -62,11 +68,38 @@ public class App extends Application {
 
         //Bugly
         CrashReport.initCrashReport(this, AppConfig.getBuglyId(), AppConfig.isDebug());
+
+        boolean isNightMode = SpHelper.getDefaultBoolean(sContext, ISpKey.IS_NIGHT_MODE_KEY);
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
     }
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+
+    /**
+     * 判断Android程序是否在前台运行
+     */
+    public static boolean isForeground() {
+        ActivityManager activityManager = (ActivityManager) sContext.getSystemService(Context.ACTIVITY_SERVICE);
+        if (activityManager == null) {
+            return false;
+        }
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        if (appProcesses == null) {
+            return false;
+        }
+        String packageName = sContext.getPackageName();
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            if (appProcess.processName.equals(packageName) && appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                return true;
+            }
+        }
+        return false;
     }
 }

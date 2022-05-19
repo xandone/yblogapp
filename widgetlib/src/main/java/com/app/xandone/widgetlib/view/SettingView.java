@@ -14,6 +14,7 @@ import com.app.xandone.widgetlib.R;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 /**
@@ -22,6 +23,7 @@ import androidx.core.content.ContextCompat;
  * description:
  */
 public class SettingView extends FrameLayout {
+    private ConstraintLayout settingRootCl;
     private TextView settingTv;
     private TextView settingRightTv;
     private AppCompatImageView settingArrowIv;
@@ -42,6 +44,7 @@ public class SettingView extends FrameLayout {
     private void init(Context context, AttributeSet attrs) {
         View view = View.inflate(context, R.layout.xwidget_v_setting_layout, this);
 
+        settingRootCl = view.findViewById(R.id.setting_root_cl);
         settingTv = view.findViewById(R.id.setting_tv);
         settingArrowIv = view.findViewById(R.id.setting_arrow_iv);
         settingRightTv = view.findViewById(R.id.setting_right_tv);
@@ -53,6 +56,7 @@ public class SettingView extends FrameLayout {
             int tvColor = array.getColor(R.styleable.xwidget_SettingView_xwidget_text_color, ContextCompat.getColor(context, R.color.xwidget_text_default));
             int tvRightColor = array.getColor(R.styleable.xwidget_SettingView_xwidget_right_text_color, ContextCompat.getColor(context, R.color.xwidget_text_default));
             Drawable leftIc = array.getDrawable(R.styleable.xwidget_SettingView_xwidget_left_ic);
+            Drawable rootBg = array.getDrawable(R.styleable.xwidget_SettingView_xwidget_bg);
 
             if (!TextUtils.isEmpty(tvStr)) {
                 settingTv.setText(tvStr);
@@ -61,6 +65,10 @@ public class SettingView extends FrameLayout {
             if (leftIc != null) {
                 leftIc.setBounds(0, 0, leftIc.getIntrinsicWidth(), leftIc.getIntrinsicHeight());
                 settingTv.setCompoundDrawables(leftIc, null, null, null);
+            }
+
+            if (rootBg != null) {
+                settingRootCl.setBackground(rootBg);
             }
 
             settingRightTv.setText(tvRightStr);

@@ -14,4 +14,8 @@ public interface ISpKey {
      * 管理员登录信息
      */
     String ADMIN_INFO_KEY = "admin_info_key";
+    /**
+     * 夜间模式
+     */
+    String IS_NIGHT_MODE_KEY = "is_night_mode";
 }

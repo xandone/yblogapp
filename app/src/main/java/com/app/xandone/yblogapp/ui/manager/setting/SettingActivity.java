@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.app.xandone.baselib.base.BaseSimpleActivity;
 import com.app.xandone.baselib.cache.CacheHelper;
+import com.app.xandone.baselib.cache.SpHelper;
 import com.app.xandone.baselib.dialog.MDialogOnclickListener;
 import com.app.xandone.baselib.dialog.MDialogUtils;
 import com.app.xandone.baselib.update.UpdateHelper;
@@ -42,6 +43,8 @@ public class SettingActivity extends BaseWallActivity {
 
     private ApkModel mApkModel;
 
+    private boolean isNightMode;
+
     @Override
     public int getLayout() {
         return R.layout.act_setting;
@@ -59,6 +62,9 @@ public class SettingActivity extends BaseWallActivity {
 
         nightMode();
 
+        isNightMode = SpHelper.getDefaultBoolean(App.sContext, ISpKey.IS_NIGHT_MODE_KEY);
+        moonSb.setChecked(isNightMode);
+
         onLoadFinish();
     }
 
@@ -74,6 +80,7 @@ public class SettingActivity extends BaseWallActivity {
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
+                SpHelper.save2DefaultSp(App.sContext, ISpKey.IS_NIGHT_MODE_KEY, isChecked);
 //                moonSb.postDelayed(new Runnable() {
 //                    @Override
 //                    public void run() {
