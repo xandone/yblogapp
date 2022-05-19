@@ -30,6 +30,7 @@ import com.app.xandone.yblogapp.model.bean.EssayDetailsBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.utils.download.OkdownloadCallback;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
+import com.google.gson.Gson;
 import com.hitomi.tilibrary.transfer.TransferConfig;
 import com.hitomi.tilibrary.transfer.Transferee;
 import com.liulishuo.okdownload.DownloadListener;
@@ -37,8 +38,12 @@ import com.liulishuo.okdownload.DownloadTask;
 import com.liulishuo.okdownload.core.cause.EndCause;
 import com.vansz.universalimageloader.UniversalImageLoader;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -47,6 +52,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 
@@ -216,10 +223,12 @@ public class ArticleDetailsActivity extends BaseWallActivity {
 
                 view.loadUrl("javascript:function addImgClickEvent() {" +
                         "        var objs = document.getElementsByTagName(\"img\");" +
+                        "        var urls=[];" +
                         "        for (var i = 0; i < objs.length; i++) {" +
+                        "            urls.push(objs[i].src);" +
                         "            objs[i].index = i;" +
                         "            objs[i].onclick = function() {" +
-                        "              imgClick.showImg(this.src,this.index);" +
+                        "              imgClick.showImg(urls,this.index);" +
                         "            }" +
                         "        }" +
                         "    }" +
@@ -234,27 +243,26 @@ public class ArticleDetailsActivity extends BaseWallActivity {
 
     @SuppressLint("CheckResult")
     @JavascriptInterface
-    public void showImg(String url, int position) {
+    public void showImg(String[] url, int position) {
         Observable.just(url)
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
-            @Override
-            public void accept(String s) throws Exception {
-                urls.clear();
-                urls.add(s);
-                transfer.apply(TransferConfig.build()
-                        .setImageLoader(UniversalImageLoader.with(getApplicationContext()))
-                        .setSourceUrlList(urls)
-                        .setOnLongClickListener(new Transferee.OnTransfereeLongClickListener() {
-                            @Override
-                            public void onLongClick(ImageView imageView, String imageUri, int pos) {
-                                showDownloadDialog(imageUri);
-                            }
-                        })
-                        .create()
-                ).show();
-            }
-        });
-
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String[]>() {
+                    @Override
+                    public void accept(String[] strings) throws Exception {
+                        transfer.apply(TransferConfig.build()
+                                .setImageLoader(UniversalImageLoader.with(getApplicationContext()))
+                                .setSourceUrlList(Arrays.asList(url))
+                                .setNowThumbnailIndex(position)
+                                .setOnLongClickListener(new Transferee.OnTransfereeLongClickListener() {
+                                    @Override
+                                    public void onLongClick(ImageView imageView, String imageUri, int pos) {
+                                        showDownloadDialog(imageUri);
+                                    }
+                                })
+                                .create()
+                        ).show();
+                    }
+                });
     }
 
 

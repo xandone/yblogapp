@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/shape_setting_click_color" android:state_pressed="true" />
+    <!--   selector中直接使用?attr/color会抛出Resources$NotFoundException,
+    使用shape代替在5.0手机下不适用(未验证)-->
+    <item android:drawable="@drawable/shape_setting_bg_color" />
+</selector>
