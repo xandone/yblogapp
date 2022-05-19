@@ -1,8 +1,10 @@
 package com.app.xandone.yblogapp.ui.manager.setting;
 
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.app.xandone.baselib.base.BaseSimpleActivity;
 import com.app.xandone.baselib.cache.CacheHelper;
 import com.app.xandone.baselib.dialog.MDialogOnclickListener;
 import com.app.xandone.baselib.dialog.MDialogUtils;
@@ -10,6 +12,7 @@ import com.app.xandone.baselib.update.UpdateHelper;
 import com.app.xandone.widgetlib.view.SettingView;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
+import com.app.xandone.yblogapp.base.ActManager;
 import com.app.xandone.yblogapp.base.BaseWallActivity;
 import com.app.xandone.yblogapp.constant.ISpKey;
 import com.app.xandone.yblogapp.model.ApkModel;
@@ -18,10 +21,14 @@ import com.app.xandone.yblogapp.model.event.SwitchEvent;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.utils.download.OkdownloadEngine;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
+import com.kyleduo.switchbutton.SwitchButton;
 
 import org.greenrobot.eventbus.EventBus;
 
 
+import java.util.Collection;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import butterknife.BindView;
 
 /**
@@ -29,12 +36,9 @@ import butterknife.BindView;
  * created on: 2020/9/29 11:09
  * description:
  */
-public class SettingActivity extends BaseWallActivity  {
-    @BindView(R.id.exit_btn)
-    TextView exitBtn;
-    private SettingView settingSv;
+public class SettingActivity extends BaseWallActivity {
     private SettingView allCacelSv;
-    private SettingView versionSv;
+    private SwitchButton moonSb;
 
     private ApkModel mApkModel;
 
@@ -45,17 +49,42 @@ public class SettingActivity extends BaseWallActivity  {
 
     @Override
     public void wallInit() {
-        settingSv = findViewById(R.id.setting_sv);
         allCacelSv = findViewById(R.id.all_cache_sv);
-        versionSv = findViewById(R.id.version_sv);
+        moonSb = findViewById(R.id.moon_sb);
 
         allCacelSv.setSettingRightTv(CacheHelper.getTotalCacheSize(App.sContext));
+        bindClick(R.id.setting_sv, R.id.all_cache_sv, R.id.version_sv, R.id.exit_btn);
 
         mApkModel = ModelProvider.getModel(this, ApkModel.class, App.sContext);
 
-        bindClick(R.id.setting_sv, R.id.all_cache_sv, R.id.version_sv, R.id.exit_btn);
+        nightMode();
 
         onLoadFinish();
+    }
+
+    /**
+     * 设置夜间模式
+     */
+    private void nightMode() {
+        moonSb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+//                moonSb.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Collection<BaseSimpleActivity> list = ActManager.getInstance().getAllActivity().values();
+//                        for (BaseSimpleActivity act : list) {
+//                            act.recreate();
+//                        }
+//                    }
+//                }, 300);
+            }
+        });
     }
 
 

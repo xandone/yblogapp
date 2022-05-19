@@ -1,5 +1,7 @@
 package com.app.xandone.yblogapp.model;
 
+import android.util.Log;
+
 import com.app.xandone.yblogapp.api.ApiClient;
 import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
@@ -32,6 +34,7 @@ public class CodeModel extends BaseViewModel {
             @Override
             public void onChanged(BaseResponse<List<CodeArticleBean>> beans) {
                 if (callback != null) {
+                    Log.e("hgfhfd", "onChanged....");
                     callback.success(beans);
                 }
             }
@@ -48,6 +51,7 @@ public class CodeModel extends BaseViewModel {
                 .subscribeWith(new BaseSubscriber<BaseResponse<List<CodeArticleBean>>>() {
                     @Override
                     public void onSuccess(BaseResponse<List<CodeArticleBean>> response) {
+                        Log.e("hgfhfd", "onSuccess....");
                         mArtsLiveData.setValue(response);
                     }
 

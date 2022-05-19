@@ -20,6 +20,7 @@
         android:layout_height="64dp"
         android:background="@color/white"
         app:itemBackground="@null"
+        app:itemIconTint="@drawable/navi_ic_color"
         app:itemTextAppearanceActive="@style/BottomTabTextStyle"
         app:itemTextAppearanceInactive="@style/BottomTabTextStyle"
         app:itemTextColor="@drawable/home_navigation_color_selector"

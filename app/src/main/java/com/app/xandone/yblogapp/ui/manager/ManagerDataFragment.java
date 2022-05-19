@@ -73,24 +73,6 @@ public class ManagerDataFragment extends BaseWallFragment {
                 startActivity(new Intent(mActivity, ChartDataActivity.class));
                 break;
             case R.id.code_tip_cl:
-
-                code_tip_cl.setSelected(!code_tip_cl.isSelected());
-
-                if (code_tip_cl.isSelected()) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
-                code_tip_cl.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Collection<BaseSimpleActivity> list = ActManager.getInstance().getAllActivity().values();
-                        for (BaseSimpleActivity act : list) {
-                            act.recreate();
-                        }
-                    }
-                }, 300);
-
                 break;
             case R.id.setting_cl:
                 startActivity(new Intent(mActivity, SettingActivity.class));

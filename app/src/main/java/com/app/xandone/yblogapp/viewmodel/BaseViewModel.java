@@ -1,7 +1,6 @@
 package com.app.xandone.yblogapp.viewmodel;
 
 
-
 import com.app.xandone.yblogapp.rx.IManagerDisposable;
 
 import androidx.annotation.NonNull;
@@ -23,11 +22,7 @@ public abstract class BaseViewModel extends ViewModel implements LifecycleOwner,
 
     protected abstract void onCreate(LifecycleOwner owner);
 
-    <T extends BaseViewModel> T attachLifecycleOwner(LifecycleOwner lifecycleOwner) {
-        T current = (T) this;
-        if (mLifecycleOwner != null) {
-            return current;
-        }
+    public <T extends BaseViewModel> T attachLifecycleOwner(LifecycleOwner lifecycleOwner) {
         if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();
         }
@@ -36,7 +31,7 @@ public abstract class BaseViewModel extends ViewModel implements LifecycleOwner,
 
         onCreate(lifecycleOwner);
 
-        return current;
+        return (T) this;
 
     }
 

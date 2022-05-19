@@ -124,4 +124,7 @@ dependencies {
 
     implementation 'com.google.android:flexbox:2.0.1'
 
+    //https://github.com/kyleduo/SwitchButton
+    implementation 'com.kyleduo.switchbutton:library:2.1.0'
+
 }
