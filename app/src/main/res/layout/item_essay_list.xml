@@ -1,80 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/shape_white_r_10"
-    android:padding="10dp">
+    android:background="?attr/view_bg_color"
+    app:cardCornerRadius="6dp"
+    app:rippleColor="@color/ripple_color">
 
-    <TextView
-        android:id="@+id/essay_title_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:ellipsize="end"
-        android:gravity="start"
-        android:singleLine="true"
-        android:textColor="?attr/normal_tv"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/essay_type_tv"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="放股份大股东松放DFGFGDF给对方干豆腐干豆腐松豆腐干豆腐松" />
-
-    <TextView
-        android:id="@+id/essay_type_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:textSize="14sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/essay_title_tv"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:text="android" />
-
-    <TextView
-        android:id="@+id/essay_content_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="6dp"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:textColor="@color/light_tv"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toRightOf="@+id/essay_cover_img"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/essay_title_tv"
-        tools:text="放股份大股东松放DFG放股份大股东松放DFGFGDF给对方干豆腐干豆腐松豆腐干豆腐松放股份大股东松放DFGFGDF给对方干豆腐干豆腐松豆腐干豆腐松放股份大股东松放DFGFGDF给对方干豆腐干豆腐松豆腐干豆腐松FGDF给对方干豆腐干豆腐松豆腐干豆腐松" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/img_recycler"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/essay_content_tv"
-        tools:layout_editor_absoluteX="10dp" />
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/essay_date_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textColor="@color/light_tv"
-        android:textSize="13sp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_recycler"
-        tools:text="2020:9:1 10:10" />
+        <TextView
+            android:id="@+id/essay_title_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:singleLine="true"
+            android:textColor="?attr/normal_tv"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/essay_type_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="放股份大股东松放DFGFGDF给对方干豆腐干豆腐松豆腐干豆腐松" />
 
-    <ImageView
-        android:id="@+id/essay_cover_img"
-        android:layout_width="120dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="4dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/essay_content_tv"
-        app:layout_constraintTop_toBottomOf="@+id/essay_title_tv"
-        tools:src="@mipmap/ic_launcher" />
+        <TextView
+            android:id="@+id/essay_type_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/essay_title_tv"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="android" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/essay_content_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="@color/light_tv"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toRightOf="@+id/essay_cover_img"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/essay_title_tv"
+            tools:text="放股份大股东松放DFG放股份大股东松放DFGFGDF给对方干豆腐干豆腐松豆腐干豆腐松放股份大股东松放DFGFGDF给对方干豆腐干豆腐松豆腐干豆腐松放股份大股东松放DFGFGDF给对方干豆腐干豆腐松豆腐干豆腐松FGDF给对方干豆腐干豆腐松豆腐干豆腐松" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/img_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/essay_content_tv"
+            tools:layout_editor_absoluteX="10dp" />
+
+        <TextView
+            android:id="@+id/essay_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/light_tv"
+            android:textSize="13sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_recycler"
+            tools:text="2020:9:1 10:10" />
+
+        <ImageView
+            android:id="@+id/essay_cover_img"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="4dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/essay_content_tv"
+            app:layout_constraintTop_toBottomOf="@+id/essay_title_tv"
+            tools:src="@mipmap/ic_launcher" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

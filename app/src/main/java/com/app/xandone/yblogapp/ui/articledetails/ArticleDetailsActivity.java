@@ -217,8 +217,8 @@ public class ArticleDetailsActivity extends BaseWallActivity {
                 }
 
                 view.loadUrl("javascript:function modifyTextColor(){" +
-                        "document.getElementsByTagName('body')[0].style.webkitTextFillColor='" + tvColorHex + "';" +
-                        "document.getElementsByTagName('body')[0].style.background='" + bgColorHex + "';" +
+                        "document.body.style.webkitTextFillColor='" + tvColorHex + "';" +
+                        "document.body.style.background='" + bgColorHex + "';" +
                         "};modifyTextColor();");
 
                 view.loadUrl("javascript:function addImgClickEvent() {" +

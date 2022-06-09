@@ -47,16 +47,16 @@
             android:theme="@style/my_et_2dp"
             app:layout_constraintTop_toBottomOf="@id/login_account_et" />
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/login_btn"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/def_btn_height"
             android:layout_marginTop="16dp"
-            android:background="@drawable/btn_login_selector"
-            android:gravity="center"
+            android:backgroundTint="@color/colorPrimary"
             android:text="登录"
             android:textColor="@color/white_color"
             android:textSize="16sp"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge"
             app:layout_constraintTop_toBottomOf="@id/login_psw_et" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

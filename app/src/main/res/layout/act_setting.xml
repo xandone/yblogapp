@@ -69,20 +69,20 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <TextView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/exit_btn"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="30dp"
-        android:background="@drawable/btn_login_selector"
-        android:gravity="center"
+        android:backgroundTint="@color/colorPrimary"
         android:text="退出登录"
         android:textColor="@color/white_color"
         android:textSize="16sp"
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge"
+        app:cornerRadius="12dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
