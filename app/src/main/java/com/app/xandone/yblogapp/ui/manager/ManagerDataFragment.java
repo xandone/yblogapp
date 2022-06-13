@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.app.xandone.baselib.base.BaseSimpleActivity;
+import com.app.xandone.baselib.dialog.MDialogOnclickListener;
+import com.app.xandone.baselib.dialog.MDialogUtils;
+import com.app.xandone.baselib.dialog.XPopupUtils;
 import com.app.xandone.baselib.imageload.ImageLoadHelper;
 import com.app.xandone.widgetlib.view.UserCircleView;
 import com.app.xandone.yblogapp.R;
@@ -66,13 +69,27 @@ public class ManagerDataFragment extends BaseWallFragment {
 
     }
 
-    @OnClick({R.id.setting_cl, R.id.chart_tip_cl, R.id.admin_tip_cl, R.id.code_tip_cl})
+    @OnClick({R.id.setting_cl, R.id.chart_tip_cl, R.id.admin_tip_cl, R.id.code_tip_cl, R.id.essay_tip_cl})
     public void click(View view) {
         switch (view.getId()) {
             case R.id.chart_tip_cl:
                 startActivity(new Intent(mActivity, ChartDataActivity.class));
                 break;
             case R.id.code_tip_cl:
+                MDialogUtils.showSimpleDialog(mActivity, "谁看得见后方可水电费", new MDialogOnclickListener() {
+                    @Override
+                    public void onConfirm() {
+
+                    }
+                });
+                break;
+            case R.id.essay_tip_cl:
+                XPopupUtils.showSimpleDialog(mActivity, "谁看得见后方可水电费", new MDialogOnclickListener() {
+                    @Override
+                    public void onConfirm() {
+
+                    }
+                });
                 break;
             case R.id.setting_cl:
                 startActivity(new Intent(mActivity, SettingActivity.class));

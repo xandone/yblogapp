@@ -90,8 +90,11 @@ public abstract class BaseListFragment<E> extends BaseWallFragment implements IR
             }
 
             @Override
-            public void dealLoadFail(String message, int statusCode) {
-                onLoadStatus(statusCode);
+            public void dealLoadFail(String message, int statusCode, boolean isLoadMore) {
+                if (!isLoadMore) {
+                    onLoadStatus(statusCode);
+                }
+
             }
         };
 

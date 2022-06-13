@@ -36,6 +36,7 @@ public class ProgressDialogHelper {
             return;
         }
         loadingPopup = (LoadingPopupView) new XPopup.Builder(context)
+                .isDestroyOnDismiss(true)
                 .dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
                 .isLightNavigationBar(true)

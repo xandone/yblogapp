@@ -2,9 +2,7 @@ package com.app.xandone.yblogapp.ui.manager.setting;
 
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 
-import com.app.xandone.baselib.base.BaseSimpleActivity;
 import com.app.xandone.baselib.cache.CacheHelper;
 import com.app.xandone.baselib.cache.SpHelper;
 import com.app.xandone.baselib.dialog.MDialogOnclickListener;
@@ -13,7 +11,6 @@ import com.app.xandone.baselib.update.UpdateHelper;
 import com.app.xandone.widgetlib.view.SettingView;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
-import com.app.xandone.yblogapp.base.ActManager;
 import com.app.xandone.yblogapp.base.BaseWallActivity;
 import com.app.xandone.yblogapp.constant.ISpKey;
 import com.app.xandone.yblogapp.model.ApkModel;
@@ -27,10 +24,8 @@ import com.kyleduo.switchbutton.SwitchButton;
 import org.greenrobot.eventbus.EventBus;
 
 
-import java.util.Collection;
 
 import androidx.appcompat.app.AppCompatDelegate;
-import butterknife.BindView;
 
 /**
  * author: Admin

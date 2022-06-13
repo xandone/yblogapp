@@ -15,5 +15,5 @@ public interface IListAction<E> {
 
     void dealLoadSuccess(BaseResponse<List<E>> response, boolean isLoadMore);
 
-    void dealLoadFail(String message, int statusCode);
+    void dealLoadFail(String message, int statusCode, boolean isLoadMore);
 }

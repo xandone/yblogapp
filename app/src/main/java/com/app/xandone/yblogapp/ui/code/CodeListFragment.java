@@ -113,7 +113,7 @@ public class CodeListFragment extends BaseListFragment<CodeArticleBean> {
 
             @Override
             public void error(String message, int statusCode) {
-                mIListAction.dealLoadFail(message, statusCode);
+                mIListAction.dealLoadFail(message, statusCode, isLoadMore);
             }
         });
     }

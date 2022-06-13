@@ -181,7 +181,7 @@ public class Essayfragment extends BaseListFragment<EssayArticleBean> {
 
             @Override
             public void error(String message, int statusCode) {
-                mIListAction.dealLoadFail(message, statusCode);
+                mIListAction.dealLoadFail(message, statusCode, isLoadMore);
             }
         });
     }

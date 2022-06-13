@@ -1,6 +1,5 @@
 package com.app.xandone.yblogapp.model;
 
-import android.util.Log;
 
 import com.app.xandone.yblogapp.api.ApiClient;
 import com.app.xandone.yblogapp.model.base.BaseResponse;
