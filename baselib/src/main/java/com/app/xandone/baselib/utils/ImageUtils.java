@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.FileUtils;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import java.io.Closeable;
 import java.io.File;
@@ -49,7 +48,7 @@ public class ImageUtils {
             ContentResolver contentResolver = context.getContentResolver();
             Uri uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             if (uri == null) {
-                ToastUtils.showShort("保存失败");
+                ToastHelper.showShort("保存失败");
                 return;
             }
             OutputStream out = null;
@@ -59,7 +58,7 @@ public class ImageUtils {
                 fis = new FileInputStream(sourceFile);
                 if (out != null) {
                     FileUtils.copy(fis, out);
-                    ToastUtils.showShort("已保存至相册");
+                    ToastHelper.showShort("已保存至相册");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -74,7 +73,7 @@ public class ImageUtils {
                         public void onScanCompleted(String path, Uri uri) {
                         }
                     });
-            ToastUtils.showShort("已保存至相册");
+            ToastHelper.showShort("已保存至相册");
         }
     }
 

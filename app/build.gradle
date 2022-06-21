@@ -127,4 +127,8 @@ dependencies {
     //https://github.com/kyleduo/SwitchButton
     implementation 'com.kyleduo.switchbutton:library:2.1.0'
 
+    implementation ('com.qiniu:qiniu-android-sdk:8.4.1'){
+        exclude (group: 'com.squareup.okhttp3', module: 'okhttp')
+    }
+
 }

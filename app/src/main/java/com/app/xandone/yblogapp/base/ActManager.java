@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
-import com.app.xandone.baselib.base.BaseSimpleActivity;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.ArrayMap;
@@ -18,7 +16,7 @@ import androidx.fragment.app.FragmentActivity;
  */
 public class ActManager implements Application.ActivityLifecycleCallbacks {
 
-    private final ArrayMap<String, BaseSimpleActivity> mActivitySet = new ArrayMap<>();
+    private final ArrayMap<String, Activity> mActivitySet = new ArrayMap<>();
 
     private Application mApplication;
     /**
@@ -46,14 +44,14 @@ public class ActManager implements Application.ActivityLifecycleCallbacks {
         mApplication.registerActivityLifecycleCallbacks(this);
     }
 
-    public ArrayMap<String, BaseSimpleActivity> getAllActivity() {
+    public ArrayMap<String, Activity> getAllActivity() {
         return mActivitySet;
     }
 
     /**
      * 获取栈顶的 Activity
      */
-    public FragmentActivity getTopActivity() {
+    public Activity getTopActivity() {
         return mActivitySet.get(mLastVisibleTag);
     }
 
@@ -65,7 +63,7 @@ public class ActManager implements Application.ActivityLifecycleCallbacks {
         if (mLastVisibleTag.equals(mLastInvisibleTag)) {
             return false;
         }
-        FragmentActivity activity = getTopActivity();
+        Activity activity = getTopActivity();
         return activity != null;
     }
 
@@ -106,7 +104,7 @@ public class ActManager implements Application.ActivityLifecycleCallbacks {
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
         mLastVisibleTag = getObjectTag(activity);
         if (activity instanceof FragmentActivity) {
-            mActivitySet.put(getObjectTag(activity), (BaseSimpleActivity) activity);
+            mActivitySet.put(getObjectTag(activity), activity);
         }
     }
 

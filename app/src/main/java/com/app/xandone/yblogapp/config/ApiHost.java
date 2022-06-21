@@ -9,4 +9,6 @@ public class ApiHost {
     public static final String DEFAULT_HOST = "https://xandone.pub/yblog/";
 //    public static final String DEFAULT_HOST = "http://192.168.3.237";
 //    public static final String DEFAULT_HOST = "http://192.168.3.237:8081";
+
+    public static final String QINIU_URL = "https://xandone.pub";
 }

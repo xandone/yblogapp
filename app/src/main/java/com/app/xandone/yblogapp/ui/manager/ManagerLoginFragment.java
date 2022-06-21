@@ -11,7 +11,6 @@ import com.app.xandone.baselib.base.BaseFrament;
 import com.app.xandone.baselib.cache.SpHelper;
 import com.app.xandone.baselib.utils.JsonUtils;
 import com.app.xandone.baselib.utils.MD5Util;
-import com.app.xandone.baselib.utils.ToastUtils;
 import com.app.xandone.widgetlib.utils.AnimUtils;
 import com.app.xandone.widgetlib.utils.KeyboardWatcher;
 import com.app.xandone.yblogapp.App;

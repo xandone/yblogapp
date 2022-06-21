@@ -10,4 +10,9 @@ public interface IResponseCode {
     int SUCCESS = 200;
     //token失效
     int TOKEN_FAIL = 203;
+
+    /**
+     * 图片上传失败
+     */
+    int UPLOAD_PIC_EXCEPTION = 204;
 }

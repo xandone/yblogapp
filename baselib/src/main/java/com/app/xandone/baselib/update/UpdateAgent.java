@@ -7,7 +7,7 @@ import com.app.xandone.baselib.config.BaseConfig;
 import com.app.xandone.baselib.dialog.MDialogOnclickListener;
 import com.app.xandone.baselib.dialog.MDialogUtils;
 import com.app.xandone.baselib.utils.AppUtils;
-import com.app.xandone.baselib.utils.ToastUtils;
+import com.app.xandone.baselib.utils.ToastHelper;
 
 /**
  * author: Admin
@@ -31,7 +31,7 @@ public class UpdateAgent implements IUpdateAgent {
             showDialog(context, updateInfo);
         } else {
             if (updateInfo.isShowToast()) {
-                ToastUtils.showShort("当前已经是最新版本");
+                ToastHelper.showShort("当前已经是最新版本");
             }
         }
     }

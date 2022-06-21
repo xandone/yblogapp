@@ -1,7 +1,7 @@
 package com.app.xandone.baselib.base;
 
 
-import com.app.xandone.baselib.utils.ToastUtils;
+import com.app.xandone.baselib.utils.ToastHelper;
 
 import androidx.annotation.StringRes;
 
@@ -13,10 +13,10 @@ import androidx.annotation.StringRes;
 public interface IToastAction {
 
     default void toast(CharSequence msg) {
-        ToastUtils.showShort(msg);
+        ToastHelper.showShort(msg);
     }
 
     default void toast(@StringRes int strId) {
-        ToastUtils.showShort(strId);
+        ToastHelper.showShort(strId);
     }
 }

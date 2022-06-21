@@ -36,6 +36,7 @@ import com.hitomi.tilibrary.transfer.Transferee;
 import com.liulishuo.okdownload.DownloadListener;
 import com.liulishuo.okdownload.DownloadTask;
 import com.liulishuo.okdownload.core.cause.EndCause;
+import com.vansz.glideimageloader.GlideImageLoader;
 import com.vansz.universalimageloader.UniversalImageLoader;
 
 import org.jetbrains.annotations.NotNull;
@@ -250,7 +251,7 @@ public class ArticleDetailsActivity extends BaseWallActivity {
                     @Override
                     public void accept(String[] strings) throws Exception {
                         transfer.apply(TransferConfig.build()
-                                .setImageLoader(UniversalImageLoader.with(getApplicationContext()))
+                                .setImageLoader(GlideImageLoader.with(getApplicationContext()))
                                 .setSourceUrlList(Arrays.asList(url))
                                 .setNowThumbnailIndex(position)
                                 .setOnLongClickListener(new Transferee.OnTransfereeLongClickListener() {

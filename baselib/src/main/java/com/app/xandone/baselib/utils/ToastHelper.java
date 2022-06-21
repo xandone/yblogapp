@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.app.xandone.baselib.R;
 
-import androidx.annotation.StringDef;
 import androidx.annotation.StringRes;
 
 /**
@@ -19,7 +18,7 @@ import androidx.annotation.StringRes;
  * created on: 2020/8/13 16:17
  * description:
  */
-public class ToastUtils {
+public class ToastHelper {
     private static Toast toast_1;
     private static Toast toast_2;
 
@@ -27,7 +26,7 @@ public class ToastUtils {
 
     //静态变量传递的是值，不存在创建了多个app
     public static void init(Application application) {
-        ToastUtils.sApp = application;
+        ToastHelper.sApp = application;
     }
 
     private static Toast createToast(CharSequence msg, int duration) {

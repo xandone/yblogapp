@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.app.xandone.baselib.log.LogHelper;
 import com.app.xandone.baselib.utils.NetworkUtils;
-import com.app.xandone.baselib.utils.ToastUtils;
+import com.app.xandone.baselib.utils.ToastHelper;
 import com.app.xandone.widgetlib.view.LoadingLayout;
 import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.exception.ApiException;
@@ -46,9 +46,10 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
     @Override
     public void onNext(T t) {
         if (!NetworkUtils.isConnected(App.sContext)) {
-            ToastUtils.showShort("无法连接，请检查网络");
+            ToastHelper.showShort("无法连接，请检查网络");
         }
         onSuccess(t);
+        onEnd();
     }
 
     @Override
@@ -69,17 +70,24 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
 
         ApiException ex = ApiException.handleException(t);
         if (!TextUtils.isEmpty(ex.getMessage())) {
-            ToastUtils.showShort(ex.getMessage());
+            ToastHelper.showShort(ex.getMessage());
         }
+
+        onEnd();
     }
 
     @Override
     public void onComplete() {
+        onEnd();
     }
 
     public abstract void onSuccess(T t);
 
     public void onFail(String message, int statusCode, int... apiCode) {
+    }
+
+    public void onEnd() {
+
     }
 
 }

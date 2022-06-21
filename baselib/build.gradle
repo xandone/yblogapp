@@ -52,4 +52,7 @@ dependencies {
     implementation 'com.contrarywind:Android-PickerView:4.1.8'
 
     api 'com.github.li-xiaojun:XPopup:2.7.7'
+
+    //工具库
+    api 'com.blankj:utilcodex:1.31.0'
 }

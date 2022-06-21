@@ -2,6 +2,7 @@ package com.app.xandone.yblogapp.exception;
 
 import android.net.ParseException;
 
+import com.app.xandone.baselib.utils.SimpleUtils;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializer;
 
@@ -63,7 +64,13 @@ public class ApiException extends Exception {
 
     public static ApiException handleException(Throwable e) {
         ApiException ex;
-        if (e instanceof HttpException) {
+        if (e instanceof ApiException) {
+            ex = (ApiException) e;
+            if (SimpleUtils.isEmpty(ex.message)) {
+                ex.message = "数据异常，请稍后再再试";
+            }
+            return ex;
+        } else if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
             ex = new ApiException(httpException, httpException.code());
             ex.message = "数据加载失败";

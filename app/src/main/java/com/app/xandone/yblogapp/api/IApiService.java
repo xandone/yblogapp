@@ -10,10 +10,12 @@ import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
 import com.app.xandone.yblogapp.model.bean.CodeTypeBean;
 import com.app.xandone.yblogapp.model.bean.EssayArticleBean;
 import com.app.xandone.yblogapp.model.bean.EssayDetailsBean;
+import com.app.xandone.yblogapp.model.bean.QiniuTokenBean;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -62,4 +64,12 @@ public interface IApiService {
     @GET("apk/apkInfo")
     Flowable<BaseResponse<List<ApkBean>>> getLastApkInfo();
 
+
+    /**
+     * 获取七牛token
+     *
+     * @return
+     */
+    @GET("")
+    Flowable<BaseResponse<QiniuTokenBean>> getQiniuToken();
 }

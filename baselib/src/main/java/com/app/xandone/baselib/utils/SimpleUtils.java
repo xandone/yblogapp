@@ -1,17 +1,11 @@
 package com.app.xandone.baselib.utils;
 
-import android.os.Build;
-import android.util.LongSparseArray;
-import android.util.SparseArray;
-import android.util.SparseBooleanArray;
-import android.util.SparseIntArray;
-import android.util.SparseLongArray;
 
-import java.lang.reflect.Array;
-import java.util.Collection;
-import java.util.Map;
+import com.blankj.utilcode.util.EncodeUtils;
+import com.blankj.utilcode.util.ObjectUtils;
 
-import androidx.collection.SimpleArrayMap;
+import java.util.Random;
+
 
 /**
  * author: Admin
@@ -19,31 +13,68 @@ import androidx.collection.SimpleArrayMap;
  * description:
  */
 public class SimpleUtils {
+
+    private static Random sRandom = new Random();
+
+    /**
+     * 判断是否为空
+     *
+     * @param obj
+     * @return
+     */
     public static boolean isEmpty(Object obj) {
-        if (obj == null) {
-            return true;
-        } else if (obj.getClass().isArray() && Array.getLength(obj) == 0) {
-            return true;
-        } else if (obj instanceof CharSequence && obj.toString().length() == 0) {
-            return true;
-        } else if (obj instanceof Collection && ((Collection) obj).isEmpty()) {
-            return true;
-        } else if (obj instanceof Map && ((Map) obj).isEmpty()) {
-            return true;
-        } else if (obj instanceof SimpleArrayMap && ((SimpleArrayMap) obj).isEmpty()) {
-            return true;
-        } else if (obj instanceof SparseArray && ((SparseArray) obj).size() == 0) {
-            return true;
-        } else if (obj instanceof SparseBooleanArray && ((SparseBooleanArray) obj).size() == 0) {
-            return true;
-        } else if (obj instanceof SparseIntArray && ((SparseIntArray) obj).size() == 0) {
-            return true;
-        } else if (Build.VERSION.SDK_INT >= 18 && obj instanceof SparseLongArray && ((SparseLongArray) obj).size() == 0) {
-            return true;
-        } else if (obj instanceof LongSparseArray && ((LongSparseArray) obj).size() == 0) {
-            return true;
-        } else {
-            return Build.VERSION.SDK_INT >= 16 && obj instanceof android.util.LongSparseArray && ((android.util.LongSparseArray) obj).size() == 0;
+        return ObjectUtils.isEmpty(obj);
+    }
+
+    /**
+     * 判断是否非空
+     *
+     * @param obj
+     * @return
+     */
+    public static boolean isNotEmpty(Object obj) {
+        return ObjectUtils.isNotEmpty(obj);
+    }
+
+    /**
+     * encode处理
+     *
+     * @param input
+     */
+    public static String urlEncode(String input) {
+        return EncodeUtils.urlEncode(input);
+    }
+
+    /**
+     * 随机生成一个数字
+     *
+     * @return
+     */
+    public static String getRandomStr() {
+        int num = sRandom.nextInt(100);
+        return String.valueOf(num);
+    }
+
+    /**
+     * 获取图片的后缀名
+     *
+     * @param name
+     * @return
+     */
+    public static String getSuffix(String name) {
+        if (isEmpty(name) || !name.contains(".")) {
+            return "";
         }
+        return name.substring(name.lastIndexOf("."));
+    }
+
+    /**
+     * 对图片进行重命名
+     *
+     * @param name
+     * @return
+     */
+    public static String reNamePic(String name) {
+        return MD5Util.MD5(name) + SimpleUtils.getRandomStr() + SimpleUtils.getSuffix(name);
     }
 }
