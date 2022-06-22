@@ -1,10 +1,16 @@
 package com.app.xandone.yblogapp.base;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.app.xandone.baselib.utils.SimpleUtils;
 import com.app.xandone.yblogapp.R;
+import com.app.xandone.yblogapp.databinding.ActBaseWallBinding;
+import com.app.xandone.yblogapp.databinding.Frag1Binding;
+import com.app.xandone.yblogapp.databinding.FragBaseListBinding;
 import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.ui.code.IListAction;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -27,7 +33,7 @@ import butterknife.BindView;
  * created on: 2020/9/2 09:27
  * description:
  */
-public abstract class BaseListFragment<E> extends BaseWallFragment implements IRefreshCallback {
+public abstract class BaseListFragment<E> extends BaseWallFragment<FragBaseListBinding> implements IRefreshCallback {
     @BindView(R.id.refreshLayout)
     protected SmartRefreshLayout refreshLayout;
     @BindView(R.id.recycler)
@@ -39,8 +45,9 @@ public abstract class BaseListFragment<E> extends BaseWallFragment implements IR
     protected IListAction<E> mIListAction;
 
     @Override
-    public int getLayout() {
-        return R.layout.frag_base_list;
+    public View getLayout() {
+        mBinding = FragBaseListBinding.inflate(getLayoutInflater());
+        return mBinding.getRoot();
     }
 
     @Override
@@ -104,6 +111,7 @@ public abstract class BaseListFragment<E> extends BaseWallFragment implements IR
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+//        FragBaseListBinding.bind(view);
     }
 
     @Override

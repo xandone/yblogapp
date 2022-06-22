@@ -36,7 +36,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -277,7 +276,7 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
             super(datas);
             setMultiTypeDelegate(new BaseMultiTypeDelegate<CodeTypeBean>() {
                 @Override
-                public int getItemType(@NotNull List<? extends CodeTypeBean> data, int position) {
+                public int getItemType(@NonNull List<? extends CodeTypeBean> data, int position) {
                     return position == 0 ? 0 : 1;
                 }
             });
@@ -287,7 +286,7 @@ public class SheetTypeFragment extends BottomSheetDialogFragment {
         }
 
         @Override
-        protected void convert(@NotNull BaseViewHolder helper, CodeTypeBean bean) {
+        protected void convert(@NonNull BaseViewHolder helper, CodeTypeBean bean) {
             switch (helper.getItemViewType()) {
                 case 0:
                     helper.setText(R.id.type_tv, bean.getTypeName());

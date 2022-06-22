@@ -1,6 +1,7 @@
 package com.app.xandone.baselib.base;
 
-import androidx.annotation.LayoutRes;
+import android.view.View;
+
 
 /**
  * author: Admin
@@ -14,8 +15,7 @@ public interface IActivityInit {
      */
     void doBeforeSetContentView();
 
-    @LayoutRes
-    int getLayout();
+    View getLayout();
 
     void init();
 }

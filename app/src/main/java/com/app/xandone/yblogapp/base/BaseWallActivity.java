@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewbinding.ViewBinding;
 import butterknife.BindView;
 
 /**
@@ -21,7 +22,7 @@ import butterknife.BindView;
  * created on: 2020/9/1 10:52
  * description:有加载状态页的基类Fragment
  */
-public abstract class BaseWallActivity extends BaseActivity implements ILoadingWall,
+public abstract class BaseWallActivity<VB extends ViewBinding> extends BaseActivity<VB> implements ILoadingWall,
         LoadingLayout.OnReloadListener {
     @BindView(R.id.loadLayout)
     protected LoadingLayout loadLayout;
@@ -37,7 +38,7 @@ public abstract class BaseWallActivity extends BaseActivity implements ILoadingW
         FrameLayout walFrame = rootView.findViewById(R.id.wall_frame);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT);
-        View view = inflater.inflate(getLayout(), null);
+        View view = getLayout();
         view.setLayoutParams(params);
         walFrame.addView(view);
         setContentView(rootView);

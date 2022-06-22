@@ -2,6 +2,7 @@ package com.app.xandone.yblogapp.ui.manager.chart;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 
 import com.app.xandone.baselib.cache.CacheHelper;
 import com.app.xandone.baselib.utils.SimpleUtils;
@@ -11,6 +12,7 @@ import com.app.xandone.yblogapp.base.BaseWallActivity;
 import com.app.xandone.yblogapp.cache.UserInfoHelper;
 import com.app.xandone.yblogapp.constant.IResponseCode;
 import com.app.xandone.yblogapp.constant.ISpKey;
+import com.app.xandone.yblogapp.databinding.ActChartDataBinding;
 import com.app.xandone.yblogapp.model.ManagerChartModel;
 import com.app.xandone.yblogapp.model.bean.ArtInfoBean;
 import com.app.xandone.yblogapp.model.event.SwitchEvent;
@@ -44,7 +46,7 @@ import butterknife.BindView;
  * created on: 2020/10/21 16:46
  * description:
  */
-public class ChartDataActivity extends BaseWallActivity implements OnChartValueSelectedListener {
+public class ChartDataActivity extends BaseWallActivity<ActChartDataBinding> implements OnChartValueSelectedListener {
     @BindView(R.id.chart1)
     LineChart chart1;
 
@@ -53,14 +55,15 @@ public class ChartDataActivity extends BaseWallActivity implements OnChartValueS
 
 
     @Override
-    public int getLayout() {
-        return R.layout.act_chart_data;
+    public View getLayout() {
+        mBinding = ActChartDataBinding.inflate(getLayoutInflater());
+        return mBinding.getRoot();
     }
 
     @Override
     protected void wallInit() {
         initChart();
-        
+
         managerChartModel = ModelProvider.getModel(this, ManagerChartModel.class, App.sContext);
         requestData();
 

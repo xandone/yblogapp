@@ -13,6 +13,7 @@ import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallActivity;
 import com.app.xandone.yblogapp.constant.ISpKey;
+import com.app.xandone.yblogapp.databinding.ActSettingBinding;
 import com.app.xandone.yblogapp.model.ApkModel;
 import com.app.xandone.yblogapp.model.bean.ApkBean;
 import com.app.xandone.yblogapp.model.event.SwitchEvent;
@@ -24,7 +25,6 @@ import com.kyleduo.switchbutton.SwitchButton;
 import org.greenrobot.eventbus.EventBus;
 
 
-
 import androidx.appcompat.app.AppCompatDelegate;
 
 /**
@@ -32,7 +32,7 @@ import androidx.appcompat.app.AppCompatDelegate;
  * created on: 2020/9/29 11:09
  * description:
  */
-public class SettingActivity extends BaseWallActivity {
+public class SettingActivity extends BaseWallActivity<ActSettingBinding> {
     private SettingView allCacelSv;
     private SwitchButton moonSb;
 
@@ -41,8 +41,9 @@ public class SettingActivity extends BaseWallActivity {
     private boolean isNightMode;
 
     @Override
-    public int getLayout() {
-        return R.layout.act_setting;
+    public View getLayout() {
+        mBinding = ActSettingBinding.inflate(getLayoutInflater());
+        return mBinding.getRoot();
     }
 
     @Override

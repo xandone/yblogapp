@@ -15,6 +15,8 @@ import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.ActManager;
 import com.app.xandone.yblogapp.base.BaseWallFragment;
 import com.app.xandone.yblogapp.cache.UserInfoHelper;
+import com.app.xandone.yblogapp.databinding.FragCodeBinding;
+import com.app.xandone.yblogapp.databinding.FragManagerDataBinding;
 import com.app.xandone.yblogapp.model.bean.AdminBean;
 import com.app.xandone.yblogapp.ui.manager.admin.AdminListActivity;
 import com.app.xandone.yblogapp.ui.manager.chart.ChartDataActivity;
@@ -34,7 +36,7 @@ import butterknife.OnClick;
  * created on: 2020/9/27 11:02
  * description:
  */
-public class ManagerDataFragment extends BaseWallFragment {
+public class ManagerDataFragment extends BaseWallFragment<FragManagerDataBinding> {
     @BindView(R.id.admin_icon_uv)
     UserCircleView adminIconUv;
     @BindView(R.id.admin_name_tv)
@@ -47,8 +49,9 @@ public class ManagerDataFragment extends BaseWallFragment {
     ConstraintLayout code_tip_cl;
 
     @Override
-    public int getLayout() {
-        return R.layout.frag_manager_data;
+    public View getLayout() {
+        mBinding = FragManagerDataBinding.inflate(getLayoutInflater());
+        return mBinding.getRoot();
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.app.xandone.baselib.utils.ProgressDialogHelper;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewbinding.ViewBinding;
 import butterknife.ButterKnife;
 
 /**
@@ -19,8 +20,10 @@ import butterknife.ButterKnife;
  * created on: 2020/8/12 10:34
  * description:
  */
-public abstract class BaseSimpleActivity extends AppCompatActivity implements IActivityInit, IApiLoading,
+public abstract class BaseSimpleActivity<VB extends ViewBinding> extends AppCompatActivity implements IActivityInit, IApiLoading,
         IToastAction, IClickAction {
+
+    protected VB mBinding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,5 +94,14 @@ public abstract class BaseSimpleActivity extends AppCompatActivity implements IA
     @Override
     public void cancleApiLoading() {
         ProgressDialogHelper.getInstance().dimissLoading();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mBinding != null) {
+            mBinding = null;
+        }
     }
 }

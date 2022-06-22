@@ -2,7 +2,9 @@ package com.app.xandone.yblogapp.ui.manager;
 
 import android.animation.ObjectAnimator;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.EditText;
@@ -17,6 +19,8 @@ import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.config.AppConfig;
 import com.app.xandone.yblogapp.constant.ISpKey;
+import com.app.xandone.yblogapp.databinding.FragManagerBinding;
+import com.app.xandone.yblogapp.databinding.FragManagerLoginBinding;
 import com.app.xandone.yblogapp.model.ManagerModel;
 import com.app.xandone.yblogapp.model.bean.AdminBean;
 import com.app.xandone.yblogapp.model.event.SwitchEvent;
@@ -24,9 +28,13 @@ import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
 
 import org.greenrobot.eventbus.EventBus;
+import org.jetbrains.annotations.NotNull;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.viewbinding.ViewBinding;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -35,7 +43,7 @@ import butterknife.OnClick;
  * created on: 2020/9/29 09:52
  * description:
  */
-public class ManagerLoginFragment extends BaseFrament implements KeyboardWatcher.SoftKeyboardStateListener {
+public class ManagerLoginFragment extends BaseFrament<FragManagerLoginBinding> implements KeyboardWatcher.SoftKeyboardStateListener {
     @BindView(R.id.lock_iv)
     AppCompatImageView lockIv;
     @BindView(R.id.et_body_cl)
@@ -49,8 +57,9 @@ public class ManagerLoginFragment extends BaseFrament implements KeyboardWatcher
     private ManagerModel managerModel;
 
     @Override
-    public int getLayout() {
-        return R.layout.frag_manager_login;
+    public View getLayout() {
+        mBinding = FragManagerLoginBinding.inflate(getLayoutInflater());
+        return mBinding.getRoot();
     }
 
     @Override
@@ -140,5 +149,4 @@ public class ManagerLoginFragment extends BaseFrament implements KeyboardWatcher
         super.onDestroy();
         keyboardWatcher.removeSoftKeyboardStateListener(this);
     }
-
 }

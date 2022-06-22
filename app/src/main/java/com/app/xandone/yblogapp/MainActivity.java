@@ -3,6 +3,7 @@ package com.app.xandone.yblogapp;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -12,7 +13,9 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.app.xandone.baselib.base.BaseSimpleActivity;
 import com.app.xandone.baselib.update.UpdateHelper;
 import com.app.xandone.baselib.utils.DoubleClickHelper;
+import com.app.xandone.yblogapp.base.TestFragment;
 import com.app.xandone.yblogapp.databinding.ActivityMainBinding;
+import com.app.xandone.yblogapp.databinding.FragBaseWallBinding;
 import com.app.xandone.yblogapp.model.ApkModel;
 import com.app.xandone.yblogapp.model.bean.ApkBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
@@ -26,27 +29,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends BaseSimpleActivity {
-
-    /**
-     * ButterKnife改为 ViewBinding
-     */
-    private ActivityMainBinding mMainBinding;
+public class MainActivity extends BaseSimpleActivity<ActivityMainBinding> {
 
     private List<Fragment> fragments;
     private int mCurrentIndex = 0;
     private ApkModel mApkModel;
 
     @Override
-    public int getLayout() {
-        return R.layout.activity_main;
+    public View getLayout() {
+        mBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        return mBinding.getRoot();
     }
 
-    @Override
-    protected void initContentView() {
-        mMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(mMainBinding.getRoot());
-    }
 
     @Override
     public void init() {
@@ -59,10 +53,10 @@ public class MainActivity extends BaseSimpleActivity {
         fragments.add(new ManagerFragment());
 
         //禁止触摸滑动
-        mMainBinding.mainVp.setUserInputEnabled(false);
+        mBinding.mainVp.setUserInputEnabled(false);
         //禁止预加载
-        mMainBinding.mainVp.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
-        mMainBinding.mainVp.setAdapter(new FragmentStateAdapter(this) {
+        mBinding.mainVp.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
+        mBinding.mainVp.setAdapter(new FragmentStateAdapter(this) {
             @Override
             public int getItemCount() {
                 return fragments.size();
@@ -75,7 +69,7 @@ public class MainActivity extends BaseSimpleActivity {
             }
         });
 
-        mMainBinding.bottomBar.setOnItemSelectedListener(item -> {
+        mBinding.bottomBar.setOnItemSelectedListener(item -> {
             boolean isSelect;
             int itemId = item.getItemId();
             //R 中的id gradle8.0不再是final，改为if else ,选中switch Alt+enter 一键改为if else
@@ -91,7 +85,7 @@ public class MainActivity extends BaseSimpleActivity {
             } else {
                 isSelect = false;
             }
-            mMainBinding.mainVp.setCurrentItem(mCurrentIndex);
+            mBinding.mainVp.setCurrentItem(mCurrentIndex);
             return isSelect;
         });
 
@@ -125,16 +119,6 @@ public class MainActivity extends BaseSimpleActivity {
             }
         });
     }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mMainBinding != null) {
-            mMainBinding = null;
-        }
-    }
-
 
     @Override
     public void onBackPressed() {

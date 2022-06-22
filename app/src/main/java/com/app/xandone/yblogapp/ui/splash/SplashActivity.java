@@ -1,22 +1,19 @@
 package com.app.xandone.yblogapp.ui.splash;
 
 
-import android.Manifest;
+import android.view.View;
 
 import com.app.xandone.baselib.base.BaseSimpleActivity;
-import com.app.xandone.baselib.base.IFragInit;
 import com.app.xandone.yblogapp.MainActivity;
-import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.config.IMyPermission;
+import com.app.xandone.yblogapp.databinding.ActSplashBinding;
 import com.app.xandone.yblogapp.rx.RxHelper;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -24,12 +21,13 @@ import io.reactivex.functions.Consumer;
  * created on: 2020/9/1 14:05
  * description:
  */
-public class SplashActivity extends BaseSimpleActivity {
+public class SplashActivity extends BaseSimpleActivity<ActSplashBinding> {
     private CompositeDisposable mDisposables;
 
     @Override
-    public int getLayout() {
-        return R.layout.act_splash;
+    public View getLayout() {
+        mBinding = ActSplashBinding.inflate(getLayoutInflater());
+        return mBinding.getRoot();
     }
 
     @Override

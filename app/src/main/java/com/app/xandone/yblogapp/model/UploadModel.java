@@ -21,7 +21,8 @@ import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
 
-import org.jetbrains.annotations.NotNull;
+import io.reactivex.annotations.NonNull;
+
 import org.json.JSONObject;
 import org.reactivestreams.Publisher;
 
@@ -83,17 +84,17 @@ public class UploadModel extends BaseViewModel {
                 .compose(RxHelper.handleRespose())
                 .flatMap(new Function<QiniuTokenBean, Flowable<String>>() {
                     @Override
-                    public Flowable<String> apply(@NotNull QiniuTokenBean qiniuTokenBean) throws Exception {
+                    public Flowable<String> apply(@NonNull QiniuTokenBean qiniuTokenBean) throws Exception {
                         qnToken = qiniuTokenBean.getQiniutoken();
                         return Flowable.fromIterable(imags);
                     }
                 })
                 .concatMap(new Function<String, Publisher<String>>() {
                     @Override
-                    public Publisher<String> apply(@NotNull String name) throws Exception {
+                    public Publisher<String> apply(@NonNull String name) throws Exception {
                         return Flowable.create(new FlowableOnSubscribe<String>() {
                             @Override
-                            public void subscribe(@NotNull FlowableEmitter<String> emitter) throws Exception {
+                            public void subscribe(@NonNull FlowableEmitter<String> emitter) throws Exception {
                                 upPic(qnToken, name, emitter);
                             }
                         }, BackpressureStrategy.BUFFER);
@@ -151,10 +152,10 @@ public class UploadModel extends BaseViewModel {
                 .compose(RxHelper.handleRespose())
                 .flatMap(new Function<QiniuTokenBean, Flowable<String>>() {
                     @Override
-                    public Flowable<String> apply(@NotNull QiniuTokenBean qiniuTokenBean) throws Exception {
+                    public Flowable<String> apply(@NonNull QiniuTokenBean qiniuTokenBean) throws Exception {
                         return Flowable.create(new FlowableOnSubscribe<String>() {
                             @Override
-                            public void subscribe(@NotNull FlowableEmitter<String> emitter) throws Exception {
+                            public void subscribe(@NonNull FlowableEmitter<String> emitter) throws Exception {
                                 upPic(qiniuTokenBean.getQiniutoken(), path, emitter);
                             }
                         }, BackpressureStrategy.BUFFER);

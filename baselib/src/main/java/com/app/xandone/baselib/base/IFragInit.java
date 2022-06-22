@@ -15,8 +15,7 @@ public interface IFragInit {
      */
     void doBeforeSetContentView();
 
-    @LayoutRes
-    int getLayout();
+    View getLayout();
 
     void init(View view);
 }

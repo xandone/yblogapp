@@ -22,6 +22,7 @@ import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallActivity;
 import com.app.xandone.yblogapp.config.AppConfig;
 import com.app.xandone.yblogapp.constant.IConstantKey;
+import com.app.xandone.yblogapp.databinding.ActArticleDetailsBinding;
 import com.app.xandone.yblogapp.model.CodeDetailsModel;
 import com.app.xandone.yblogapp.model.EssayDetailsModel;
 import com.app.xandone.yblogapp.model.IArtDetailsModel;
@@ -39,7 +40,6 @@ import com.liulishuo.okdownload.core.cause.EndCause;
 import com.vansz.glideimageloader.GlideImageLoader;
 import com.vansz.universalimageloader.UniversalImageLoader;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.lang.reflect.Array;
@@ -63,7 +63,7 @@ import io.reactivex.functions.Consumer;
  * created on: 2020/9/4 10:20
  * description:
  */
-public class ArticleDetailsActivity extends BaseWallActivity {
+public class ArticleDetailsActivity extends BaseWallActivity<ActArticleDetailsBinding> {
     @BindView(R.id.webView)
     WebView webView;
     private IArtDetailsModel detailsModel;
@@ -87,8 +87,9 @@ public class ArticleDetailsActivity extends BaseWallActivity {
     private String tvCodeColorHex;
 
     @Override
-    public int getLayout() {
-        return R.layout.act_article_details;
+    public View getLayout() {
+        mBinding = ActArticleDetailsBinding.inflate(getLayoutInflater());
+        return mBinding.getRoot();
     }
 
     @Override

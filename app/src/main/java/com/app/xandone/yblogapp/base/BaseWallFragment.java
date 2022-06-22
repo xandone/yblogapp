@@ -9,11 +9,13 @@ import android.widget.FrameLayout;
 import com.app.xandone.baselib.base.BaseFrament;
 import com.app.xandone.widgetlib.view.LoadingLayout;
 import com.app.xandone.yblogapp.R;
+import com.app.xandone.yblogapp.databinding.FragBaseWallBinding;
 import com.gyf.immersionbar.ImmersionBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewbinding.ViewBinding;
 import butterknife.BindView;
 
 /**
@@ -21,8 +23,9 @@ import butterknife.BindView;
  * created on: 2020/9/1 10:52
  * description:有加载状态页的基类Fragment
  */
-public abstract class BaseWallFragment extends BaseFrament implements ILoadingWall,
+public abstract class BaseWallFragment<B extends ViewBinding> extends BaseFrament<B> implements ILoadingWall,
         LoadingLayout.OnReloadListener {
+
     @BindView(R.id.loadLayout)
     protected LoadingLayout loadLayout;
 
@@ -35,7 +38,7 @@ public abstract class BaseWallFragment extends BaseFrament implements ILoadingWa
         FrameLayout walFrame = rootView.findViewById(R.id.wall_frame);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT);
-        View view = inflater.inflate(getLayout(), null);
+        View view = getLayout();
         view.setLayoutParams(params);
         walFrame.addView(view);
         return rootView;

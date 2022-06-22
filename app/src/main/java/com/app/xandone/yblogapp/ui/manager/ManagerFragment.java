@@ -6,6 +6,8 @@ import com.app.xandone.baselib.utils.KeyBoardUtils;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallFragment;
 import com.app.xandone.yblogapp.cache.UserInfoHelper;
+import com.app.xandone.yblogapp.databinding.FragManagerBinding;
+import com.app.xandone.yblogapp.databinding.FragManagerDataBinding;
 import com.app.xandone.yblogapp.model.bean.AdminBean;
 import com.app.xandone.yblogapp.model.event.SwitchEvent;
 
@@ -19,11 +21,12 @@ import androidx.fragment.app.Fragment;
  * created on: 2020/9/8 11:53
  * description:
  */
-public class ManagerFragment extends BaseWallFragment {
+public class ManagerFragment extends BaseWallFragment<FragManagerBinding> {
 
     @Override
-    public int getLayout() {
-        return R.layout.frag_manager;
+    public View getLayout() {
+        mBinding = FragManagerBinding.inflate(getLayoutInflater());
+        return mBinding.getRoot();
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseListFragment;
 import com.app.xandone.yblogapp.constant.IConstantKey;
+import com.app.xandone.yblogapp.databinding.FragBaseListBinding;
 import com.app.xandone.yblogapp.model.CodeModel;
 import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
@@ -25,7 +26,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +61,7 @@ public class CodeListFragment extends BaseListFragment<CodeArticleBean> {
         mDatas = new ArrayList<>();
         mAdapter = new BaseQuickAdapter<CodeArticleBean, BaseViewHolder>(R.layout.item_code_list, mDatas) {
             @Override
-            protected void convert(@NotNull BaseViewHolder baseViewHolder, CodeArticleBean codeArticleBean) {
+            protected void convert(@NonNull BaseViewHolder baseViewHolder, CodeArticleBean codeArticleBean) {
                 baseViewHolder.setText(R.id.code_title_tv, codeArticleBean.getTitle());
                 baseViewHolder.setText(R.id.code_type_tv, codeArticleBean.getTypeName());
                 baseViewHolder.setText(R.id.code_content_tv, codeArticleBean.getContent());

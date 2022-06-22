@@ -1,7 +1,10 @@
 package com.app.xandone.yblogapp.base;
 
 
+import android.view.View;
+
 import com.app.xandone.yblogapp.R;
+import com.app.xandone.yblogapp.databinding.ActBaseListBinding;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
@@ -16,15 +19,16 @@ import butterknife.BindView;
  * created on: 2021/01/20 09:27
  * description:
  */
-public abstract class BaseListActivity extends BaseWallActivity implements IRefreshCallback {
+public abstract class BaseListActivity extends BaseWallActivity<ActBaseListBinding> implements IRefreshCallback {
     @BindView(R.id.refreshLayout)
     protected SmartRefreshLayout refreshLayout;
     @BindView(R.id.recycler)
     protected RecyclerView recycler;
 
     @Override
-    public int getLayout() {
-        return R.layout.act_base_list;
+    public View getLayout() {
+        mBinding = ActBaseListBinding.inflate(getLayoutInflater());
+        return mBinding.getRoot();
     }
 
     @Override

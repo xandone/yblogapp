@@ -15,7 +15,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -112,7 +111,7 @@ public class FilterAdapter extends BaseMultiItemQuickAdapter<Filter, BaseViewHol
         List<FilterItem> gridDatas = new ArrayList<>();
         BaseQuickAdapter<FilterItem, BaseViewHolder> gridAdapter = new BaseQuickAdapter<FilterItem, BaseViewHolder>(R.layout.item_filter_grid_info, gridDatas) {
             @Override
-            protected void convert(@NotNull BaseViewHolder baseViewHolder, FilterItem filterItem) {
+            protected void convert(@NonNull BaseViewHolder baseViewHolder, FilterItem filterItem) {
                 baseViewHolder.setText(R.id.grid_tv, filterItem.getItemName());
                 baseViewHolder.getView(R.id.grid_tv).setSelected(filterItem.isSelected());
             }

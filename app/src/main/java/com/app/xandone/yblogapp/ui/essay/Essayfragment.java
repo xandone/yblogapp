@@ -31,7 +31,6 @@ import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
 import com.youth.banner.listener.OnBannerListener;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +64,7 @@ public class Essayfragment extends BaseListFragment<EssayArticleBean> {
         bannerList = new ArrayList<>();
         mAdapter = new BaseQuickAdapter<EssayArticleBean, BaseViewHolder>(R.layout.item_essay_list, mDatas) {
             @Override
-            protected void convert(@NotNull BaseViewHolder baseViewHolder, EssayArticleBean essayArticleBean) {
+            protected void convert(@NonNull BaseViewHolder baseViewHolder, EssayArticleBean essayArticleBean) {
                 baseViewHolder.setText(R.id.essay_title_tv, essayArticleBean.getTitle());
                 baseViewHolder.setText(R.id.essay_content_tv, essayArticleBean.getContent());
                 baseViewHolder.setText(R.id.essay_date_tv, essayArticleBean.getPostTime());
@@ -85,7 +84,7 @@ public class Essayfragment extends BaseListFragment<EssayArticleBean> {
                     imgRecycler.setVisibility(View.VISIBLE);
                     BaseQuickAdapter<String, BaseViewHolder> imgAdapter = new BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_img, coverData) {
                         @Override
-                        protected void convert(@NotNull BaseViewHolder baseViewHolder, String s) {
+                        protected void convert(@NonNull BaseViewHolder baseViewHolder, String s) {
                             ImageView img = baseViewHolder.getView(R.id.item_essay_cover_img);
                             ImageLoadHelper.getInstance().display(App.sContext, s, img);
                         }

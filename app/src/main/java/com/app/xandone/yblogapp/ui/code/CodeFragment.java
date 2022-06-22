@@ -10,6 +10,8 @@ import com.app.xandone.yblogapp.App;
 import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseWallFragment;
 import com.app.xandone.yblogapp.constant.ISpKey;
+import com.app.xandone.yblogapp.databinding.FragBaseListBinding;
+import com.app.xandone.yblogapp.databinding.FragCodeBinding;
 import com.app.xandone.yblogapp.model.CodeTypeModel;
 import com.app.xandone.yblogapp.model.bean.CodeTypeBean;
 import com.app.xandone.yblogapp.model.event.CodeTypeEvent;
@@ -46,7 +48,7 @@ import butterknife.OnClick;
  * created on: 2020/9/3 09:56
  * description:
  */
-public class CodeFragment extends BaseWallFragment {
+public class CodeFragment extends BaseWallFragment<FragCodeBinding> {
     @BindView(R.id.magic_indicator)
     MagicIndicator magicIndicator;
     @BindView(R.id.viewPager)
@@ -62,8 +64,9 @@ public class CodeFragment extends BaseWallFragment {
     private MyViewPagerAdapter vpAdapter;
 
     @Override
-    public int getLayout() {
-        return R.layout.frag_code;
+    public View getLayout() {
+        mBinding = FragCodeBinding.inflate(getLayoutInflater());
+        return mBinding.getRoot();
     }
 
     @Override

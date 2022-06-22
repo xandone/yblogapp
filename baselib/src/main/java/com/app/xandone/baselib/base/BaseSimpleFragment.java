@@ -2,22 +2,19 @@ package com.app.xandone.baselib.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.app.xandone.baselib.event.SimplEvent;
-import com.app.xandone.baselib.log.LogHelper;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.viewbinding.ViewBinding;
 import butterknife.ButterKnife;
 
 /**
@@ -25,10 +22,12 @@ import butterknife.ButterKnife;
  * created on: 2020/8/12 11:05
  * description:
  */
-public abstract class BaseSimpleFragment extends Fragment implements IFragInit, IToastAction {
+public abstract class BaseSimpleFragment<VB extends ViewBinding> extends Fragment implements IFragInit, IToastAction {
     protected FragmentActivity mActivity;
 
     protected boolean mIsLoadedData;
+
+    protected VB mBinding;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,7 +47,7 @@ public abstract class BaseSimpleFragment extends Fragment implements IFragInit, 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(getLayout(), container, false);
+        return getLayout();
     }
 
     @Override
@@ -58,6 +57,7 @@ public abstract class BaseSimpleFragment extends Fragment implements IFragInit, 
         init(view);
     }
 
+    @CallSuper
     protected void initButterKnife(View view) {
         ButterKnife.bind(this, view);
     }
@@ -91,6 +91,14 @@ public abstract class BaseSimpleFragment extends Fragment implements IFragInit, 
             EventBus.getDefault().unregister(this);
         }
         mIsLoadedData = false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mBinding != null) {
+            mBinding = null;
+        }
     }
 
 }
