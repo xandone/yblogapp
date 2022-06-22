@@ -127,8 +127,17 @@ dependencies {
     //https://github.com/kyleduo/SwitchButton
     implementation 'com.kyleduo.switchbutton:library:2.1.0'
 
-    implementation ('com.qiniu:qiniu-android-sdk:8.4.1'){
-        exclude (group: 'com.squareup.okhttp3', module: 'okhttp')
+    //七牛云
+    implementation('com.qiniu:qiniu-android-sdk:8.4.1') {
+        exclude(group: 'com.squareup.okhttp3', module: 'okhttp')
     }
+
+    //友盟推送
+    implementation([
+            'com.umeng.umsdk:common:9.5.0',
+            'com.umeng.umsdk:asms:1.6.3',
+            'com.umeng.umsdk:push:6.5.2',
+            'com.umeng.umsdk:union:1.4.1'
+    ])
 
 }

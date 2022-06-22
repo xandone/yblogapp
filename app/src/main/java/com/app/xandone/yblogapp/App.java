@@ -8,6 +8,7 @@ import com.app.xandone.baselib.cache.SpHelper;
 import com.app.xandone.yblogapp.base.ActManager;
 import com.app.xandone.yblogapp.config.AppConfig;
 import com.app.xandone.yblogapp.constant.ISpKey;
+import com.app.xandone.yblogapp.utils.umeng.PushHelper;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -73,6 +74,8 @@ public class App extends Application {
         if (isNightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
+
+        PushHelper.initUmengSDK(this);
     }
 
     @Override

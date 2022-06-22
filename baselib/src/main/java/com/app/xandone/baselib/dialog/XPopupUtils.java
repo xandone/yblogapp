@@ -7,6 +7,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.impl.ConfirmPopupView;
+import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.SimpleCallback;
 
@@ -44,7 +45,12 @@ public class XPopupUtils {
                             public void onConfirm() {
                                 listener.onConfirm();
                             }
-                        }, null,
+                        }, new OnCancelListener() {
+                            @Override
+                            public void onCancel() {
+                                listener.onCancle();
+                            }
+                        },
                         false)
                 .show();
     }

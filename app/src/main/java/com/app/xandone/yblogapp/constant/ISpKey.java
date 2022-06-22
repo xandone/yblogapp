@@ -18,4 +18,10 @@ public interface ISpKey {
      * 夜间模式
      */
     String IS_NIGHT_MODE_KEY = "is_night_mode";
+
+
+    /**
+     * 是否同意隐私协议
+     */
+    String IS_AGREE_PRIVACY = "is_agree_privacy";
 }

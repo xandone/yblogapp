@@ -17,10 +17,10 @@ import com.app.xandone.yblogapp.viewmodel.ModelProvider;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 /**
@@ -37,7 +37,7 @@ public class AdminListActivity extends BaseListActivity {
     protected void wallInit() {
         mAdapter = new BaseQuickAdapter<AdminBean, BaseViewHolder>(R.layout.item_admin_list, datas) {
             @Override
-            protected void convert(@NotNull BaseViewHolder helper, AdminBean adminBean) {
+            protected void convert(@NonNull BaseViewHolder helper, AdminBean adminBean) {
                 UserCircleView adminIconUv = helper.getView(R.id.admin_icon_uv);
                 ImageLoadHelper.getInstance().display(AdminListActivity.this, adminBean.getAdminIcon(), adminIconUv);
                 helper.setText(R.id.admin_name_tv, adminBean.getNickname());
