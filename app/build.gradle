@@ -140,4 +140,8 @@ dependencies {
             'com.umeng.umsdk:union:1.4.1'
     ])
 
+    //Room
+    def room_version = "2.3.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 }

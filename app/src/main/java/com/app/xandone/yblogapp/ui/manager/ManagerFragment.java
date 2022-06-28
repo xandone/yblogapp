@@ -58,7 +58,11 @@ public class ManagerFragment extends BaseWallFragment<FragManagerBinding> {
     }
 
     private void switchFragment(Fragment fragment) {
-        getChildFragmentManager().beginTransaction().replace(R.id.main_fl, fragment).commitAllowingStateLoss();
+        getChildFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out)
+                .replace(R.id.main_fl, fragment)
+                .commitAllowingStateLoss();
     }
 
 

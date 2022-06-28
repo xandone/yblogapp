@@ -16,4 +16,6 @@
     <color name="black">#000</color>
     <color name="line_color">#D7D7DA</color>
 
+    <color name="ripple_color">#1f333333</color>
+
 </resources>

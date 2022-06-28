@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-<!--        <item name="android:windowBackground">@color/app_bg_color</item>-->
+        <!--        <item name="android:windowBackground">@color/app_bg_color</item>-->
         <item name="android:windowAnimationStyle">@style/act_anim_style</item>
     </style>
 
@@ -44,6 +44,11 @@
     <!-- 底部导航栏字体样式 -->
     <style name="BottomTabTextStyle">
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="md_btn_normal" parent="md_btn_style">
+        <item name="android:layout_height">50dp</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
     </style>
 
 </resources>

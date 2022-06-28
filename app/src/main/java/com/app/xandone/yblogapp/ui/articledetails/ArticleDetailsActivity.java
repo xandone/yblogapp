@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -24,25 +23,24 @@ import com.app.xandone.yblogapp.config.AppConfig;
 import com.app.xandone.yblogapp.constant.IConstantKey;
 import com.app.xandone.yblogapp.databinding.ActArticleDetailsBinding;
 import com.app.xandone.yblogapp.model.CodeDetailsModel;
+import com.app.xandone.yblogapp.model.DbModel;
 import com.app.xandone.yblogapp.model.EssayDetailsModel;
 import com.app.xandone.yblogapp.model.IArtDetailsModel;
+import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
 import com.app.xandone.yblogapp.model.bean.CodeDetailsBean;
 import com.app.xandone.yblogapp.model.bean.EssayDetailsBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.utils.download.OkdownloadCallback;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
-import com.google.gson.Gson;
 import com.hitomi.tilibrary.transfer.TransferConfig;
 import com.hitomi.tilibrary.transfer.Transferee;
 import com.liulishuo.okdownload.DownloadListener;
 import com.liulishuo.okdownload.DownloadTask;
 import com.liulishuo.okdownload.core.cause.EndCause;
 import com.vansz.glideimageloader.GlideImageLoader;
-import com.vansz.universalimageloader.UniversalImageLoader;
 
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -123,6 +121,17 @@ public class ArticleDetailsActivity extends BaseWallActivity<ActArticleDetailsBi
         array.recycle();
 
         requestData();
+
+        DbModel dbModel = ModelProvider.getModel(this, DbModel.class, App.sContext);
+        dbModel.getAllRecordCodes(new DbModel.DbDataCall<List<CodeArticleBean>>() {
+            @Override
+            public void onDbdata(List<CodeArticleBean> codeArticleBeans) {
+                for (CodeArticleBean bean : codeArticleBeans) {
+                    LogHelper.e(bean.getTitle());
+                }
+            }
+        });
+
     }
 
     @Override

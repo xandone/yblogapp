@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white_color"
@@ -33,7 +34,9 @@
         android:id="@+id/type_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/channel_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/channel_tv"
+        tools:itemCount="1"
+        tools:listitem="@layout/item_code_enable_type" />
 
     <TextView
         android:id="@+id/channel_remove_tv"
@@ -52,6 +55,8 @@
         android:id="@+id/type_remove_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/channel_remove_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/channel_remove_tv"
+        tools:itemCount="1"
+        tools:listitem="@layout/item_code_type" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

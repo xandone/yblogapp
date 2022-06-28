@@ -16,9 +16,12 @@ import com.app.xandone.yblogapp.R;
 import com.app.xandone.yblogapp.base.BaseListFragment;
 import com.app.xandone.yblogapp.constant.IConstantKey;
 import com.app.xandone.yblogapp.databinding.FragBaseListBinding;
+import com.app.xandone.yblogapp.db.BlogDb;
 import com.app.xandone.yblogapp.model.CodeModel;
+import com.app.xandone.yblogapp.model.DbModel;
 import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.model.bean.CodeArticleBean;
+import com.app.xandone.yblogapp.rx.BaseSubscriber;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.ui.articledetails.ArticleDetailsActivity;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
@@ -27,11 +30,18 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * author: Admin
@@ -40,6 +50,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
  */
 public class CodeListFragment extends BaseListFragment<CodeArticleBean> {
     private CodeModel codeModel;
+    private DbModel mDbModel;
     private int mType;
 
     private static final int ROW = 10;
@@ -87,10 +98,12 @@ public class CodeListFragment extends BaseListFragment<CodeArticleBean> {
                         .putExtra(IConstantKey.TYPE, ArticleDetailsActivity.TYPE_CODE)
                         .putExtra(IConstantKey.TITLE, mDatas.get(position).getTitle())
                 );
+                mDbModel.insertDb(mDatas.get(position));
             }
         });
 
         codeModel = ModelProvider.getModel(mActivity, CodeModel.class, App.sContext);
+        mDbModel = ModelProvider.getModel(mActivity, DbModel.class, App.sContext);
     }
 
     @Override

@@ -1,12 +1,18 @@
 package com.app.xandone.yblogapp.model.bean;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 /**
  * author: Admin
  * created on: 2020/8/12 16:48
  * description:
  */
+@Entity(tableName = "codes")
 public class CodeArticleBean {
 
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String artId;
     private String artUserId;
     private String title;
@@ -18,6 +24,14 @@ public class CodeArticleBean {
     private String postTime;
     private String content;
     private String contentHtml;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getArtId() {
         return artId;

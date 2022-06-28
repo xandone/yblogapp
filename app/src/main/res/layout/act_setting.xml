@@ -71,16 +71,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/exit_btn"
+        style="@style/md_btn_normal"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
         android:layout_marginBottom="30dp"
-        android:backgroundTint="@color/colorPrimary"
         android:text="退出登录"
-        android:textColor="@color/white_color"
-        android:textSize="16sp"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge"
         app:cornerRadius="12dp"
         app:layout_constraintBottom_toBottomOf="parent" />
