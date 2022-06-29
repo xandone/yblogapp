@@ -39,7 +39,7 @@ public class App extends Application {
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
             @Override
             public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-                layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);
+                layout.setPrimaryColorsId(R.color.app_bg_color, R.color.main_tv);
                 return new ClassicsHeader(context);
             }
         });

@@ -1,11 +1,14 @@
 package com.app.xandone.yblogapp;
 
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -13,15 +16,15 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.app.xandone.baselib.base.BaseSimpleActivity;
 import com.app.xandone.baselib.update.UpdateHelper;
 import com.app.xandone.baselib.utils.DoubleClickHelper;
-import com.app.xandone.yblogapp.base.TestFragment;
 import com.app.xandone.yblogapp.databinding.ActivityMainBinding;
-import com.app.xandone.yblogapp.databinding.FragBaseWallBinding;
 import com.app.xandone.yblogapp.model.ApkModel;
 import com.app.xandone.yblogapp.model.bean.ApkBean;
 import com.app.xandone.yblogapp.rx.IRequestCallback;
 import com.app.xandone.yblogapp.ui.code.CodeFragment;
 import com.app.xandone.yblogapp.ui.essay.Essayfragment;
 import com.app.xandone.yblogapp.ui.manager.ManagerFragment;
+import com.app.xandone.yblogapp.ui.manager.chart.ChartDataActivity;
+import com.app.xandone.yblogapp.utils.NotifyUtils;
 import com.app.xandone.yblogapp.utils.download.OkdownloadEngine;
 import com.app.xandone.yblogapp.viewmodel.ModelProvider;
 
@@ -93,6 +96,12 @@ public class MainActivity extends BaseSimpleActivity<ActivityMainBinding> {
         mApkModel = ModelProvider.getModel(this, ApkModel.class, App.sContext);
 
 //        checkApkVersion();
+
+//        NotifyUtils.t1(App.sContext,
+//                1,
+//                "测试标题1",
+//                "的会计发送到开发商都接收到了仿生泪滴交房顺利大嫁风尚多了几分",
+//                new Intent(this, ChartDataActivity.class));
     }
 
 
