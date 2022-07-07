@@ -32,6 +32,7 @@ public abstract class BaseSimpleActivity<VB extends ViewBinding> extends AppComp
         doBeforeSetContentView();
         initContentView();
         initButterKnife();
+        initView();
         init();
         initSoftKeyBoard();
     }

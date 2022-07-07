@@ -17,5 +17,8 @@ public interface IFragInit {
 
     View getLayout();
 
+    default void initView(View view) {
+    }
+
     void init(View view);
 }

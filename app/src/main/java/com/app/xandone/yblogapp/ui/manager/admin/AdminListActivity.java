@@ -34,7 +34,7 @@ public class AdminListActivity extends BaseListActivity {
     private List<AdminBean> datas;
 
     @Override
-    protected void wallInit() {
+    public void init() {
         mAdapter = new BaseQuickAdapter<AdminBean, BaseViewHolder>(R.layout.item_admin_list, datas) {
             @Override
             protected void convert(@NonNull BaseViewHolder helper, AdminBean adminBean) {

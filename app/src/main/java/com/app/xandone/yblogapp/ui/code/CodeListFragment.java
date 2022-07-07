@@ -67,7 +67,6 @@ public class CodeListFragment extends BaseListFragment<CodeArticleBean> {
 
     @Override
     public void init(View view) {
-        super.init(view);
         mType = getArguments().getInt(TYPE);
         mDatas = new ArrayList<>();
         mAdapter = new BaseQuickAdapter<CodeArticleBean, BaseViewHolder>(R.layout.item_code_list, mDatas) {

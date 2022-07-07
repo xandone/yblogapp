@@ -17,5 +17,8 @@ public interface IActivityInit {
 
     View getLayout();
 
+    default void initView() {
+    }
+
     void init();
 }

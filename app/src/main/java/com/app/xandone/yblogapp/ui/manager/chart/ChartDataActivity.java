@@ -61,7 +61,7 @@ public class ChartDataActivity extends BaseWallActivity<ActChartDataBinding> imp
     }
 
     @Override
-    protected void wallInit() {
+    public void init() {
         initChart();
 
         managerChartModel = ModelProvider.getModel(this, ManagerChartModel.class, App.sContext);

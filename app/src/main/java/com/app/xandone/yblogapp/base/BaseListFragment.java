@@ -51,7 +51,7 @@ public abstract class BaseListFragment<E> extends BaseWallFragment<FragBaseListB
     }
 
     @Override
-    public void init(View view) {
+    public void initView(View view) {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshlayout) {
@@ -105,13 +105,6 @@ public abstract class BaseListFragment<E> extends BaseWallFragment<FragBaseListB
             }
         };
 
-    }
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-//        FragBaseListBinding.bind(view);
     }
 
     @Override

@@ -59,7 +59,6 @@ public class Essayfragment extends BaseListFragment<EssayArticleBean> {
 
     @Override
     public void init(View view) {
-        super.init(view);
         mDatas = new ArrayList<>();
         bannerList = new ArrayList<>();
         mAdapter = new BaseQuickAdapter<EssayArticleBean, BaseViewHolder>(R.layout.item_essay_list, mDatas) {

@@ -47,7 +47,7 @@ public class SettingActivity extends BaseWallActivity<ActSettingBinding> {
     }
 
     @Override
-    public void wallInit() {
+    public void init() {
         allCacelSv = findViewById(R.id.all_cache_sv);
         moonSb = findViewById(R.id.moon_sb);
 

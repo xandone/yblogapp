@@ -33,7 +33,6 @@ public abstract class BaseListActivity extends BaseWallActivity<ActBaseListBindi
 
     @Override
     public void init() {
-        super.init();
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshlayout) {

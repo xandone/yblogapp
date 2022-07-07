@@ -91,7 +91,7 @@ public class ArticleDetailsActivity extends BaseWallActivity<ActArticleDetailsBi
     }
 
     @Override
-    public void wallInit() {
+    public void init() {
         mId = getIntent().getStringExtra(IConstantKey.ID);
         mType = getIntent().getIntExtra(IConstantKey.TYPE, TYPE_CODE);
         mTitle = getIntent().getStringExtra(IConstantKey.TITLE);

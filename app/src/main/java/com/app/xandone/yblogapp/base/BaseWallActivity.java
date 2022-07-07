@@ -12,6 +12,7 @@ import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.Objects;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewbinding.ViewBinding;
@@ -44,14 +45,13 @@ public abstract class BaseWallActivity<VB extends ViewBinding> extends BaseActiv
         setContentView(rootView);
     }
 
+    @CallSuper
     @Override
-    public void init() {
+    public void initView() {
         loadLayout.setOnReloadListener(this);
         onLoading();
 
         initToolbar();
-
-        wallInit();
 
         initImmersionBar();
     }
@@ -137,11 +137,6 @@ public abstract class BaseWallActivity<VB extends ViewBinding> extends BaseActiv
         onLoading();
         requestData();
     }
-
-    /**
-     * 初始化，实现该方法
-     */
-    protected abstract void wallInit();
 
     /**
      * 加载数据，实现该方法
