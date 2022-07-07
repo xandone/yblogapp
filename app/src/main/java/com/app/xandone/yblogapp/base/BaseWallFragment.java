@@ -9,24 +9,22 @@ import android.widget.FrameLayout;
 import com.app.xandone.baselib.base.BaseFrament;
 import com.app.xandone.widgetlib.view.LoadingLayout;
 import com.app.xandone.yblogapp.R;
-import com.app.xandone.yblogapp.databinding.FragBaseWallBinding;
 import com.gyf.immersionbar.ImmersionBar;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewbinding.ViewBinding;
-import butterknife.BindView;
 
 /**
  * author: Admin
  * created on: 2020/9/1 10:52
  * description:有加载状态页的基类Fragment
  */
-public abstract class BaseWallFragment<B extends ViewBinding> extends BaseFrament<B> implements ILoadingWall,
+public abstract class BaseWallFragment<VB extends ViewBinding> extends BaseFrament<VB> implements ILoadingWall,
         LoadingLayout.OnReloadListener {
 
-    @BindView(R.id.loadLayout)
     protected LoadingLayout loadLayout;
 
     private ImmersionBar mImmersionBar;
@@ -44,19 +42,14 @@ public abstract class BaseWallFragment<B extends ViewBinding> extends BaseFramen
         return rootView;
     }
 
+    @CallSuper
     @Override
-    protected void initButterKnife(View view) {
-        super.initButterKnife(view);
+    public void initView(View view) {
+        loadLayout = view.findViewById(R.id.loadLayout);
         loadLayout.setOnReloadListener(this);
         onLoading();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         initImmersionBar();
     }
-
 
     /**
      * 沉浸式

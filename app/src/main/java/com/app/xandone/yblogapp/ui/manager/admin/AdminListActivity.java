@@ -64,12 +64,12 @@ public class AdminListActivity extends BaseListActivity {
     }
 
     @Override
-    public void getData() {
+    public void getApiData() {
         getAdminList();
     }
 
     @Override
-    public void getDataMore() {
+    public void getApiDataMore() {
 
     }
 

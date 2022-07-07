@@ -1,15 +1,9 @@
 package com.app.xandone.yblogapp.base;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.app.xandone.baselib.utils.SimpleUtils;
 import com.app.xandone.yblogapp.R;
-import com.app.xandone.yblogapp.databinding.ActBaseWallBinding;
-import com.app.xandone.yblogapp.databinding.Frag1Binding;
 import com.app.xandone.yblogapp.databinding.FragBaseListBinding;
 import com.app.xandone.yblogapp.model.base.BaseResponse;
 import com.app.xandone.yblogapp.ui.code.IListAction;
@@ -24,7 +18,6 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
@@ -52,16 +45,17 @@ public abstract class BaseListFragment<E> extends BaseWallFragment<FragBaseListB
 
     @Override
     public void initView(View view) {
+        super.initView(view);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshlayout) {
-                getData();
+                getApiData();
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshlayout) {
-                getDataMore();
+                getApiDataMore();
             }
         });
 
@@ -130,5 +124,10 @@ public abstract class BaseListFragment<E> extends BaseWallFragment<FragBaseListB
     @Override
     public void unableLoadMore() {
         refreshLayout.setEnableLoadMore(false);
+    }
+
+    @Override
+    public void unableRefresh() {
+        refreshLayout.setEnableRefresh(false);
     }
 }

@@ -185,13 +185,13 @@ public class Essayfragment extends BaseListFragment<EssayArticleBean> {
     }
 
     @Override
-    public void getData() {
+    public void getApiData() {
         getEssayDatas(1, false);
         getBannerDatas();
     }
 
     @Override
-    public void getDataMore() {
+    public void getApiDataMore() {
         getEssayDatas(mDatas.size() / ROW + 1, true);
     }
 }

@@ -32,17 +32,18 @@ public abstract class BaseListActivity extends BaseWallActivity<ActBaseListBindi
     }
 
     @Override
-    public void init() {
+    public void initView() {
+        super.initView();
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshlayout) {
-                getData();
+                getApiData();
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshlayout) {
-                getDataMore();
+                getApiDataMore();
             }
         });
     }
@@ -70,5 +71,10 @@ public abstract class BaseListActivity extends BaseWallActivity<ActBaseListBindi
     @Override
     public void unableLoadMore() {
         refreshLayout.setEnableLoadMore(false);
+    }
+
+    @Override
+    public void unableRefresh() {
+        refreshLayout.setEnableRefresh(false);
     }
 }

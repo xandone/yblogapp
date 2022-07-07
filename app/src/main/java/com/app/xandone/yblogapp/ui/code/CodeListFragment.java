@@ -131,12 +131,12 @@ public class CodeListFragment extends BaseListFragment<CodeArticleBean> {
     }
 
     @Override
-    public void getData() {
+    public void getApiData() {
         getCodeDatas(1, false);
     }
 
     @Override
-    public void getDataMore() {
+    public void getApiDataMore() {
         getCodeDatas(mDatas.size() / ROW + 1, true);
     }
 
