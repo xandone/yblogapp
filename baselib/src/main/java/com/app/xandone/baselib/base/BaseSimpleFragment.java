@@ -54,6 +54,7 @@ public abstract class BaseSimpleFragment<VB extends ViewBinding> extends Fragmen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initButterKnife(view);
+        initView(view);
         init(view);
     }
 
