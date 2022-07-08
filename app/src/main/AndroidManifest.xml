@@ -12,8 +12,16 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_LOGS"
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
+
+    <!--https://developer.android.google.cn/guide/topics/manifest/application-element -->
+    <!-- https://developer.android.google.cn/guide/topics/manifest/activity-element -->
+
+    <!--    allowBackup="true"情况的数据备份和还原-->
+    <!--    adb backup -f yblog.db com.app.xandone.yblogapp-->
+    <!--    adb restore yblog.db-->
 
     <application
         android:name=".App"
@@ -23,7 +31,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:targetApi="n">
         <activity
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/splashTheme">

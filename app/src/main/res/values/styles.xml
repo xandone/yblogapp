@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!-- 默认提示颜色，Button、TextView 的提示文字颜色 -->
+        <item name="android:textColorHint">@color/hint_normal</item>
         <!--        <item name="android:windowBackground">@color/app_bg_color</item>-->
         <item name="android:windowAnimationStyle">@style/act_anim_style</item>
     </style>
