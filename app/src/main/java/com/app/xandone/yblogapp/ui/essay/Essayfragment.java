@@ -194,4 +194,14 @@ public class Essayfragment extends BaseListFragment<EssayArticleBean> {
     public void getApiDataMore() {
         getEssayDatas(mDatas.size() / ROW + 1, true);
     }
+
+    @Override
+    protected boolean isStatusBarEnabled() {
+        return true;
+    }
+
+    @Override
+    protected View getTitleView() {
+        return refreshLayout;
+    }
 }

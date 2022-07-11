@@ -1,6 +1,8 @@
 package com.app.xandone.yblogapp.base;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +11,12 @@ import android.widget.FrameLayout;
 import com.app.xandone.baselib.base.BaseFrament;
 import com.app.xandone.widgetlib.view.LoadingLayout;
 import com.app.xandone.yblogapp.R;
+import com.app.xandone.yblogapp.utils.ResHelper;
 import com.gyf.immersionbar.ImmersionBar;
 
+
 import androidx.annotation.CallSuper;
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -48,6 +53,19 @@ public abstract class BaseWallFragment<VB extends ViewBinding> extends BaseFrame
         loadLayout = view.findViewById(R.id.loadLayout);
         loadLayout.setOnReloadListener(this);
         onLoading();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+//        new Handler(Looper.getMainLooper()).post(new Runnable() {
+//            @Override
+//            public void run() {
+//                initImmersionBar();
+//            }
+//        });
+
         initImmersionBar();
     }
 
@@ -60,13 +78,13 @@ public abstract class BaseWallFragment<VB extends ViewBinding> extends BaseFrame
             getStatusBarConfig().init();
 
             // 设置标题栏沉浸
-            if (getToolbar() != null) {
-                ImmersionBar.setTitleBar(this, getToolbar());
+            if (getTitleView() != null) {
+                ImmersionBar.setTitleBar(this, getTitleView());
             }
         }
     }
 
-    protected Toolbar getToolbar() {
+    protected View getTitleView() {
         return null;
     }
 
@@ -107,8 +125,9 @@ public abstract class BaseWallFragment<VB extends ViewBinding> extends BaseFrame
         return ImmersionBar.with(this)
                 // 默认状态栏字体颜色为黑色
                 .statusBarDarkFont(true)
+//                .statusBarColor(R.color.white_color)
                 // 指定导航栏背景颜色
-                .navigationBarColor(android.R.color.white)
+//                .navigationBarColor(android.R.color.white)
                 // 状态栏字体和导航栏内容自动变色，必须指定状态栏颜色和导航栏颜色才可以自动变色
                 .autoDarkModeEnable(true, 0.2f);
     }

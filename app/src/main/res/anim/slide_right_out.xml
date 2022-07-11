@@ -2,6 +2,7 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:interpolator="@android:anim/linear_interpolator">
 
+    <!--    100%表示参照自己的，100%p表示参照父View-->
     <translate
         android:duration="300"
         android:fromXDelta="0"

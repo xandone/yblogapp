@@ -256,4 +256,15 @@ public class CodeFragment extends BaseWallFragment<FragCodeBinding> {
         vpAdapter.notifyDataSetChanged();
 
     }
+
+    @Override
+    protected boolean isStatusBarEnabled() {
+        return true;
+    }
+
+    @Override
+    protected View getTitleView() {
+        return mBinding.magicIndicatorCl;
+    }
+
 }

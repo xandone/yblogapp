@@ -14,6 +14,7 @@ import com.app.xandone.yblogapp.model.event.SwitchEvent;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 /**
@@ -88,5 +89,15 @@ public class ManagerFragment extends BaseWallFragment<FragManagerBinding> {
         }
 
         switchFragment(fragment);
+    }
+
+    @Override
+    protected boolean isStatusBarEnabled() {
+        return true;
+    }
+
+    @Override
+    protected View getTitleView() {
+        return mBinding.mainFl;
     }
 }
