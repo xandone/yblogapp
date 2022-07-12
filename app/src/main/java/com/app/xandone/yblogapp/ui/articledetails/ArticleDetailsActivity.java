@@ -64,6 +64,7 @@ import io.reactivex.functions.Consumer;
 public class ArticleDetailsActivity extends BaseWallActivity<ActArticleDetailsBinding> {
     @BindView(R.id.webView)
     WebView webView;
+
     private IArtDetailsModel detailsModel;
 
     private String mId;

@@ -7,29 +7,37 @@
     android:layout_height="match_parent"
     tools:openDrawer="start">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.scwang.smart.refresh.layout.SmartRefreshLayout
-            android:id="@+id/refreshLayout"
+        <include layout="@layout/v_toolbar" />
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler"
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:id="@+id/refreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+            <com.app.xandone.widgetlib.view.LoadingLayout
+                android:id="@+id/loadLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-
-        <com.app.xandone.widgetlib.view.LoadingLayout
-            android:id="@+id/loadLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </FrameLayout>
-
+        </FrameLayout>
+    </LinearLayout>
 
     <!-- 抽屉内容 -->
     <FrameLayout
