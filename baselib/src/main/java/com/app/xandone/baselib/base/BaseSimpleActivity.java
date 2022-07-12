@@ -10,6 +10,8 @@ import com.app.xandone.baselib.utils.KeyBoardUtils;
 import com.app.xandone.baselib.utils.ProgressDialogHelper;
 
 
+import org.greenrobot.eventbus.EventBus;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
@@ -35,6 +37,9 @@ public abstract class BaseSimpleActivity<VB extends ViewBinding> extends AppComp
         initView();
         init();
         initSoftKeyBoard();
+        if (isRegisterEventBus()) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     protected void initContentView() {
@@ -98,9 +103,16 @@ public abstract class BaseSimpleActivity<VB extends ViewBinding> extends AppComp
     }
 
 
+    protected boolean isRegisterEventBus() {
+        return false;
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (isRegisterEventBus()) {
+            EventBus.getDefault().unregister(this);
+        }
         if (mBinding != null) {
             mBinding = null;
         }

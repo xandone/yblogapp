@@ -116,9 +116,6 @@ dependencies {
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    // 沉浸式框架：https://github.com/gyf-dev/ImmersionBar
-    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
-
     implementation 'com.tencent.bugly:crashreport:3.3.3'
     implementation 'com.tencent.bugly:nativecrashreport:3.7.700'
 

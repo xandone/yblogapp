@@ -27,8 +27,6 @@ public abstract class BaseWallActivity<VB extends ViewBinding> extends BaseActiv
         LoadingLayout.OnReloadListener {
     @BindView(R.id.loadLayout)
     protected LoadingLayout loadLayout;
-    @BindView(R.id.toolbar)
-    protected Toolbar toolbar;
 
     private ImmersionBar mImmersionBar;
 
@@ -50,83 +48,6 @@ public abstract class BaseWallActivity<VB extends ViewBinding> extends BaseActiv
     public void initView() {
         loadLayout.setOnReloadListener(this);
         onLoading();
-
-        initToolbar();
-
-        initImmersionBar();
-    }
-
-    @Override
-    protected void initToolbar() {
-        setToolBar(getTitle(), R.drawable.back_ic);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
-
-    public void setToolBar(CharSequence title, int icon) {
-        setToolBar(title);
-        toolbar.setNavigationIcon(icon);
-    }
-
-    public void setToolBar(CharSequence title) {
-        toolbar.setTitle(title);
-        toolbar.setNavigationIcon(R.drawable.back_ic);
-    }
-
-
-    /**
-     * 沉浸式
-     */
-    private void initImmersionBar() {
-        // 初始化沉浸式状态栏
-        if (isStatusBarEnabled()) {
-            getStatusBarConfig().init();
-
-            // 设置标题栏沉浸
-            if (toolbar != null) {
-                ImmersionBar.setTitleBar(this, toolbar);
-            }
-        }
-    }
-
-    /**
-     * 是否使用沉浸式状态栏
-     */
-    protected boolean isStatusBarEnabled() {
-        return true;
-    }
-
-    /**
-     * 获取状态栏沉浸的配置对象
-     */
-    @NonNull
-    public ImmersionBar getStatusBarConfig() {
-        if (mImmersionBar == null) {
-            mImmersionBar = statusBarConfig();
-        }
-        return mImmersionBar;
-    }
-
-
-    /**
-     * 初始化沉浸式状态栏
-     */
-    @NonNull
-    protected ImmersionBar statusBarConfig() {
-        return ImmersionBar.with(this)
-                // 默认状态栏字体颜色为黑色
-                .statusBarDarkFont(true)
-                // 指定导航栏背景颜色
-                .navigationBarColor(android.R.color.white)
-                // 状态栏字体和导航栏内容自动变色，必须指定状态栏颜色和导航栏颜色才可以自动变色
-                .autoDarkModeEnable(true, 0.2f);
     }
 
     /**

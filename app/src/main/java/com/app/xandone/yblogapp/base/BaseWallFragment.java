@@ -59,14 +59,14 @@ public abstract class BaseWallFragment<VB extends ViewBinding> extends BaseFrame
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        new Handler(Looper.getMainLooper()).post(new Runnable() {
-//            @Override
-//            public void run() {
-//                initImmersionBar();
-//            }
-//        });
-
-        initImmersionBar();
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if (getActivity() != null) {
+                    initImmersionBar();
+                }
+            }
+        });
     }
 
     /**
