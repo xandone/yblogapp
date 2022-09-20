@@ -3,7 +3,9 @@ package com.app.xandone.yblogapp;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
+import com.app.xandone.baselib.cache.FileHelper;
 import com.app.xandone.baselib.cache.SpHelper;
 import com.app.xandone.yblogapp.base.ActManager;
 import com.app.xandone.yblogapp.config.AppConfig;
@@ -59,6 +61,9 @@ public class App extends Application {
         sContext = this;
 
         init();
+
+        Log.e("hgfhfgh", "cacel1=" + FileHelper.getExternalStorageDirectory(this));
+        Log.e("hgfhfgh", "cacel2=" + FileHelper.getExternalFilesDirDcim(this));
     }
 
     private void init() {
@@ -70,7 +75,7 @@ public class App extends Application {
         //Bugly
         CrashReport.initCrashReport(this, AppConfig.getBuglyId(), AppConfig.isDebug());
 
-        boolean isNightMode = SpHelper.getDefaultBoolean(sContext, ISpKey.IS_NIGHT_MODE_KEY);
+        boolean isNightMode = SpHelper.getDefaultValue(sContext, ISpKey.IS_NIGHT_MODE_KEY, false);
         if (isNightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }

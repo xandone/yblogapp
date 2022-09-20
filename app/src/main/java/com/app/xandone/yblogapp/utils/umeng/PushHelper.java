@@ -75,7 +75,7 @@ public class PushHelper {
      * @return
      */
     public static boolean isAgreePrivacy() {
-        return SpHelper.getDefaultBoolean(App.sContext, ISpKey.IS_AGREE_PRIVACY);
+        return SpHelper.getDefaultValue(App.sContext, ISpKey.IS_AGREE_PRIVACY, false);
     }
 
     /**

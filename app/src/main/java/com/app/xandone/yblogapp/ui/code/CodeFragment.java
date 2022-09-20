@@ -166,7 +166,7 @@ public class CodeFragment extends BaseWallFragment<FragCodeBinding> {
         if (apiTypeList == null) {
             return;
         }
-        String codeStr = SpHelper.getDefaultString(App.sContext, ISpKey.CODE_TYPE_KEY);
+        String codeStr = SpHelper.getDefaultValue(App.sContext, ISpKey.CODE_TYPE_KEY, "");
         List<CodeTypeBean> cacheList = JsonUtils.json2List(codeStr,
                 new TypeToken<List<CodeTypeBean>>() {
                 }.getType());

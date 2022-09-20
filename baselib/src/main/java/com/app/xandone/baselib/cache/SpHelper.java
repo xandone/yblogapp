@@ -15,123 +15,147 @@ import androidx.annotation.NonNull;
  */
 public class SpHelper {
 
+    /**
+     * 默认的sp，文件名：app名
+     * /data/data/<包名>/shared_prefs/yblog
+     *
+     * @param context
+     * @return
+     */
     public static SharedPreferences getDefaultSp(Context context) {
         return context.getSharedPreferences(BaseConfig.appName, Context.MODE_PRIVATE);
     }
 
+    /**
+     * 指定name的sp，文件名：name
+     * <p>
+     * /data/data/<包名>/shared_prefs/name
+     *
+     * @param context
+     * @param spName
+     * @return
+     */
     public static SharedPreferences getSpByName(Context context, @NonNull String spName) {
         return context.getSharedPreferences(spName, Context.MODE_PRIVATE);
     }
 
+
     /**
-     * String 类型
-     * 保存到默认的sp
+     * 默认的sp，文件名：app名
      *
      * @param context
      * @param key
-     * @param msg
+     * @param value
+     * @param <T>
      */
-    public static void save2DefaultSp(Context context, @NonNull String key, String msg) {
-        getDefaultSp(context).edit().putString(key, msg).apply();
+    public static <T> void save2DefaultSp(Context context, @NonNull String key, T value) {
+        SharedPreferences.Editor editor = getDefaultSp(context).edit();
+        if (value == null) {
+            editor.remove(key).apply();
+        } else if (value instanceof String) {
+            editor.putString(key, (String) value).apply();
+        } else if (value instanceof Boolean) {
+            editor.putBoolean(key, (Boolean) value).apply();
+        } else if (value instanceof Integer) {
+            editor.putInt(key, (Integer) value).apply();
+        } else if (value instanceof Long) {
+            editor.putLong(key, (Long) value).apply();
+        } else if (value instanceof Float) {
+            editor.putFloat(key, (Float) value).apply();
+        }
     }
 
     /**
-     * int 类型
-     * 保存到默认的sp
+     * 获取默认sp存的值，文件名：app名
      *
      * @param context
-     * @param key
-     * @param msg
+     * @param keyword
+     * @param defValue
+     * @param <T>
+     * @return
      */
-    public static void save2DefaultSp(Context context, @NonNull String key, int msg) {
-        getDefaultSp(context).edit().putInt(key, msg).apply();
+    public static <T> T getDefaultValue(Context context, String keyword, T defValue) {
+        SharedPreferences sp = getDefaultSp(context);
+        T value;
+        if (defValue instanceof String) {
+            String s = sp.getString(keyword, (String) defValue);
+            value = (T) s;
+        } else if (defValue instanceof Integer) {
+            Integer i = sp.getInt(keyword, (Integer) defValue);
+            value = (T) i;
+        } else if (defValue instanceof Boolean) {
+            Boolean b = sp.getBoolean(keyword, (Boolean) defValue);
+            value = (T) b;
+        } else if (defValue instanceof Long) {
+            Long l = sp.getLong(keyword, (Long) defValue);
+            value = (T) l;
+        } else if (defValue instanceof Float) {
+            Float f = sp.getFloat(keyword, (Float) defValue);
+            value = (T) f;
+        } else {
+            value = defValue;
+        }
+        return value;
     }
 
     /**
-     * boolean类型
-     * 保存到默认的sp
-     *
-     * @param context
-     * @param key
-     * @param msg
-     */
-    public static void save2DefaultSp(Context context, @NonNull String key, boolean msg) {
-        getDefaultSp(context).edit().putBoolean(key, msg).apply();
-    }
-
-
-    /**
-     * 保存到指定sp
+     * 指定name的sp，文件名：name
      *
      * @param context
      * @param spName
      * @param key
-     * @param msg
+     * @param value
+     * @param <T>
      */
-    public static void save2Sp(Context context, @NonNull String spName, @NonNull String key, String msg) {
-        getSpByName(context, spName).edit().putString(key, msg).apply();
+    public static <T> void save2SpByName(Context context, @NonNull String spName, @NonNull String key, T value) {
+        SharedPreferences.Editor editor = getSpByName(context, spName).edit();
+        if (value == null) {
+            editor.remove(key).apply();
+        } else if (value instanceof String) {
+            editor.putString(key, (String) value).apply();
+        } else if (value instanceof Boolean) {
+            editor.putBoolean(key, (Boolean) value).apply();
+        } else if (value instanceof Integer) {
+            editor.putInt(key, (Integer) value).apply();
+        } else if (value instanceof Long) {
+            editor.putLong(key, (Long) value).apply();
+        } else if (value instanceof Float) {
+            editor.putFloat(key, (Float) value).apply();
+        }
     }
 
     /**
-     * 获取默认的sp下的String
-     *
-     * @param context
-     * @param key
-     * @return
-     */
-    public static String getDefaultString(Context context, @NonNull final String key) {
-        return getDefaultString(context, key, "");
-    }
-
-    public static String getDefaultString(Context context, @NonNull final String key, @NonNull final String defaultValue) {
-        return getDefaultSp(context).getString(key, defaultValue);
-    }
-
-    /**
-     * 获取默认的sp下的int
-     *
-     * @param context
-     * @param key
-     * @return
-     */
-    public static int getDefaultInteger(Context context, @NonNull final String key) {
-        return getDefaultInteger(context, key, -1);
-    }
-
-    public static int getDefaultInteger(Context context, @NonNull final String key, final int defaultValue) {
-        return getDefaultSp(context).getInt(key, defaultValue);
-    }
-
-    /**
-     * 获取默认的sp下的boolean
-     *
-     * @param context
-     * @param key
-     * @return
-     */
-    public static boolean getDefaultBoolean(Context context, @NonNull final String key) {
-        return getDefaultBoolean(context, key, false);
-    }
-
-    public static boolean getDefaultBoolean(Context context, @NonNull final String key, final boolean defaultValue) {
-        return getDefaultSp(context).getBoolean(key, defaultValue);
-    }
-
-
-    /**
-     * 获取指定的sp下的String
+     * 指定name的sp，文件名：name
      *
      * @param context
      * @param spName
-     * @param key
+     * @param keyword
+     * @param defValue
+     * @param <T>
      * @return
      */
-    public static String getStringByName(Context context, String spName, @NonNull final String key) {
-        return getStringByName(context, spName, key, "");
-    }
-
-    public static String getStringByName(Context context, String spName, @NonNull final String key, @NonNull final String defaultValue) {
-        return getSpByName(context, spName).getString(key, defaultValue);
+    public static <T> T getValueByName(Context context, @NonNull String spName, String keyword, T defValue) {
+        SharedPreferences sp = getDefaultSp(context);
+        T value;
+        if (defValue instanceof String) {
+            String s = sp.getString(keyword, (String) defValue);
+            value = (T) s;
+        } else if (defValue instanceof Integer) {
+            Integer i = sp.getInt(keyword, (Integer) defValue);
+            value = (T) i;
+        } else if (defValue instanceof Boolean) {
+            Boolean b = sp.getBoolean(keyword, (Boolean) defValue);
+            value = (T) b;
+        } else if (defValue instanceof Long) {
+            Long l = sp.getLong(keyword, (Long) defValue);
+            value = (T) l;
+        } else if (defValue instanceof Float) {
+            Float f = sp.getFloat(keyword, (Float) defValue);
+            value = (T) f;
+        } else {
+            value = defValue;
+        }
+        return value;
     }
 
     /**

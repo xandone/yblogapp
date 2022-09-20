@@ -20,6 +20,9 @@ import java.math.BigDecimal;
 public class FileHelper {
 
     /**
+     * 内部存储
+     * /data/user/0/包名/cache
+     *
      * @param context
      * @return
      */
@@ -27,29 +30,73 @@ public class FileHelper {
         return context.getCacheDir().getAbsolutePath();
     }
 
+    /**
+     * 外部储存
+     * /storage/Android/data/包名/files
+     *
+     * @param context
+     * @return
+     */
     public static File getExternalFilesDirFile(Context context) {
         return context.getExternalFilesDir(null);
     }
 
+    /**
+     * 外部储存
+     * /storage/Android/data/包名/files
+     *
+     * @param context
+     * @return
+     */
     public static String getExternalFilesDir(Context context) {
         return context.getExternalFilesDir(null).getAbsolutePath();
     }
 
-    public static String getExternalStorageDirectory(Context context) {
-        return Environment.getExternalStorageDirectory().getAbsolutePath();
-    }
-
-    public static String getExternalFilesDirDcim(Context context) {
-        return context.getExternalFilesDir(Environment.DIRECTORY_DCIM).getAbsolutePath();
-    }
-
+    /**
+     * 外部储存
+     * /storage/Android/data/包名/cache
+     *
+     * @param context
+     * @return
+     */
     public static File getExternalCacheDirFile(Context context) {
         return context.getExternalCacheDir();
     }
 
+    /**
+     * 外部储存
+     * /storage/Android/data/包名/cache
+     *
+     * @param context
+     * @return
+     */
     public static String getExternalCacheDir(Context context) {
         return context.getExternalCacheDir().getAbsolutePath();
     }
+
+    /**
+     * 已过时，官方对手机APP储存权限进行Scoped分区管制
+     * Android10上面需要适配，临时适配：requestLegacyExternalStorage = true
+     * <p>
+     * /storage/emulated/0
+     *
+     * @param context
+     * @return
+     */
+    public static String getExternalStorageDirectory(Context context) {
+        return Environment.getExternalStorageDirectory().getAbsolutePath();
+    }
+
+    /**
+     * /storage/emulated/0/Android/data/包名/files/DCIM
+     *
+     * @param context
+     * @return
+     */
+    public static String getExternalFilesDirDcim(Context context) {
+        return context.getExternalFilesDir(Environment.DIRECTORY_DCIM).getAbsolutePath();
+    }
+
 
     /**
      * 获取app缓存文件夹位置

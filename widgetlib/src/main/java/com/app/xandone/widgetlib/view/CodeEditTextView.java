@@ -9,7 +9,10 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.app.xandone.widgetlib.R;
+
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.core.content.ContextCompat;
 
 /**
  * author: Admin
@@ -20,8 +23,8 @@ public class CodeEditTextView extends AppCompatEditText implements View.OnClickL
     private float paddingHorizontal;
     private float lineSpace;
     private float lineWidth;
-    private RectF rectF = new RectF();
-    private Rect bounds = new Rect();
+    private final RectF rectF = new RectF();
+    private final Rect bounds = new Rect();
     private int mLineColor;
     private int mLineColorFilled;
     private int mBgColor = Color.TRANSPARENT;
@@ -43,9 +46,9 @@ public class CodeEditTextView extends AppCompatEditText implements View.OnClickL
     private void init(Context context) {
         paint = new Paint();
         paint.setAntiAlias(true);
-        lineWidth = dp2px(context, 2);
-        mLineColor = Color.BLACK;
-        mLineColorFilled = Color.BLACK;
+        lineWidth = dp2px(context, 4);
+        mLineColor = ContextCompat.getColor(context, android.R.color.darker_gray);
+        mLineColorFilled = ContextCompat.getColor(context, R.color.xwidget_btn_color);
         setCursorVisible(false);
         setOnClickListener(this);
         setBackgroundResource(0);
@@ -77,19 +80,28 @@ public class CodeEditTextView extends AppCompatEditText implements View.OnClickL
             len = chars.length;
             for (int i = 0; i < len; i++) {
                 paint.getTextBounds(chars, i, 1, bounds);
-                canvas.drawText(chars, i, 1, lineSpace / 2 + (paddingHorizontal + lineSpace) * i + paddingHorizontal / 2, getHeight() / 2 + bounds.height() / 2, paint);
+                canvas.drawText(chars,
+                        i,
+                        1,
+                        lineSpace / 2 + (paddingHorizontal + lineSpace) * i + paddingHorizontal / 2,
+                        getHeight() / 2 + bounds.height() / 2,
+                        paint);
             }
         }
 
         paint.setColor(mLineColor);
         paint.setStrokeWidth(lineWidth);
         for (int i = 0; i < MAX_LENTH; i++) {
-            if (i == 0 || i < len) {
+            if (i < len) {
                 paint.setColor(mLineColorFilled);
             } else {
                 paint.setColor(mLineColor);
             }
-            canvas.drawLine((paddingHorizontal + lineSpace) * i + paddingHorizontal, getHeight(), (i + 1) * (lineSpace + paddingHorizontal), getHeight(), paint);
+            canvas.drawLine((paddingHorizontal + lineSpace) * i + paddingHorizontal,
+                    getHeight(),
+                    (i + 1) * (lineSpace + paddingHorizontal),
+                    getHeight(),
+                    paint);
         }
 
     }

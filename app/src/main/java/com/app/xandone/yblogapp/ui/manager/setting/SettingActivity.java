@@ -58,7 +58,7 @@ public class SettingActivity extends BaseWallActivity<ActSettingBinding> {
 
         nightMode();
 
-        isNightMode = SpHelper.getDefaultBoolean(App.sContext, ISpKey.IS_NIGHT_MODE_KEY);
+        isNightMode = SpHelper.getDefaultValue(App.sContext, ISpKey.IS_NIGHT_MODE_KEY,false);
         moonSb.setChecked(isNightMode);
 
         onLoadFinish();

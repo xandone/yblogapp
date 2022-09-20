@@ -16,11 +16,11 @@ import com.app.xandone.yblogapp.model.bean.AdminBean;
  */
 public class UserInfoHelper {
     public static boolean isAdminCache() {
-        return !SimpleUtils.isEmpty(SpHelper.getDefaultString(App.sContext, ISpKey.ADMIN_INFO_KEY));
+        return !SimpleUtils.isEmpty(SpHelper.getDefaultValue(App.sContext, ISpKey.ADMIN_INFO_KEY,""));
     }
 
     public static String getAdminId() {
-        String adminJson = SpHelper.getDefaultString(App.sContext, ISpKey.ADMIN_INFO_KEY);
+        String adminJson = SpHelper.getDefaultValue(App.sContext, ISpKey.ADMIN_INFO_KEY,"");
         if (TextUtils.isEmpty(adminJson)) {
             return "";
         }
@@ -28,12 +28,12 @@ public class UserInfoHelper {
     }
 
     public static String getAdminToken() {
-        String adminJson = SpHelper.getDefaultString(App.sContext, ISpKey.ADMIN_INFO_KEY);
+        String adminJson = SpHelper.getDefaultValue(App.sContext, ISpKey.ADMIN_INFO_KEY,"");
         return JsonUtils.json2Obj(adminJson, AdminBean.class).getToken();
     }
 
     public static AdminBean getAdminBean() {
-        String adminJson = SpHelper.getDefaultString(App.sContext, ISpKey.ADMIN_INFO_KEY);
+        String adminJson = SpHelper.getDefaultValue(App.sContext, ISpKey.ADMIN_INFO_KEY,"");
         if (TextUtils.isEmpty(adminJson)) {
             return null;
         }

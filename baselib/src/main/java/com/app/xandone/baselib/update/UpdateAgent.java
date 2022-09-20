@@ -22,7 +22,7 @@ public class UpdateAgent implements IUpdateAgent {
     public void checkVersion(Context context, UpdateInfo updateInfo, IDownloadEngine engine) {
         this.mIDownloadEngine = engine;
         int code = AppUtils.getAppVersionCode();
-        int ignoreCode = SpHelper.getDefaultInteger(BaseConfig.sApp, UpdateHelper.IGNORE_APK_CODE);
+        int ignoreCode = SpHelper.getDefaultValue(BaseConfig.sApp, UpdateHelper.IGNORE_APK_CODE, 0);
         //忽略的版本号
         if (updateInfo.isCanIgnore() && ignoreCode == updateInfo.getVersionCode()) {
             return;
